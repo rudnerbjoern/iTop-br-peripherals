@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.7">
+    <!--
+    * @copyright   Copyright (C) 2024 Björn Rudner
+    * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
+    -->
+    <classes>
+        <class id="DockingStation" _delta="define">
+            <parent>ConnectableCI</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>dockingstation</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                </naming>
+                <display_template />
+                <icon>images/usb-hub.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <methods />
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="brand_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="model_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="serialnumber">
+                                            <rank>80</rank>
+                                        </item>
+                                        <item id="asset_number">
+                                            <rank>90</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="col:col2">
+                            <rank>20</rank>
+                            <items>
+                                <item id="fieldset:Server:Date">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="move2production">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="purchase_date">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="end_of_warranty">
+                                            <rank>30</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="physicalinterface_list">
+                            <rank>120</rank>
+                        </item>
+                        <item id="networkdevice_list">
+                            <rank>130</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>140</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>150</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="type">
+                            <rank>80</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>90</rank>
+                        </item>
+                        <item id="asset_number">
+                            <rank>100</rank>
+                        </item>
+                        <item id="move2production">
+                            <rank>110</rank>
+                        </item>
+                        <item id="purchase_date">
+                            <rank>120</rank>
+                        </item>
+                        <item id="end_of_warranty">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>70</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="Monitor" _delta="define">
+            <parent>PhysicalDevice</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>monitor</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                </naming>
+                <display_template />
+                <icon>images/monitor.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+            </fields>
+            <methods />
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="brand_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="model_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="serialnumber">
+                                            <rank>80</rank>
+                                        </item>
+                                        <item id="asset_number">
+                                            <rank>90</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="col:col2">
+                            <rank>20</rank>
+                            <items>
+                                <item id="fieldset:Server:Date">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="move2production">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="purchase_date">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="end_of_warranty">
+                                            <rank>30</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>120</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="type">
+                            <rank>80</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>90</rank>
+                        </item>
+                        <item id="asset_number">
+                            <rank>100</rank>
+                        </item>
+                        <item id="move2production">
+                            <rank>110</rank>
+                        </item>
+                        <item id="purchase_date">
+                            <rank>120</rank>
+                        </item>
+                        <item id="end_of_warranty">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <items>
+                            <item id="org_id">
+                                <rank>10</rank>
+                            </item>
+                            <item id="status">
+                                <rank>20</rank>
+                            </item>
+                            <item id="business_criticity">
+                                <rank>30</rank>
+                            </item>
+                            <item id="location_id">
+                                <rank>40</rank>
+                            </item>
+                            <item id="brand_id">
+                                <rank>50</rank>
+                            </item>
+                            <item id="model_id">
+                                <rank>60</rank>
+                            </item>
+                            <item id="serialnumber">
+                                <rank>70</rank>
+                            </item>
+                        </items>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="Keyboard" _delta="define">
+            <parent>PhysicalDevice</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>keyboard</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                </naming>
+                <display_template />
+                <icon>images/keyboard.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+            </fields>
+            <methods />
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="brand_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="model_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="serialnumber">
+                                            <rank>80</rank>
+                                        </item>
+                                        <item id="asset_number">
+                                            <rank>90</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="col:col2">
+                            <rank>20</rank>
+                            <items>
+                                <item id="fieldset:Server:Date">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="move2production">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="purchase_date">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="end_of_warranty">
+                                            <rank>30</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>120</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="type">
+                            <rank>80</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>90</rank>
+                        </item>
+                        <item id="asset_number">
+                            <rank>100</rank>
+                        </item>
+                        <item id="move2production">
+                            <rank>110</rank>
+                        </item>
+                        <item id="purchase_date">
+                            <rank>120</rank>
+                        </item>
+                        <item id="end_of_warranty">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <items>
+                            <item id="org_id">
+                                <rank>10</rank>
+                            </item>
+                            <item id="status">
+                                <rank>20</rank>
+                            </item>
+                            <item id="business_criticity">
+                                <rank>30</rank>
+                            </item>
+                            <item id="location_id">
+                                <rank>40</rank>
+                            </item>
+                            <item id="brand_id">
+                                <rank>50</rank>
+                            </item>
+                            <item id="model_id">
+                                <rank>60</rank>
+                            </item>
+                            <item id="serialnumber">
+                                <rank>70</rank>
+                            </item>
+                        </items>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="Mouse" _delta="define">
+            <parent>PhysicalDevice</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>mouse</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                </naming>
+                <display_template />
+                <icon>images/mouse.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+            </fields>
+            <methods />
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="brand_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="model_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="serialnumber">
+                                            <rank>80</rank>
+                                        </item>
+                                        <item id="asset_number">
+                                            <rank>90</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="col:col2">
+                            <rank>20</rank>
+                            <items>
+                                <item id="fieldset:Server:Date">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="move2production">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="purchase_date">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="end_of_warranty">
+                                            <rank>30</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>120</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="type">
+                            <rank>80</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>90</rank>
+                        </item>
+                        <item id="asset_number">
+                            <rank>100</rank>
+                        </item>
+                        <item id="move2production">
+                            <rank>110</rank>
+                        </item>
+                        <item id="purchase_date">
+                            <rank>120</rank>
+                        </item>
+                        <item id="end_of_warranty">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <items>
+                            <item id="org_id">
+                                <rank>10</rank>
+                            </item>
+                            <item id="status">
+                                <rank>20</rank>
+                            </item>
+                            <item id="business_criticity">
+                                <rank>30</rank>
+                            </item>
+                            <item id="location_id">
+                                <rank>40</rank>
+                            </item>
+                            <item id="brand_id">
+                                <rank>50</rank>
+                            </item>
+                            <item id="model_id">
+                                <rank>60</rank>
+                            </item>
+                            <item id="serialnumber">
+                                <rank>70</rank>
+                            </item>
+                        </items>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="Headset" _delta="define">
+            <parent>PhysicalDevice</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>headset</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                </naming>
+                <display_template />
+                <icon>images/headset.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+            </fields>
+            <methods />
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="brand_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="model_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="serialnumber">
+                                            <rank>80</rank>
+                                        </item>
+                                        <item id="asset_number">
+                                            <rank>90</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="col:col2">
+                            <rank>20</rank>
+                            <items>
+                                <item id="fieldset:Server:Date">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="move2production">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="purchase_date">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="end_of_warranty">
+                                            <rank>30</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>120</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="type">
+                            <rank>80</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>90</rank>
+                        </item>
+                        <item id="asset_number">
+                            <rank>100</rank>
+                        </item>
+                        <item id="move2production">
+                            <rank>110</rank>
+                        </item>
+                        <item id="purchase_date">
+                            <rank>120</rank>
+                        </item>
+                        <item id="end_of_warranty">
+                            <rank>130</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <items>
+                            <item id="org_id">
+                                <rank>10</rank>
+                            </item>
+                            <item id="status">
+                                <rank>20</rank>
+                            </item>
+                            <item id="business_criticity">
+                                <rank>30</rank>
+                            </item>
+                            <item id="location_id">
+                                <rank>40</rank>
+                            </item>
+                            <item id="brand_id">
+                                <rank>50</rank>
+                            </item>
+                            <item id="model_id">
+                                <rank>60</rank>
+                            </item>
+                            <item id="serialnumber">
+                                <rank>70</rank>
+                            </item>
+                        </items>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="Model">
+            <fields>
+                <field id="type" xsi:type="AttributeEnum">
+                    <values>
+                        <value id="DockingStation" _delta="define">DockingStation</value>
+                        <value id="Monitor" _delta="define">Monitor</value>
+                        <value id="Keyboard" _delta="define">Keyboard</value>
+                        <value id="Mouse" _delta="define">Mouse</value>
+                        <value id="Headset" _delta="define">Headset</value>
+                    </values>
+                </field>
+            </fields>
+        </class>
+    </classes>
+    <menus>
+        <menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode" _delta="must_exist">
+            <definition>
+                <cells>
+                    <cell id="2">
+                        <dashlets>
+                            <dashlet id="peripheral.10" xsi:type="DashletBadge" _delta="define">
+                                <rank>10</rank>
+                                <class>DockingStation</class>
+                            </dashlet>
+                            <dashlet id="peripheral.20" xsi:type="DashletBadge" _delta="define">
+                                <rank>20</rank>
+                                <class>Monitor</class>
+                            </dashlet>
+                            <dashlet id="peripheral.30" xsi:type="DashletBadge" _delta="define">
+                                <rank>30</rank>
+                                <class>Keyboard</class>
+                            </dashlet>
+                            <dashlet id="peripheral.40" xsi:type="DashletBadge" _delta="define">
+                                <rank>40</rank>
+                                <class>Mouse</class>
+                            </dashlet>
+                            <dashlet id="peripheral.50" xsi:type="DashletBadge" _delta="define">
+                                <rank>50</rank>
+                                <class>Headset</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                </cells>
+            </definition>
+        </menu>
+    </menus>
+    <group id="Configuration">
+        <classes>
+            <class id="DockingStation" _delta="define" />
+            <class id="Monitor" _delta="define" />
+            <class id="Keyboard" _delta="define" />
+            <class id="Mouse" _delta="define" />
+            <class id="Headset" _delta="define" />
+        </classes>
+    </group>
+</itop_design>
