@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension format="1.0">
+    <extension_code>
+        <![CDATA[br-peripherals]]>
+    </extension_code>
+    <company>
+        <![CDATA[]]>
+    </company>
+    <author>
+        <![CDATA[Björn Rudner]]>
+    </author>
+    <label>
+        <![CDATA[Datamodel: Peripheral devices for end user PCs]]>
+    </label>
+    <description>
+        <![CDATA[Adds monitor, docking station, keyboard, mouse, headset]]>
+    </description>
+    <version>
+        <![CDATA[0.0.1]]>
+    </version>
+    <release_date>
+        <![CDATA[2024-08-09]]>
+    </release_date>
+    <version_description>
+        <![CDATA[]]>
+    </version_description>
+    <itop_version_min>
+        <![CDATA[2.7.0]]>
+    </itop_version_min>
+    <status>stable</status>
+    <mandatory>false</mandatory>
+    <more_info_url>
+        <![CDATA[https://github.com/rudnerbjoern/iTop-br-peripherals/blob/main/README.md]]>
+    </more_info_url>
+</extension>
