@@ -158,9 +158,6 @@
                         <item id="model_id">
                             <rank>70</rank>
                         </item>
-                        <item id="type">
-                            <rank>80</rank>
-                        </item>
                         <item id="serialnumber">
                             <rank>90</rank>
                         </item>
@@ -353,9 +350,6 @@
                         </item>
                         <item id="model_id">
                             <rank>70</rank>
-                        </item>
-                        <item id="type">
-                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -552,9 +546,6 @@
                         <item id="model_id">
                             <rank>70</rank>
                         </item>
-                        <item id="type">
-                            <rank>80</rank>
-                        </item>
                         <item id="serialnumber">
                             <rank>90</rank>
                         </item>
@@ -750,9 +741,6 @@
                         <item id="model_id">
                             <rank>70</rank>
                         </item>
-                        <item id="type">
-                            <rank>80</rank>
-                        </item>
                         <item id="serialnumber">
                             <rank>90</rank>
                         </item>
@@ -947,9 +935,6 @@
                         </item>
                         <item id="model_id">
                             <rank>70</rank>
-                        </item>
-                        <item id="type">
-                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
