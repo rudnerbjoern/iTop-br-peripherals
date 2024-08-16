@@ -1208,6 +1208,10 @@
                                 <rank>50</rank>
                                 <class>Headset</class>
                             </dashlet>
+                            <dashlet id="peripheral.60" xsi:type="DashletBadge" _delta="define">
+                                <rank>60</rank>
+                                <class>BarcodeScanner</class>
+                            </dashlet>
                         </dashlets>
                     </cell>
                 </cells>
