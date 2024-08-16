@@ -203,7 +203,7 @@
             </presentation>
         </class>
         <class id="Monitor" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -370,35 +370,33 @@
                 </search>
                 <list>
                     <items>
-                        <items>
-                            <item id="org_id">
-                                <rank>10</rank>
-                            </item>
-                            <item id="status">
-                                <rank>20</rank>
-                            </item>
-                            <item id="business_criticity">
-                                <rank>30</rank>
-                            </item>
-                            <item id="location_id">
-                                <rank>40</rank>
-                            </item>
-                            <item id="brand_id">
-                                <rank>50</rank>
-                            </item>
-                            <item id="model_id">
-                                <rank>60</rank>
-                            </item>
-                            <item id="serialnumber">
-                                <rank>70</rank>
-                            </item>
-                        </items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>70</rank>
+                        </item>
                     </items>
                 </list>
             </presentation>
         </class>
         <class id="Keyboard" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -565,35 +563,33 @@
                 </search>
                 <list>
                     <items>
-                        <items>
-                            <item id="org_id">
-                                <rank>10</rank>
-                            </item>
-                            <item id="status">
-                                <rank>20</rank>
-                            </item>
-                            <item id="business_criticity">
-                                <rank>30</rank>
-                            </item>
-                            <item id="location_id">
-                                <rank>40</rank>
-                            </item>
-                            <item id="brand_id">
-                                <rank>50</rank>
-                            </item>
-                            <item id="model_id">
-                                <rank>60</rank>
-                            </item>
-                            <item id="serialnumber">
-                                <rank>70</rank>
-                            </item>
-                        </items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>70</rank>
+                        </item>
                     </items>
                 </list>
             </presentation>
         </class>
         <class id="Mouse" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -760,35 +756,33 @@
                 </search>
                 <list>
                     <items>
-                        <items>
-                            <item id="org_id">
-                                <rank>10</rank>
-                            </item>
-                            <item id="status">
-                                <rank>20</rank>
-                            </item>
-                            <item id="business_criticity">
-                                <rank>30</rank>
-                            </item>
-                            <item id="location_id">
-                                <rank>40</rank>
-                            </item>
-                            <item id="brand_id">
-                                <rank>50</rank>
-                            </item>
-                            <item id="model_id">
-                                <rank>60</rank>
-                            </item>
-                            <item id="serialnumber">
-                                <rank>70</rank>
-                            </item>
-                        </items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>70</rank>
+                        </item>
                     </items>
                 </list>
             </presentation>
         </class>
         <class id="Headset" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -955,29 +949,27 @@
                 </search>
                 <list>
                     <items>
-                        <items>
-                            <item id="org_id">
-                                <rank>10</rank>
-                            </item>
-                            <item id="status">
-                                <rank>20</rank>
-                            </item>
-                            <item id="business_criticity">
-                                <rank>30</rank>
-                            </item>
-                            <item id="location_id">
-                                <rank>40</rank>
-                            </item>
-                            <item id="brand_id">
-                                <rank>50</rank>
-                            </item>
-                            <item id="model_id">
-                                <rank>60</rank>
-                            </item>
-                            <item id="serialnumber">
-                                <rank>70</rank>
-                            </item>
-                        </items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>70</rank>
+                        </item>
                     </items>
                 </list>
             </presentation>
