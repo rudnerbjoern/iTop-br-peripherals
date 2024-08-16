@@ -10,38 +10,35 @@
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-peripherals/0.5.0',
+    'br-costcenter-bridge-for-br-peripherals/0.5.0',
     array(
         // Identification
-        //
-        'label' => 'Datamodel: Peripheral devices for PCs',
+        'label' => 'Bridge - Costcenter + Periperals',
         'category' => 'business',
 
         // Setup
-        //
         'dependencies' => array(
-            '(itop-config-mgmt/2.5.0 & itop-config-mgmt/<3.0.0)||itop-structure/3.0.0',
-            'itop-endusers-devices/2.7.5',
+            'br-costcenter/0.1.0',
+            'br-peripherals/0.5.0',
         ),
         'mandatory' => false,
-        'visible' => true,
+        'visible' => true, // To prevent auto-install but shall not be listed in the install wizard
+        'auto_select' => 'SetupInfo::ModuleIsSelected("br-costcenter") && SetupInfo::ModuleIsSelected("br-peripherals")',
 
         // Components
-        //
         'datamodel' => array(
-            'model.br-peripherals.php'
+            'model.br-costcenter-bridge-for-br-peripherals.php'
         ),
         'webservice' => array(),
+        'dictionary' => array(),
         'data.struct' => array(),
         'data.sample' => array(),
 
         // Documentation
-        //
         'doc.manual_setup' => '',
         'doc.more_information' => '',
 
         // Default settings
-        //
         'settings' => array(),
     )
 );
