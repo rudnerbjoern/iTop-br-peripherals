@@ -24,3 +24,5 @@ This Extension uses Icons from:
 ![Mouse Icon](br-peripherals/images/mouse.png) [Mouse Icon](https://www.flaticon.com/free-icons/computer)Computer icons created by surang - Flaticon
 
 ![Keyboard Icon](br-peripherals/images/keyboard.png) [Keyboard Icon](https://www.flaticon.com/free-icons/electric-keyboard) Electric keyboard icons created by Iconic Panda - Flaticon
+
+![Barcode Scanner Icon](br-peripherals/images/barcode-scanner.png) [Barcode Scanner Icon](https://www.flaticon.com/free-icons/barcode-scanner) Barcode scanner icons created by Freepik - Flaticon
