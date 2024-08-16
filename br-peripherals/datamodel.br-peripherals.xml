@@ -203,7 +203,7 @@
             </presentation>
         </class>
         <class id="Monitor" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -398,7 +398,7 @@
             </presentation>
         </class>
         <class id="Keyboard" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -593,7 +593,7 @@
             </presentation>
         </class>
         <class id="Mouse" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
@@ -788,7 +788,7 @@
             </presentation>
         </class>
         <class id="Headset" _delta="define">
-            <parent>PhysicalDevice</parent>
+            <parent>Peripheral</parent>
             <properties>
                 <category>bizmodel,searchable</category>
                 <abstract>false</abstract>
