@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.7">
+    <!--
+    * @copyright   Copyright (C) 2024 Björn Rudner
+    * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
+    -->
+    <classes>
+        <class id="DockingStation" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
+        <class id="Monitor" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
+        <class id="Keyboard" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
+        <class id="Mouse" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
+        <class id="Headset" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
+    </classes>
+</itop_design>
