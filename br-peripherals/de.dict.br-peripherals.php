@@ -3,7 +3,7 @@
 /**
  * @copyright   Copyright (C) 2024 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-08-09
+ * @version     2024-08-16
  *
  * Localized data
  */
@@ -19,6 +19,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Mouse+' => 'Eine Computermaus',
     'Class:Headset' => 'Headset',
     'Class:Headset+' => 'Ein Headset',
+    'Class:Scanner' => 'Scanner',
+    'Class:Scanner+' => 'Ein Dokumenten Scanner',
     'Class:BarcodeScanner' => 'Barcode Scanner',
     'Class:BarcodeScanner+' => 'Ein Barcode Scanner',
     // Class:Model
@@ -32,6 +34,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Model/Attribute:type/Value:Mouse+' => 'Maus',
     'Class:Model/Attribute:type/Value:Headset' => 'Headset',
     'Class:Model/Attribute:type/Value:Headset+' => 'Headset',
+    'Class:Model/Attribute:type/Value:Scanner' => 'Scanner',
+    'Class:Model/Attribute:type/Value:Scanner+' => 'Scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner' => 'Barcode Scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner+' => 'Barcode Scanner',
 ));

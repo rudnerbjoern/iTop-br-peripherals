@@ -19,6 +19,8 @@ Dict::Add('EN US', 'English', 'English', array(
     'Class:Mouse+' => 'A PC mouse',
     'Class:Headset' => 'Headset',
     'Class:Headset+' => 'A headset',
+    'Class:Scanner' => 'Scanner',
+    'Class:Scanner+' => 'A document scanner',
     'Class:BarcodeScanner' => 'Barcode scanner',
     'Class:BarcodeScanner+' => 'A barcode scanner',
     // Class:Model
@@ -32,6 +34,8 @@ Dict::Add('EN US', 'English', 'English', array(
     'Class:Model/Attribute:type/Value:Mouse+' => 'Mouse',
     'Class:Model/Attribute:type/Value:Headset' => 'Headset',
     'Class:Model/Attribute:type/Value:Headset+' => 'Headset',
+    'Class:Model/Attribute:type/Value:BarcodeScanner' => 'Scanner',
+    'Class:Model/Attribute:type/Value:BarcodeScanner+' => 'Scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner' => 'Barcode scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner+' => 'Barcode scanner',
 ));
