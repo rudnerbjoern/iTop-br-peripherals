@@ -25,4 +25,6 @@ This Extension uses Icons from:
 
 ![Keyboard Icon](br-peripherals/images/keyboard.png) [Keyboard Icon](https://www.flaticon.com/free-icons/electric-keyboard) Electric keyboard icons created by Iconic Panda - Flaticon
 
+![Scanner Icon](br-peripherals/images/scanner.png) [Scanner Icon](https://www.flaticon.com/free-icons/scanner) Scanner icons created by Vectors Tank - Flaticon
+
 ![Barcode Scanner Icon](br-peripherals/images/barcode-scanner.png) [Barcode Scanner Icon](https://www.flaticon.com/free-icons/barcode-scanner) Barcode scanner icons created by Freepik - Flaticon
