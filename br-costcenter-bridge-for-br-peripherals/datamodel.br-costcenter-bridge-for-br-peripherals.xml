@@ -135,5 +135,31 @@
                 </search>
             </presentation>
         </class>
+        <class id="BarcodeScanner" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col2" _delta="must_exist">
+                            <items>
+                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                    <items>
+                                        <item id="costcenter_id" _delta="define">
+                                            <rank>5</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="costcenter_id" _delta="define">
+                            <rank>140</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
     </classes>
 </itop_design>
