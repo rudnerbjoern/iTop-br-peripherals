@@ -11,6 +11,10 @@ Adds monitor, docking station, keyboard, mouse, headset
 
 * iTop End-User Devices (itop-endusers-devices/2.7.5) needs to be enabled during setup
 
+## iTop Compatibility
+
+The extension was tested on iTop 2.7.11
+
 ## Attribution
 
 This Extension uses Icons from:
