@@ -21,7 +21,7 @@ SetupWebPage::AddModule(
         //
         'dependencies' => array(
             '(itop-config-mgmt/2.5.0 & itop-config-mgmt/<3.0.0)||itop-structure/3.0.0',
-            'itop-endusers-devices/2.7.5',
+            'itop-endusers-devices/2.7.5||itop-endusers-devices/3.0.0',
         ),
         'mandatory' => false,
         'visible' => true,
