@@ -19,7 +19,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/usb-hub_256.png</icon>
+                </style>
                 <icon>images/usb-hub.png</icon>
                 <reconciliation>
                     <attributes>
@@ -216,7 +221,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/monitor_256.png</icon>
+                </style>
                 <icon>images/monitor.png</icon>
                 <reconciliation>
                     <attributes>
@@ -226,8 +236,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
@@ -409,7 +417,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/keyboard_256.png</icon>
+                </style>
                 <icon>images/keyboard.png</icon>
                 <reconciliation>
                     <attributes>
@@ -419,8 +432,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
@@ -602,7 +613,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/mouse_256.png</icon>
+                </style>
                 <icon>images/mouse.png</icon>
                 <reconciliation>
                     <attributes>
@@ -612,8 +628,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
@@ -795,7 +809,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/headset_256.png</icon>
+                </style>
                 <icon>images/headset.png</icon>
                 <reconciliation>
                     <attributes>
@@ -805,8 +824,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
@@ -988,7 +1005,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/scanner_256.png</icon>
+                </style>
                 <icon>images/scanner.png</icon>
                 <reconciliation>
                     <attributes>
@@ -998,8 +1020,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
@@ -1181,7 +1201,12 @@
                         <attribute id="name" />
                     </attributes>
                 </naming>
-                <display_template />
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/barcode-scanner_256.png</icon>
+                </style>
                 <icon>images/barcode-scanner.png</icon>
                 <reconciliation>
                     <attributes>
@@ -1191,8 +1216,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-            </fields>
             <methods />
             <presentation>
                 <details>
