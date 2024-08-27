@@ -102,10 +102,10 @@
                                 <item id="fieldset:Server:moreinfo">
                                     <items>
                                         <item id="macaddress" _delta="define">
-                                            <rank>24</rank>
+                                            <rank>61</rank>
                                         </item>
                                         <item id="ipaddress_id" _delta="define">
-                                            <rank>25</rank>
+                                            <rank>62</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -126,10 +126,10 @@
                                 <item id="fieldset:Server:moreinfo">
                                     <items>
                                         <item id="macaddress" _delta="define">
-                                            <rank>24</rank>
+                                            <rank>61</rank>
                                         </item>
                                         <item id="ipaddress_id" _delta="define">
-                                            <rank>25</rank>
+                                            <rank>62</rank>
                                         </item>
                                     </items>
                                 </item>
