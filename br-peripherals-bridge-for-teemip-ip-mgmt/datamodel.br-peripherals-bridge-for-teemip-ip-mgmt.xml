@@ -91,5 +91,53 @@
                 </search>
             </presentation>
         </class>
+        <class id="MobilePhone" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="macaddress" _delta="delete" />
+                        <item id="ipaddress_id" _delta="delete" />
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:moreinfo">
+                                    <items>
+                                        <item id="macaddress" _delta="define">
+                                            <rank>61</rank>
+                                        </item>
+                                        <item id="ipaddress_id" _delta="define">
+                                            <rank>62</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+            </presentation>
+        </class>
+        <class id="IPPhone" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="macaddress" _delta="delete" />
+                        <item id="ipaddress_id" _delta="delete" />
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:moreinfo">
+                                    <items>
+                                        <item id="macaddress" _delta="define">
+                                            <rank>61</rank>
+                                        </item>
+                                        <item id="ipaddress_id" _delta="define">
+                                            <rank>62</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+            </presentation>
+        </class>
     </classes>
 </itop_design>
