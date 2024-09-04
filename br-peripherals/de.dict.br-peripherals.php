@@ -3,7 +3,7 @@
 /**
  * @copyright   Copyright (C) 2024 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-08-27
+ * @version     2024-09-04
  *
  * Localized data
  */
@@ -23,6 +23,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Scanner+' => 'Ein Dokumenten Scanner',
     'Class:BarcodeScanner' => 'Barcode Scanner',
     'Class:BarcodeScanner+' => 'Ein Barcode Scanner',
+    'Class:ConferenceSystem' => 'Konferenzsystem',
+    'Class:ConferenceSystem+' => 'Ein Konferenzsystem',
     // Class:Model
     'Class:Model/Attribute:type/Value:DockingStation' => 'Docking Station',
     'Class:Model/Attribute:type/Value:DockingStation+' => 'Docking Station',
@@ -38,4 +40,6 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Model/Attribute:type/Value:Scanner+' => 'Scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner' => 'Barcode Scanner',
     'Class:Model/Attribute:type/Value:BarcodeScanner+' => 'Barcode Scanner',
+    'Class:Model/Attribute:type/Value:ConferenceSystem' => 'Konferenzsystem',
+    'Class:Model/Attribute:type/Value:ConferenceSystem+' => 'Konferenzsystem',
 ));

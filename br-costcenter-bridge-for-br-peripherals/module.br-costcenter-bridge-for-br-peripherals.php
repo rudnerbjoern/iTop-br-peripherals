@@ -3,14 +3,14 @@
 /**
  * @copyright   Copyright (C) 2024 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-08-27
+ * @version     2024-09-04
  *
  * iTop module definition file
  */
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-costcenter-bridge-for-br-peripherals/0.7.0',
+    'br-costcenter-bridge-for-br-peripherals/0.7.1',
     array(
         // Identification
         'label' => 'Bridge - Costcenter + Periperals',
@@ -18,15 +18,17 @@ SetupWebPage::AddModule(
 
         // Setup
         'dependencies' => array(
-            'br-costcenter/0.4.0',
-            'br-peripherals/0.7.0',
+            'br-peripherals/0.7.1||br-costcenter/0.4.0',
+            'br-peripherals/0.7.1',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard
         'auto_select' => 'SetupInfo::ModuleIsSelected("br-costcenter") && SetupInfo::ModuleIsSelected("br-peripherals")',
 
         // Components
-        'datamodel' => array(),
+        'datamodel' => array(
+            'model.br-costcenter-bridge-for-br-peripherals.php',
+        ),
         'webservice' => array(),
         'dictionary' => array(),
         'data.struct' => array(),

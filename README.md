@@ -5,7 +5,7 @@ Copyright (c) 2024 Björn Rudner
 
 ## What?
 
-Adds monitor, docking station, keyboard, mouse, headset
+Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanner, conference system
 
 ## Dependencies
 
@@ -32,3 +32,5 @@ This Extension uses Icons from:
 ![Scanner Icon](br-peripherals/images/scanner.png) [Scanner Icon](https://www.flaticon.com/free-icons/scanner) Scanner icons created by Vectors Tank - Flaticon
 
 ![Barcode Scanner Icon](br-peripherals/images/barcode-scanner.png) [Barcode Scanner Icon](https://www.flaticon.com/free-icons/barcode-scanner) Barcode scanner icons created by Freepik - Flaticon
+
+![Conference System Icon](br-peripherals/images/conference-system.png) [Conference System Icon](https://www.flaticon.com/free-icons/conference) Conference icons created by Freepik - Flaticon
