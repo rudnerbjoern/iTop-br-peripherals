@@ -1404,6 +1404,7 @@
                     <icon>images/conference-system_256.png</icon>
                 </style>
                 <icon>images/conference-system.png</icon>
+                <display_template />
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -1488,6 +1489,18 @@
                                     </items>
                                 </item>
                             </items>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>110</rank>
+                        </item>
+                        <item id="providercontracts_list">
+                            <rank>140</rank>
+                        </item>
+                        <item id="services_list">
+                            <rank>150</rank>
                         </item>
                     </items>
                 </details>
@@ -1578,7 +1591,7 @@
                         <item id="purchase_date" _delta="delete" />
                         <item id="end_of_warranty" _delta="delete" />
                         <item id="description" _delta="delete" />
-                        <item id="col:col1">
+                        <item id="col:col1" _delta="define">
                             <rank>10</rank>
                             <items>
                                 <item id="fieldset:Server:baseinfo">
@@ -1628,8 +1641,8 @@
                                     </items>
                                 </item>
                             </items>
-                        </item>
-                        <item id="col:col2">
+                        </item >
+                        <item id="col:col2" _delta="define">
                             <rank>20</rank>
                             <items>
                                 <item id="fieldset:Server:Date">
@@ -1678,7 +1691,7 @@
                         <item id="purchase_date" _delta="delete" />
                         <item id="end_of_warranty" _delta="delete" />
                         <item id="description" _delta="delete" />
-                        <item id="col:col1">
+                        <item id="col:col1" _delta="define">
                             <rank>10</rank>
                             <items>
                                 <item id="fieldset:Server:baseinfo">
@@ -1723,7 +1736,7 @@
                                 </item>
                             </items>
                         </item>
-                        <item id="col:col2">
+                        <item id="col:col2" _delta="define">
                             <rank>20</rank>
                             <items>
                                 <item id="fieldset:Server:Date">
