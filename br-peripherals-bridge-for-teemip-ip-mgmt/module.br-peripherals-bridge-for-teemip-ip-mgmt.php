@@ -10,7 +10,7 @@
 
 SetupWebPage::AddModule(
     __FILE__,
-    'br-peripherals-bridge-for-teemip-ip-mgmt/0.7.1',
+    'br-peripherals-bridge-for-teemip-ip-mgmt/0.8.0',
     array(
         // Identification
         //
@@ -21,9 +21,9 @@ SetupWebPage::AddModule(
         //
         'dependencies' => array(
             'itop-endusers-devices/2.7.0',
-            'br-peripherals/0.7.1||teemip-ip-mgmt/3.0.0',
-            'br-peripherals/0.7.1||teemip-config-mgmt-adaptor/3.0.0',
-            'br-peripherals/0.7.1',
+            'br-peripherals/0.8.0||teemip-ip-mgmt/3.0.0',
+            'br-peripherals/0.8.0||teemip-config-mgmt-adaptor/3.0.0',
+            'br-peripherals/0.8.0',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard

@@ -10,7 +10,7 @@
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-costcenter-bridge-for-br-peripherals/0.7.1',
+    'br-costcenter-bridge-for-br-peripherals/0.8.0',
     array(
         // Identification
         'label' => 'Bridge - Costcenter + Periperals',
@@ -18,8 +18,8 @@ SetupWebPage::AddModule(
 
         // Setup
         'dependencies' => array(
-            'br-peripherals/0.7.1||br-costcenter/0.4.0',
-            'br-peripherals/0.7.1',
+            'br-peripherals/0.8.0||br-costcenter/0.4.0',
+            'br-peripherals/0.8.0',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard
