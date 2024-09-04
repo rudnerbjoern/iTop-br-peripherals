@@ -91,6 +91,38 @@
                 </search>
             </presentation>
         </class>
+        <class id="ConferenceSystem" _delta="if_exists">
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:moreinfo">
+                                    <items>
+                                        <item id="macaddress" _delta="define">
+                                            <rank>24</rank>
+                                        </item>
+                                        <item id="ipaddress_id" _delta="define">
+                                            <rank>25</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="macaddress" _delta="define">
+                            <rank>74</rank>
+                        </item>
+                        <item id="ipaddress_id" _delta="define">
+                            <rank>75</rank>
+                        </item>
+                    </items>
+                </search>
+            </presentation>
+        </class>
         <class id="MobilePhone" _delta="if_exists">
             <presentation>
                 <details>
