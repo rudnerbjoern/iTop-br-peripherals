@@ -13,7 +13,11 @@ Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanne
 
 ## iTop Compatibility
 
-The extension was tested on iTop 2.7.11 and 3.1.1
+The branch [2.7.10](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/2.7) is compatible to iTop 2.7 and iTop 3.1.
+
+The branch [main](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/main) will only be compatible to iTop 3.1.
+
+The extension was tested on iTop 2.7.10 and 3.1.1
 
 ## Attribution
 
