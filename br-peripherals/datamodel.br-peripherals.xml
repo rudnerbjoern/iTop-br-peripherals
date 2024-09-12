@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.7">
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1">
     <!--
     * @copyright   Copyright (C) 2024 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -1771,14 +1771,30 @@
             <fields>
                 <field id="type" xsi:type="AttributeEnum">
                     <values>
-                        <value id="DockingStation" _delta="define">DockingStation</value>
-                        <value id="Monitor" _delta="define">Monitor</value>
-                        <value id="Keyboard" _delta="define">Keyboard</value>
-                        <value id="Mouse" _delta="define">Mouse</value>
-                        <value id="Headset" _delta="define">Headset</value>
-                        <value id="Scanner" _delta="define">Scanner</value>
-                        <value id="BarcodeScanner" _delta="define">BarcodeScanner</value>
-                        <value id="ConferenceSystem" _delta="define">ConferenceSystem</value>
+                        <value id="DockingStation" _delta="define">
+                            <code>DockingStation</code>
+                        </value>
+                        <value id="Monitor" _delta="define">
+                            <code>Monitor</code>
+                        </value>
+                        <value id="Keyboard" _delta="define">
+                            <code>Keyboard</code>
+                        </value>
+                        <value id="Mouse" _delta="define">
+                            <code>Mouse</code>
+                        </value>
+                        <value id="Headset" _delta="define">
+                            <code>Headset</code>
+                        </value>
+                        <value id="Scanner" _delta="define">
+                            <code>Scanner</code>
+                        </value>
+                        <value id="BarcodeScanner" _delta="define">
+                            <code>BarcodeScanner</code>
+                        </value>
+                        <value id="ConferenceSystem" _delta="define">
+                            <code>ConferenceSystem</code>
+                        </value>
                     </values>
                 </field>
             </fields>

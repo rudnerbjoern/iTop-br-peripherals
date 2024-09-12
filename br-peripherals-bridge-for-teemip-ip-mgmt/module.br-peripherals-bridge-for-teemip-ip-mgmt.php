@@ -20,7 +20,6 @@ SetupWebPage::AddModule(
         // Setup
         //
         'dependencies' => array(
-            'itop-endusers-devices/3.0.0',
             'br-peripherals/3.1.8||teemip-ip-mgmt/3.0.0',
             'br-peripherals/3.1.8||teemip-config-mgmt-adaptor/3.0.0',
             'br-peripherals/3.1.8',
