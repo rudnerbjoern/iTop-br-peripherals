@@ -13,6 +13,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Workstation' => 'Arbeitsplatz',
     'Class:Workstation+' => 'Ein Arbeitsplatz',
     'Class:Workstation/Attribute:pc_id' => 'PC',
+    'Class:Workstation/Attribute:monitorA_id' => 'Bildschirm A',
+    'Class:Workstation/Attribute:monitorB_id' => 'Bildschirm B',
     'Class:Workstation/Attribute:dockingstation_id' => 'Docking Station',
     'Class:Workstation/Attribute:keyboard_id' => 'Tastatur',
     'Class:Workstation/Attribute:mouse_id' => 'Mouse',
@@ -36,6 +38,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:ConferenceSystem+' => 'Ein Konferenzsystem',
 
     'Class:PC/Attribute:workstation_id' => 'Arbeitsplatz',
+    'Class:Monitor/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:DockingStation/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Keyboard/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Mouse/Attribute:workstation_id' => 'Arbeitsplatz',
