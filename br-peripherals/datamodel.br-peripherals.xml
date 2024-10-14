@@ -5,6 +5,313 @@
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
     -->
     <classes>
+        <class id="Workstation" _delta="define">
+            <parent>PhysicalDevice</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>workstation</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field />
+                <naming>
+                    <attributes>
+                        <attribute id="name" />
+                    </attributes>
+                    <complementary_attributes>
+                        <attribute id="organization_name"></attribute>
+                        <attribute id="location_name"></attribute>
+                    </complementary_attributes>
+                </naming>
+                <fields_semantic>
+                    <state_attribute>status</state_attribute>
+                </fields_semantic>
+                <style>
+                    <icon>images/workstation_256.png</icon>
+                </style>
+                <icon>images/workstation.png</icon>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name" />
+                        <attribute id="org_id" />
+                        <attribute id="organization_name" />
+                        <attribute id="location_id" />
+                        <attribute id="location_name" />
+                    </attributes>
+                </reconciliation>
+                <obsolescence>
+                    <condition><![CDATA[status = 'obsolete']]></condition>
+                </obsolescence>
+            </properties>
+            <methods />
+            <fields>
+                <field id="status" xsi:type="AttributeEnum">
+                    <sort_type>rank</sort_type>
+                    <values>
+                        <value id="stock" _delta="delete" />
+                    </values>
+                </field>
+                <field id="user_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>user_id</sql>
+                    <target_class>Person</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="user_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>user_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+
+                <!--
+                A workstation is assigned to one user (Class: Person)
+                A workstation contains:
+                * one PC
+                * no or one Dockingstation
+                * no or one Headset / Mouse / Keyboard / etc.
+                * no/one/more Monitors
+                * no or one Printer
+                Ideas:
+                * Update location on child (make this configurable in the settings)
+                -->
+                <field id="pc_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT PC AS p WHERE p.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>pc_id</sql>
+                    <target_class>PC</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="pc_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>pc_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="dockingstation_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Dockingstation AS d WHERE d.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>dockingstation_id</sql>
+                    <target_class>Dockingstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="dockingstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>dockingstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="keyboard_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Keyboard AS k WHERE k.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>keyboard_id</sql>
+                    <target_class>Keyboard</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="keyboard_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>keyboard_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="mouse_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Mouse AS m WHERE m.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>mouse_id</sql>
+                    <target_class>Mouse</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="mouse_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>mouse_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="headset_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Headset AS h WHERE h.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>headset_id</sql>
+                    <target_class>Headset</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="headset_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>headset_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="pc_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="dockingstation_id">
+                            <rank>70</rank>
+                        </item>
+                        <item id="keyboard_id">
+                            <rank>80</rank>
+                        </item>
+                        <item id="mouse_id">
+                            <rank>90</rank>
+                        </item>
+                        <item id="headset_id">
+                            <rank>100</rank>
+                        </item>
+                        <item id="description">
+                            <rank>150</rank>
+                        </item>
+                        <item id="contacts_list">
+                            <rank>200</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>210</rank>
+                        </item>
+                    </items>
+                </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </default_search>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="pc_id">
+                            <rank>60</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="finalclass">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>40</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>50</rank>
+                        </item>
+                        <item id="pc_id">
+                            <rank>60</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        <class id="PC" _delta="must_exist">
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey" _delta="define">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField" _delta="define">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <items>
+                                        <item id="workstation_id" _delta="define">
+                                            <rank>60</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>45</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>35</rank>
+                        </item>
+                    </items>
+                </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
+            </presentation>
+        </class>
         <class id="DockingStation" _delta="define">
             <parent>ConnectableCI</parent>
             <properties>
@@ -35,6 +342,22 @@
                 </reconciliation>
             </properties>
             <methods />
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
             <presentation>
                 <details>
                     <items>
@@ -58,6 +381,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -132,11 +458,14 @@
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -154,14 +483,17 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>50</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>60</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -191,20 +523,42 @@
                         <item id="business_criticity">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>40</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>50</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>60</rank>
                         </item>
-                        <item id="serialnumber">
+                        <item id="model_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>80</rank>
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Monitor" _delta="define">
@@ -260,6 +614,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -433,6 +790,22 @@
                 </reconciliation>
             </properties>
             <methods />
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
             <presentation>
                 <details>
                     <items>
@@ -456,6 +829,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -524,11 +900,14 @@
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -546,14 +925,17 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>50</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>60</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -583,20 +965,42 @@
                         <item id="business_criticity">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>40</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>50</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>60</rank>
                         </item>
-                        <item id="serialnumber">
+                        <item id="model_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>80</rank>
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Mouse" _delta="define">
@@ -629,6 +1033,22 @@
                 </reconciliation>
             </properties>
             <methods />
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
             <presentation>
                 <details>
                     <items>
@@ -652,6 +1072,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -720,11 +1143,14 @@
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -742,14 +1168,17 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>50</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>60</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -779,20 +1208,42 @@
                         <item id="business_criticity">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>40</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>50</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>60</rank>
                         </item>
-                        <item id="serialnumber">
+                        <item id="model_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>80</rank>
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Headset" _delta="define">
@@ -825,6 +1276,22 @@
                 </reconciliation>
             </properties>
             <methods />
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
             <presentation>
                 <details>
                     <items>
@@ -848,6 +1315,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -916,11 +1386,14 @@
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -938,14 +1411,17 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>50</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>60</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -975,20 +1451,42 @@
                         <item id="business_criticity">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>40</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>50</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>60</rank>
                         </item>
-                        <item id="serialnumber">
+                        <item id="model_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>80</rank>
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Scanner" _delta="define">
@@ -1806,6 +2304,10 @@
                 <cells>
                     <cell id="2">
                         <dashlets>
+                            <dashlet id="25.5" xsi:type="DashletBadge" _delta="define">
+                                <rank>0.5</rank>
+                                <class>Workstation</class>
+                            </dashlet>
                             <dashlet id="28.5" xsi:type="DashletBadge" _delta="define">
                                 <rank>3.5</rank>
                                 <class>ConferenceSystem</class>
@@ -1846,6 +2348,7 @@
     </menus>
     <group id="Configuration">
         <classes>
+            <class id="Workstation" _delta="define" />
             <class id="DockingStation" _delta="define" />
             <class id="Monitor" _delta="define" />
             <class id="Keyboard" _delta="define" />

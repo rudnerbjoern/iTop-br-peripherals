@@ -23,6 +23,8 @@ The extension was tested on iTop 2.7.10 and 3.1.1
 
 This Extension uses Icons from:
 
+![Workstation Icon](br-peripherals/images/workstation.png) [Workstation Icon](https://www.flaticon.com/free-icons/office) Office icons created by surang - Flaticon
+
 ![Docking Station Icon](br-peripherals/images/usb-hub.png) [Docking Station Icon](https://www.flaticon.com/free-icons/usb-hub) Usb-hub icons created by Nikita Golubev - Flaticon
 
 ![Monitor Icon](br-peripherals/images/monitor.png) [Monitor Icon](https://www.flaticon.com/free-icons/monitor) Monitor icons created by xnimrodx - Flaticon
