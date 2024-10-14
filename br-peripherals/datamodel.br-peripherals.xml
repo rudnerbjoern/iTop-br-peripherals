@@ -64,7 +64,7 @@
                 A workstation is assigned to one user (Class: Person)
                 A workstation contains:
                 * one PC
-                * no or one Dockingstation
+                * no or one DockingStation
                 * no or one Headset / Mouse / Keyboard / etc.
                 * no/one/more Monitors
                 * no or one Printer
@@ -87,12 +87,12 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="dockingstation_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Dockingstation AS d WHERE d.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT DockingStation AS d WHERE d.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
                     <sql>dockingstation_id</sql>
-                    <target_class>Dockingstation</target_class>
+                    <target_class>DockingStation</target_class>
                     <is_null_allowed>true</is_null_allowed>
                     <on_target_delete>DEL_MANUAL</on_target_delete>
                     <allow_target_creation>true</allow_target_creation>
