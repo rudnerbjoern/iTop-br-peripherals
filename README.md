@@ -11,6 +11,22 @@ Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanne
 
 * iTop End-User Devices (itop-endusers-devices) needs to be enabled during setup
 
+## Installation
+
+Place the extension in the `extensions` folder of your iTop instance and run iTop setup again.
+Be sure to enable the extension during setup.
+
+## Configuration
+
+After installation, it is possible to change some settings in the iTop configuration.
+
+### update_location
+
+Specify if the location of peripheral devices added to a Workstation should be set to the same location as the workstation.
+
+* `true`
+* `false` (default)
+
 ## iTop Compatibility
 
 The branch [2.7.10](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/2.7) is compatible to iTop 2.7 and iTop 3.1.

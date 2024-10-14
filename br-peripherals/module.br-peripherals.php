@@ -40,6 +40,8 @@ SetupWebPage::AddModule(
 
         // Default settings
         //
-        'settings' => array(),
+        'settings' => array(
+            'update_location' => 'false', // update location of linked peripherals to the location of the workstation
+        ),
     )
 );

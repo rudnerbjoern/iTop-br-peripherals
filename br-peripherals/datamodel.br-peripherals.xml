@@ -67,8 +67,6 @@
                 * no or one Headset / Mouse / Keyboard / etc.
                 * no/one/more Monitors
                 * no or one Printer
-                Ideas:
-                * Update location on child (make this configurable in the settings)
                 -->
                 <field id="pc_id" xsi:type="AttributeExternalKey">
                     <filter><![CDATA[SELECT PC AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
@@ -152,12 +150,14 @@
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
                     <code>
-                        <![CDATA[public function ConnectTargetToWorkstation($targetClass, $targetId)
+                        <![CDATA[public function ConnectTargetToWorkstation($targetClass, $targetId, $updateLocation)
 {
     if ($targetId != 0) {
         $oTargetObject = MetaModel::GetObject($targetClass, $targetId, false);
         if (is_object($oTargetObject)) {
             $oTargetObject->Set('workstation_id', $this->GetKey());
+            if ($updateLocation)
+                $oTargetObject->Set('location_id', $this->Get('location_id'));
             $oTargetObject->DBUpdate();
         }
     }
@@ -188,16 +188,19 @@
                     <code>
                         <![CDATA[public function AfterInsert()
 {
+    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
+    $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+
     if ($this->Get('pc_id') != 0)
-        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'));
+        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
     if ($this->Get('dockingstation_id') != 0)
-        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'));
+        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
     if ($this->Get('keyboard_id') != 0)
-        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'));
+        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'), $bUpdateLocations);
     if ($this->Get('mouse_id') != 0)
-        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'));
+        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if ($this->Get('headset_id') != 0)
-        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'));
+        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
     parent::AfterInsert();
 }]]>
                     </code>
@@ -251,17 +254,20 @@
                     <code>
                         <![CDATA[public function AfterUpdate()
 {
+    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
+    $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
-        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'));
+        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
     if (isset($this->bDockingStationChanged))
-        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'));
+        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
     if (isset($this->bKeyboardChanged))
-        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'));
+        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'), $bUpdateLocations);
     if (isset($this->bMouseChanged))
-        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'));
+        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if (isset($this->bHeadsetChanged))
-        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'));
+        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
     parent::AfterUpdate();
 }]]>
                     </code>
