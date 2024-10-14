@@ -366,44 +366,72 @@
             <presentation>
                 <details>
                     <items>
-                        <item id="name">
+                        <item id="col:col1">
                             <rank>10</rank>
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="name">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="org_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="status">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="business_criticity">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="location_id">
+                                            <rank>50</rank>
+                                        </item>
+                                        <item id="user_id">
+                                            <rank>60</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="fieldset:Server:moreinfo">
+                                    <rank>20</rank>
+                                    <items>
+                                        <item id="pc_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="monitorA_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="monitorB_id">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="dockingstation_id">
+                                            <rank>40</rank>
+                                        </item>
+                                        <item id="keyboard_id">
+                                            <rank>50</rank>
+                                        </item>
+                                        <item id="mouse_id">
+                                            <rank>60</rank>
+                                        </item>
+                                        <item id="headset_id">
+                                            <rank>70</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
                         </item>
-                        <item id="org_id">
+                        <item id="col:col2">
                             <rank>20</rank>
-                        </item>
-                        <item id="status">
-                            <rank>30</rank>
-                        </item>
-                        <item id="business_criticity">
-                            <rank>40</rank>
-                        </item>
-                        <item id="location_id">
-                            <rank>50</rank>
-                        </item>
-                        <item id="pc_id">
-                            <rank>60</rank>
-                        </item>
-                        <item id="monitorA_id">
-                            <rank>70</rank>
-                        </item>
-                        <item id="monitorB_id">
-                            <rank>80</rank>
-                        </item>
-                        <item id="dockingstation_id">
-                            <rank>90</rank>
-                        </item>
-                        <item id="keyboard_id">
-                            <rank>100</rank>
-                        </item>
-                        <item id="mouse_id">
-                            <rank>110</rank>
-                        </item>
-                        <item id="headset_id">
-                            <rank>120</rank>
-                        </item>
-                        <item id="description">
-                            <rank>150</rank>
+                            <items>
+                                <item id="fieldset:Server:otherinfo">
+                                    <rank>10</rank>
+                                    <items>
+                                        <item id="description">
+                                            <rank>10</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
                         </item>
                         <item id="contacts_list">
                             <rank>200</rank>
