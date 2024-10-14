@@ -243,6 +243,11 @@
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Headset',$this->GetOriginal('headset_id'));
     }
+    // change locations on assigned objects when location of workstation is changed
+    if (array_key_exists('location_id', $aChanges)) {
+        // record in the local memory object that the Location was changed
+        $this->bLocationChanged = true;
+    }
     parent::OnUpdate();
 }]]>
                     </code>
@@ -268,6 +273,14 @@
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if (isset($this->bHeadsetChanged))
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+    // change locations on assigned objects when location of workstation is changed
+    if (isset($this->bLocationChanged) && $bUpdateLocations)
+    {
+        $aPeripherals = array(array('PC','pc_id'),array('DockingStation','dockingstation_id'),array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'));
+        foreach ($aPeripherals as $aPeripheral) {
+            $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
+        }
+    }
     parent::AfterUpdate();
 }]]>
                     </code>
