@@ -83,6 +83,36 @@
                     <extkey_attcode>pc_id</extkey_attcode>
                     <target_attcode>name</target_attcode>
                 </field>
+                <field id="monitorA_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Monitor AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>monitorA_id</sql>
+                    <target_class>Monitor</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="monitorA_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>monitorA_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="monitorB_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Monitor AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>monitorB_id</sql>
+                    <target_class>Monitor</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="monitorB_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>monitorB_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
                 <field id="dockingstation_id" xsi:type="AttributeExternalKey">
                     <filter><![CDATA[SELECT DockingStation AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
@@ -193,6 +223,10 @@
 
     if ($this->Get('pc_id') != 0)
         $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
+    if ($this->Get('monitorA_id') != 0)
+        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorA_id'), $bUpdateLocations);
+    if ($this->Get('monitorB_id') != 0)
+        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorB_id'), $bUpdateLocations);
     if ($this->Get('dockingstation_id') != 0)
         $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
     if ($this->Get('keyboard_id') != 0)
@@ -218,6 +252,18 @@
         $this->bPCChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('PC',$this->GetOriginal('pc_id'));
+    }
+    if (array_key_exists('monitorA_id', $aChanges)) {
+        // record in the local memory object that the MonitorA was changed
+        $this->bMonitorAChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation('Monitor',$this->GetOriginal('monitorA_id'));
+    }
+    if (array_key_exists('monitorB_id', $aChanges)) {
+        // record in the local memory object that the MonitorB was changed
+        $this->bMonitorBChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation('Monitor',$this->GetOriginal('monitorB_id'));
     }
     if (array_key_exists('dockingstation_id', $aChanges)) {
         // record in the local memory object that the DockingStation was changed
@@ -265,6 +311,10 @@
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
         $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
+    if (isset($this->bMonitorAChanged))
+        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorA_id'), $bUpdateLocations);
+    if (isset($this->bMonitorBChanged))
+        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorB_id'), $bUpdateLocations);
     if (isset($this->bDockingStationChanged))
         $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
     if (isset($this->bKeyboardChanged))
@@ -276,9 +326,10 @@
     // change locations on assigned objects when location of workstation is changed
     if (isset($this->bLocationChanged) && $bUpdateLocations)
     {
-        $aPeripherals = array(array('PC','pc_id'),array('DockingStation','dockingstation_id'),array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'));
+        $aPeripherals = array(array('PC','pc_id'),array('Monitor','monitorA_id'),array('Monitor','monitorB_id'),array('DockingStation','dockingstation_id'),array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'));
         foreach ($aPeripherals as $aPeripheral) {
-            $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
+            if ($this->Get($aPeripheral[1]) != 0)
+                $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
         }
     }
     parent::AfterUpdate();
@@ -295,6 +346,10 @@
     $aChanges = $this->ListChanges();
     if (array_key_exists('pc_id', $aChanges))
         $this->DisconnectTargetFromWorkstation('PC', $this->Get('pc_id'));
+    if (array_key_exists('monitorA_id', $aChanges))
+        $this->DisconnectTargetFromWorkstation('Monitor', $this->Get('monitorA_id'));
+    if (array_key_exists('monitorB_id', $aChanges))
+        $this->DisconnectTargetFromWorkstation('Monitor', $this->Get('monitorB_id'));
     if (array_key_exists('dockingstation_id', $aChanges))
         $this->DisconnectTargetFromWorkstation('DockingStation', $this->Get('dockingstation_id'));
     if (array_key_exists('keyboard_id', $aChanges))
@@ -329,17 +384,23 @@
                         <item id="pc_id">
                             <rank>60</rank>
                         </item>
-                        <item id="dockingstation_id">
+                        <item id="monitorA_id">
                             <rank>70</rank>
                         </item>
-                        <item id="keyboard_id">
+                        <item id="monitorB_id">
                             <rank>80</rank>
                         </item>
-                        <item id="mouse_id">
+                        <item id="dockingstation_id">
                             <rank>90</rank>
                         </item>
-                        <item id="headset_id">
+                        <item id="keyboard_id">
                             <rank>100</rank>
+                        </item>
+                        <item id="mouse_id">
+                            <rank>110</rank>
+                        </item>
+                        <item id="headset_id">
+                            <rank>120</rank>
                         </item>
                         <item id="description">
                             <rank>150</rank>
@@ -804,7 +865,52 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <methods />
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -899,11 +1005,14 @@
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -921,14 +1030,17 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>50</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>60</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>80</rank>
                         </item>
                         <item id="serialnumber">
                             <rank>90</rank>
@@ -958,20 +1070,42 @@
                         <item id="business_criticity">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>40</rank>
                         </item>
-                        <item id="brand_id">
+                        <item id="location_id">
                             <rank>50</rank>
                         </item>
-                        <item id="model_id">
+                        <item id="brand_id">
                             <rank>60</rank>
                         </item>
-                        <item id="serialnumber">
+                        <item id="model_id">
                             <rank>70</rank>
+                        </item>
+                        <item id="serialnumber">
+                            <rank>80</rank>
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="business_criticity">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Keyboard" _delta="define">
