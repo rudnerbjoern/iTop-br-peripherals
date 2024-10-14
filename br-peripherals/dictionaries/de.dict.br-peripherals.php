@@ -20,6 +20,8 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Workstation/Attribute:mouse_id' => 'Mouse',
     'Class:Workstation/Attribute:headset_id' => 'Headset',
 
+    'Workstation:telephony' => 'Telephony',
+
     'Class:DockingStation' => 'Docking Station',
     'Class:DockingStation+' => 'Eine Docking Station',
     'Class:Monitor' => 'Bildschirm',
@@ -43,6 +45,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Keyboard/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Mouse/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Headset/Attribute:workstation_id' => 'Arbeitsplatz',
+    'Class:TelephonyCI/Attribute:workstation_id' => 'Arbeitsplatz',
 
     // Class:Model
     'Class:Model/Attribute:type/Value:DockingStation' => 'Docking Station',

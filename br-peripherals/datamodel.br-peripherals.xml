@@ -173,6 +173,36 @@
                     <extkey_attcode>headset_id</extkey_attcode>
                     <target_attcode>name</target_attcode>
                 </field>
+                <field id="telephonyA_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT TelephonyCI AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>telephonyA_id</sql>
+                    <target_class>TelephonyCI</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="telephonyA_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>telephonyA_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="telephonyB_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT TelephonyCI AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>telephonyB_id</sql>
+                    <target_class>TelephonyCI</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="telephonyB_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>telephonyB_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
             </fields>
             <methods>
                 <method id="ConnectTargetToWorkstation" _delta="define">
@@ -235,6 +265,10 @@
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if ($this->Get('headset_id') != 0)
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+    if ($this->Get('telephonyA_id') != 0)
+        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
+    if ($this->Get('telephonyB_id') != 0)
+        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyB_id'), $bUpdateLocations);
     parent::AfterInsert();
 }]]>
                     </code>
@@ -289,6 +323,18 @@
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Headset',$this->GetOriginal('headset_id'));
     }
+    if (array_key_exists('telephonyA_id', $aChanges)) {
+        // record in the local memory object that the TelephonyA was changed
+        $this->bTelephonyAChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation('TelephonyCI',$this->GetOriginal('telephonyA_id'));
+    }
+    if (array_key_exists('telephonyB_id', $aChanges)) {
+        // record in the local memory object that the TelephonyB was changed
+        $this->bTelephonyBChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation('TelephonyCI',$this->GetOriginal('telephonyB_id'));
+    }
     // change locations on assigned objects when location of workstation is changed
     if (array_key_exists('location_id', $aChanges)) {
         // record in the local memory object that the Location was changed
@@ -323,10 +369,17 @@
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if (isset($this->bHeadsetChanged))
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+    if (isset($this->bTelephonyAChanged))
+        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
+    if (isset($this->bTelephonyBChanged))
+        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyB_id'), $bUpdateLocations);
     // change locations on assigned objects when location of workstation is changed
     if (isset($this->bLocationChanged) && $bUpdateLocations)
     {
-        $aPeripherals = array(array('PC','pc_id'),array('Monitor','monitorA_id'),array('Monitor','monitorB_id'),array('DockingStation','dockingstation_id'),array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'));
+        $aPeripherals = array(array('PC','pc_id'),array('Monitor','monitorA_id'),
+                              array('Monitor','monitorB_id'),array('DockingStation','dockingstation_id'),
+                              array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'),
+                              array('TelephonyCI','telephonyA_id'),array('TelephonyCI','telephonyB_id'));
         foreach ($aPeripherals as $aPeripheral) {
             if ($this->Get($aPeripheral[1]) != 0)
                 $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
@@ -358,6 +411,10 @@
         $this->DisconnectTargetFromWorkstation('Mouse', $this->Get('mouse_id'));
     if (array_key_exists('headset_id', $aChanges))
         $this->DisconnectTargetFromWorkstation('Headset', $this->Get('headset_id'));
+    if (array_key_exists('telephonyA_id', $aChanges))
+        $this->DisconnectTargetFromWorkstation('TelephonyCI', $this->Get('telephonyA_id'));
+    if (array_key_exists('telephonyB_id', $aChanges))
+        $this->DisconnectTargetFromWorkstation('TelephonyCI', $this->Get('telephonyB_id'));
     parent::OnDelete();
 }]]>
                     </code>
@@ -387,9 +444,6 @@
                                         <item id="location_id">
                                             <rank>50</rank>
                                         </item>
-                                        <item id="user_id">
-                                            <rank>60</rank>
-                                        </item>
                                     </items>
                                 </item>
                                 <item id="fieldset:Server:moreinfo">
@@ -415,6 +469,17 @@
                                         </item>
                                         <item id="headset_id">
                                             <rank>70</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                                <item id="Workstation:telephony">
+                                    <rank>30</rank>
+                                    <items>
+                                        <item id="telephonyA">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="telephonyB">
+                                            <rank>20</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -501,6 +566,95 @@
             </presentation>
         </class>
         <class id="PC" _delta="must_exist">
+            <fields>
+                <field id="workstation_id" xsi:type="AttributeExternalKey" _delta="define">
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>workstation_id</sql>
+                    <target_class>Workstation</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="workstation_name" xsi:type="AttributeExternalField" _delta="define">
+                    <extkey_attcode>workstation_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <items>
+                                        <item id="workstation_id" _delta="define">
+                                            <rank>60</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>45</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>35</rank>
+                        </item>
+                    </items>
+                </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
+            </presentation>
+        </class>
+
+
+
+        <class id="TelephonyCI" _delta="must_exist">
             <fields>
                 <field id="workstation_id" xsi:type="AttributeExternalKey" _delta="define">
                     <dependencies>
@@ -2375,7 +2529,36 @@
                 </reconciliation>
             </properties>
             <fields />
-            <methods />
+            <methods>
+                <method id="GetAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2399,6 +2582,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id" _delta="define">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -2479,6 +2665,9 @@
                         <item id="business_criticity">
                             <rank>40</rank>
                         </item>
+                        <item id="workstation_id">
+                            <rank>45</rank>
+                        </item>
                         <item id="location_id">
                             <rank>50</rank>
                         </item>
@@ -2519,6 +2708,9 @@
                         <item id="location_id">
                             <rank>30</rank>
                         </item>
+                        <item id="workstation_id">
+                            <rank>35</rank>
+                        </item>
                         <item id="brand_id">
                             <rank>40</rank>
                         </item>
@@ -2530,9 +2722,46 @@
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="MobilePhone" _delta="must_exist">
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2572,6 +2801,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -2632,9 +2864,60 @@
                         </item>
                     </items>
                 </details>
+                <search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>45</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>35</rank>
+                        </item>
+                    </items>
+                </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="IPPhone" _delta="must_exist">
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2672,6 +2955,9 @@
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -2726,6 +3012,27 @@
                         </item>
                     </items>
                 </details>
+                <search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>45</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>35</rank>
+                        </item>
+                    </items>
+                </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="Model">
