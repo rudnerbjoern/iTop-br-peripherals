@@ -212,31 +212,31 @@
     $aChanges = $this->ListChanges();
     if (array_key_exists('pc_id', $aChanges)) {
         // record in the local memory object that the PC was changed
-        $this->iPCChanged = true;
+        $this->bPCChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('PC',$this->GetOriginal('pc_id'));
     }
     if (array_key_exists('dockingstation_id', $aChanges)) {
         // record in the local memory object that the DockingStation was changed
-        $this->iDockingStationChanged = true;
+        $this->bDockingStationChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('DockingStation',$this->GetOriginal('dockingstation_id'));
     }
     if (array_key_exists('keyboard_id', $aChanges)) {
         // record in the local memory object that the Keyboard was changed
-        $this->iKeyboardChanged = true;
+        $this->bKeyboardChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Keyboard',$this->GetOriginal('keyboard_id'));
     }
     if (array_key_exists('mouse_id', $aChanges)) {
         // record in the local memory object that the Mouse was changed
-        $this->iMouseChanged = true;
+        $this->bMouseChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Mouse',$this->GetOriginal('mouse_id'));
     }
     if (array_key_exists('headset_id', $aChanges)) {
         // record in the local memory object that the Headset was changed
-        $this->iHeadsetChanged = true;
+        $this->bHeadsetChanged = true;
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Headset',$this->GetOriginal('headset_id'));
     }
@@ -252,15 +252,15 @@
                         <![CDATA[public function AfterUpdate()
 {
     // The Workstation is updated in DB and assigned Peripherals changed
-    if (isset($this->iPCChanged))
+    if (isset($this->bPCChanged))
         $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'));
-    if (isset($this->iDockingStationChanged))
+    if (isset($this->bDockingStationChanged))
         $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'));
-    if (isset($this->iKeyboardChanged))
+    if (isset($this->bKeyboardChanged))
         $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'));
-    if (isset($this->iMouseChanged))
+    if (isset($this->bMouseChanged))
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'));
-    if (isset($this->iHeadsetChanged))
+    if (isset($this->bHeadsetChanged))
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'));
     parent::AfterUpdate();
 }]]>
@@ -409,6 +409,36 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
