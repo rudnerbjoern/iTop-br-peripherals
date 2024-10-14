@@ -71,7 +71,7 @@
                 * Update location on child (make this configurable in the settings)
                 -->
                 <field id="pc_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT PC AS p WHERE p.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT PC AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -86,7 +86,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="dockingstation_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT DockingStation AS d WHERE d.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT DockingStation AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -101,7 +101,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="keyboard_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Keyboard AS k WHERE k.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Keyboard AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -116,7 +116,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="mouse_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Mouse AS m WHERE m.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Mouse AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -131,7 +131,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="headset_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Headset AS h WHERE h.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Headset AS obj WHERE obj.org_id = :this->org_id AND obj.workstaion_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
