@@ -475,10 +475,10 @@
                                 <item id="Workstation:telephony">
                                     <rank>30</rank>
                                     <items>
-                                        <item id="telephonyA">
+                                        <item id="telephonyA_id">
                                             <rank>10</rank>
                                         </item>
-                                        <item id="telephonyB">
+                                        <item id="telephonyB_id">
                                             <rank>20</rank>
                                         </item>
                                     </items>
