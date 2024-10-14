@@ -45,12 +45,6 @@
             </properties>
             <methods />
             <fields>
-                <field id="status" xsi:type="AttributeEnum">
-                    <sort_type>rank</sort_type>
-                    <values>
-                        <value id="stock" _delta="delete" />
-                    </values>
-                </field>
                 <field id="user_id" xsi:type="AttributeExternalKey">
                     <dependencies>
                         <attribute id="org_id" />
