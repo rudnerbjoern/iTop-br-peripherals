@@ -228,7 +228,7 @@
                         <![CDATA[public function ConnectTargetToWorkstation($targetClass, $targetId, $updateLocation)
 {
     if ($targetId != 0) {
-        $oTargetObject = MetaModel::GetObject($targetClass, $targetId, false);
+        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
         if (is_object($oTargetObject)) {
             $oTargetObject->Set('workstation_id', $this->GetKey());
             if ($updateLocation)
@@ -247,7 +247,7 @@
                         <![CDATA[public function DisconnectTargetFromWorkstation($targetClass, $targetId)
 {
     if ($targetId != 0) {
-        $oTargetObject = MetaModel::GetObject($targetClass, $targetId, false);
+        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
         if (is_object($oTargetObject)) {
             $oTargetObject->Set('workstation_id', '');
             $oTargetObject->DBUpdate();
