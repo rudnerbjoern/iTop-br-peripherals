@@ -173,6 +173,21 @@
                     <extkey_attcode>headset_id</extkey_attcode>
                     <target_attcode>name</target_attcode>
                 </field>
+                <field id="mobilephone_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT MobilePhone AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>mobilephone_id</sql>
+                    <target_class>MobilePhone</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="mobilephone_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>mobilephone_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
                 <field id="telephonyA_id" xsi:type="AttributeExternalKey">
                     <filter><![CDATA[SELECT TelephonyCI AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
@@ -265,6 +280,8 @@
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if ($this->Get('headset_id') != 0)
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+    if ($this->Get('mobilephone_id') != 0)
+        $this->ConnectTargetToWorkstation('MobilePhone', $this->Get('mobilephone_id'), $bUpdateLocations);
     if ($this->Get('telephonyA_id') != 0)
         $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
     if ($this->Get('telephonyB_id') != 0)
@@ -323,6 +340,12 @@
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation('Headset',$this->GetOriginal('headset_id'));
     }
+    if (array_key_exists('mobilephone_id', $aChanges)) {
+        // record in the local memory object that the MobilePhone was changed
+        $this->bMobilePhoneChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation('MobilePhone',$this->GetOriginal('mobilephone_id'));
+    }
     if (array_key_exists('telephonyA_id', $aChanges)) {
         // record in the local memory object that the TelephonyA was changed
         $this->bTelephonyAChanged = true;
@@ -369,6 +392,8 @@
         $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
     if (isset($this->bHeadsetChanged))
         $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+    if (isset($this->bMobilePhoneChanged))
+        $this->ConnectTargetToWorkstation('MobilePhone', $this->Get('mobilephone_id'), $bUpdateLocations);
     if (isset($this->bTelephonyAChanged))
         $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
     if (isset($this->bTelephonyBChanged))
@@ -379,7 +404,7 @@
         $aPeripherals = array(array('PC','pc_id'),array('Monitor','monitorA_id'),
                               array('Monitor','monitorB_id'),array('DockingStation','dockingstation_id'),
                               array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'),
-                              array('TelephonyCI','telephonyA_id'),array('TelephonyCI','telephonyB_id'));
+                              array('MobilePhone','mobilephone_id'),array('TelephonyCI','telephonyA_id'),array('TelephonyCI','telephonyB_id'));
         foreach ($aPeripherals as $aPeripheral) {
             if ($this->Get($aPeripheral[1]) != 0)
                 $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
@@ -411,6 +436,8 @@
         $this->DisconnectTargetFromWorkstation('Mouse', $this->Get('mouse_id'));
     if (array_key_exists('headset_id', $aChanges))
         $this->DisconnectTargetFromWorkstation('Headset', $this->Get('headset_id'));
+    if (array_key_exists('mobilephone_id', $aChanges))
+        $this->DisconnectTargetFromWorkstation('MobilePhone', $this->Get('mobilephone_id'));
     if (array_key_exists('telephonyA_id', $aChanges))
         $this->DisconnectTargetFromWorkstation('TelephonyCI', $this->Get('telephonyA_id'));
     if (array_key_exists('telephonyB_id', $aChanges))
@@ -449,7 +476,7 @@
                                         </item>
                                     </items>
                                 </item>
-                                <item id="fieldset:Server:moreinfo">
+                                <item id="fieldset:Workstation:desktop">
                                     <rank>20</rank>
                                     <items>
                                         <item id="pc_id">
@@ -478,11 +505,14 @@
                                 <item id="fieldset:Workstation:telephony">
                                     <rank>30</rank>
                                     <items>
-                                        <item id="telephonyA_id">
+                                        <item id="mobilephone_id">
                                             <rank>10</rank>
                                         </item>
-                                        <item id="telephonyB_id">
+                                        <item id="telephonyA_id">
                                             <rank>20</rank>
+                                        </item>
+                                        <item id="telephonyB_id">
+                                            <rank>30</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -569,7 +599,7 @@
             </presentation>
         </class>
         <class id="PC" _delta="must_exist">
-                 <methods>
+            <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1036,7 +1066,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-             <methods>
+            <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1066,7 +1096,7 @@
                     </code>
                 </method>
             </methods>
-               <presentation>
+            <presentation>
                 <details>
                     <items>
                         <item id="col:col1">
@@ -1292,7 +1322,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-             <methods>
+            <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1548,7 +1578,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-                     <methods>
+            <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1578,7 +1608,7 @@
                     </code>
                 </method>
             </methods>
-             <presentation>
+            <presentation>
                 <details>
                     <items>
                         <item id="col:col1">
@@ -1804,7 +1834,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-                    <methods>
+            <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1834,7 +1864,7 @@
                     </code>
                 </method>
             </methods>
-             <presentation>
+            <presentation>
                 <details>
                     <items>
                         <item id="col:col1">

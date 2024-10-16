@@ -20,9 +20,11 @@ Dict::Add('EN US', 'English', 'English', array(
     'Class:Workstation/Attribute:keyboard_id' => 'Keyboard',
     'Class:Workstation/Attribute:mouse_id' => 'Mouse',
     'Class:Workstation/Attribute:headset_id' => 'Headset',
+    'Class:Workstation/Attribute:mobilephone_id' => 'Mobile phone',
     'Class:Workstation/Attribute:telephonyA_id' => 'Telephony A',
     'Class:Workstation/Attribute:telephonyB_id' => 'Telephony B',
 
+    'Workstation:desktop' => 'Desktop',
     'Workstation:telephony' => 'Telephony',
 
     'Class:DockingStation' => 'Docking station',
