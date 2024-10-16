@@ -286,6 +286,9 @@
     $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
     $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
 
+    if ($bUpdateContacts && ($this->Get('user_id') != 0))
+            $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
+
     if ($this->Get('pc_id') != 0) {
         $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
         if ($bUpdateContacts && ($this->Get('user_id') != 0))
@@ -321,6 +324,10 @@
                         <![CDATA[public function OnUpdate()
 {
     $aChanges = $this->ListChanges();
+    if (array_key_exists('user_id', $aChanges)) {
+        // record in the local memory object that the User was changed
+        $this->bUserChanged = true;
+    }
     if (array_key_exists('pc_id', $aChanges)) {
         // record in the local memory object that the PC was changed
         $this->bPCChanged = true;
@@ -399,6 +406,8 @@
 {
     $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
     $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
+    $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
 
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
@@ -432,6 +441,12 @@
             if ($this->Get($aPeripheral[1]) != 0)
                 $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
         }
+    }
+    if (isset($this->bUserChanged) && $bUpdateContacts)
+    {
+        $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
+        if ($this->Get('pc_id') != 0)
+                $this->ConnectTargetToContact($this->Get('pc_id'), $this->Get('user_id'));
     }
     parent::AfterUpdate();
 }]]>
