@@ -307,7 +307,7 @@
     $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
 
     if (($this->Get('user_id') != 0))
-        $oUserId = $this->Get('user_id')
+        $oUserId = $this->Get('user_id');
 
     if ($bUpdateContacts && isset($oUserId))
         $this->ConnectTargetToContact($this->GetKey(), $oUserId);
