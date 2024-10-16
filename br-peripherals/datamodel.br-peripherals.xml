@@ -227,7 +227,7 @@
                     <code>
                         <![CDATA[public static function GetUpdateLocations()
 {
-    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
+    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_locations_from_workstation', 'false');
     return (bool) filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
 }]]>
                     </code>
@@ -239,7 +239,7 @@
                     <code>
                         <![CDATA[public static function GetUpdateContacts()
 {
-    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
+    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contacts_from_workstation', 'false');
     return (bool) filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
 }]]>
                     </code>

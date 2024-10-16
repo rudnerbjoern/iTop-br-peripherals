@@ -41,8 +41,8 @@ SetupWebPage::AddModule(
         // Default settings
         //
         'settings' => array(
-            'update_contact' => 'false', // update Contact of linked peripherals to the User of the workstation
-            'update_location' => 'false', // update location of linked peripherals to the location of the workstation
+            'update_contacts_from_workstation' => 'false', // update Contact of linked peripherals to the User of the workstation
+            'update_locations_from_workstation' => 'false', // update location of linked peripherals to the location of the workstation
         ),
     )
 );
