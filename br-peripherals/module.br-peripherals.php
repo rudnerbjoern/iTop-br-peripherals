@@ -10,7 +10,7 @@
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-peripherals/3.1.8',
+    'br-peripherals/3.1.9',
     array(
         // Identification
         //
