@@ -241,20 +241,6 @@
 }]]>
                     </code>
                 </method>
-                <method id="AssignUserToTarget" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function AssignUserToTarget($targetClass, $targetId, $updateLocation)
-{
-    if ($targetId != 0) {
-    // TODO: needs to be implemented
-        }
-    }
-}]]>
-                    </code>
-                </method>
                 <method id="AfterInsert" _delta="define">
                     <static>false</static>
                     <access>public</access>
