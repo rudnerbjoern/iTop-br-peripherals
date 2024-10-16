@@ -818,6 +818,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
@@ -1096,6 +1105,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
@@ -1368,6 +1386,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
@@ -1640,6 +1667,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
@@ -1912,6 +1948,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
