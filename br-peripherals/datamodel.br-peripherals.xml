@@ -220,12 +220,49 @@
                 </field>
             </fields>
             <methods>
+                <method id="GetUpdateLocations" _delta="define">
+                    <static>true</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                        <![CDATA[public function GetUpdateLocations()
+{
+    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
+    return (bool) filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+}]]>
+                    </code>
+                </method>
+                <method id="GetUpdateContacts" _delta="define">
+                    <static>true</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                        <![CDATA[public function GetUpdateContacts()
+{
+    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
+    return (bool) filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
+}]]>
+                    </code>
+                </method>
+                <method id="GetPeripherals" _delta="define">
+                    <static>true</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                        <![CDATA[public function GetPeripherals()
+{
+return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
+                          'keyboard_id','mouse_id','headset_id',
+                          'mobilephone_id','telephonyA_id','telephonyB_id');
+}]]>
+                    </code>
+                </method>
                 <method id="ConnectTargetToWorkstation" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
                     <code>
-                        <![CDATA[public function ConnectTargetToWorkstation($targetClass, $targetId, $updateLocation)
+                        <![CDATA[public function ConnectTargetToWorkstation($targetId, $updateLocation)
 {
     if ($targetId != 0) {
         $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
@@ -244,7 +281,7 @@
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
                     <code>
-                        <![CDATA[public function DisconnectTargetFromWorkstation($targetClass, $targetId)
+                        <![CDATA[public function DisconnectTargetFromWorkstation($targetId)
 {
     if ($targetId != 0) {
         $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
@@ -301,10 +338,8 @@
                     <code>
                         <![CDATA[public function AfterInsert()
 {
-    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
-    $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
-    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
-    $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
+    $bUpdateLocations = self::GetUpdateLocations();
+    $bUpdateContacts = self::GetUpdateContacts();
 
     if (($this->Get('user_id') != 0))
         $oUserId = $this->Get('user_id');
@@ -313,52 +348,52 @@
         $this->ConnectTargetToContact($this->GetKey(), $oUserId);
 
     if ($this->Get('pc_id') != 0) {
-        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('pc_id'), $oUserId);
     }
     if ($this->Get('monitorA_id') != 0) {
-        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorA_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('monitorA_id'), $oUserId);
     }
     if ($this->Get('monitorB_id') != 0) {
-        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorB_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('monitorB_id'), $oUserId);
     }
     if ($this->Get('dockingstation_id') != 0) {
-        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('dockingstation_id'), $oUserId);
         }
     if ($this->Get('keyboard_id') != 0) {
-        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('keyboard_id'), $oUserId);
         }
     if ($this->Get('mouse_id') != 0) {
-        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('mouse_id'), $oUserId);
         }
     if ($this->Get('headset_id') != 0) {
-        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('headset_id'), $oUserId);
         }
     if ($this->Get('mobilephone_id') != 0) {
-        $this->ConnectTargetToWorkstation('MobilePhone', $this->Get('mobilephone_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('mobilephone_id'), $oUserId);
         }
     if ($this->Get('telephonyA_id') != 0) {
-        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('telephonyA_id'), $oUserId);
         }
     if ($this->Get('telephonyB_id') != 0) {
-        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyB_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
         if ($bUpdateContacts && isset($oUserId))
             $this->ConnectTargetToContact($this->Get('telephonyB_id'), $oUserId);
         }
@@ -393,61 +428,61 @@
         // record in the local memory object that the PC was changed
         $this->bPCChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('PC',$this->GetOriginal('pc_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('pc_id'));
     }
     if (array_key_exists('monitorA_id', $aChanges)) {
         // record in the local memory object that the MonitorA was changed
         $this->bMonitorAChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('Monitor',$this->GetOriginal('monitorA_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('monitorA_id'));
     }
     if (array_key_exists('monitorB_id', $aChanges)) {
         // record in the local memory object that the MonitorB was changed
         $this->bMonitorBChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('Monitor',$this->GetOriginal('monitorB_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('monitorB_id'));
     }
     if (array_key_exists('dockingstation_id', $aChanges)) {
         // record in the local memory object that the DockingStation was changed
         $this->bDockingStationChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('DockingStation',$this->GetOriginal('dockingstation_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('dockingstation_id'));
     }
     if (array_key_exists('keyboard_id', $aChanges)) {
         // record in the local memory object that the Keyboard was changed
         $this->bKeyboardChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('Keyboard',$this->GetOriginal('keyboard_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('keyboard_id'));
     }
     if (array_key_exists('mouse_id', $aChanges)) {
         // record in the local memory object that the Mouse was changed
         $this->bMouseChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('Mouse',$this->GetOriginal('mouse_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('mouse_id'));
     }
     if (array_key_exists('headset_id', $aChanges)) {
         // record in the local memory object that the Headset was changed
         $this->bHeadsetChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('Headset',$this->GetOriginal('headset_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('headset_id'));
     }
     if (array_key_exists('mobilephone_id', $aChanges)) {
         // record in the local memory object that the MobilePhone was changed
         $this->bMobilePhoneChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('MobilePhone',$this->GetOriginal('mobilephone_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('mobilephone_id'));
     }
     if (array_key_exists('telephonyA_id', $aChanges)) {
         // record in the local memory object that the TelephonyA was changed
         $this->bTelephonyAChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('TelephonyCI',$this->GetOriginal('telephonyA_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('telephonyA_id'));
     }
     if (array_key_exists('telephonyB_id', $aChanges)) {
         // record in the local memory object that the TelephonyB was changed
         $this->bTelephonyBChanged = true;
         // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation('TelephonyCI',$this->GetOriginal('telephonyB_id'));
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('telephonyB_id'));
     }
     // change locations on assigned objects when location of workstation is changed
     if (array_key_exists('location_id', $aChanges)) {
@@ -465,44 +500,38 @@
                     <code>
                         <![CDATA[public function AfterUpdate()
 {
-    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
-    $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
-    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
-    $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
-
-    $aPeripherals = array(array('PC','pc_id'),array('Monitor','monitorA_id'),
-                          array('Monitor','monitorB_id'),array('DockingStation','dockingstation_id'),
-                          array('Keyboard','keyboard_id'),array('Mouse','mouse_id'),array('Headset','headset_id'),
-                          array('MobilePhone','mobilephone_id'),array('TelephonyCI','telephonyA_id'),array('TelephonyCI','telephonyB_id'));
+    $bUpdateLocations = self::GetUpdateLocations();
+    $bUpdateContacts = self::GetUpdateContacts();
+    $aPeripherals = self::GetPeripherals();
 
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
-        $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
     if (isset($this->bMonitorAChanged))
-        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorA_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
     if (isset($this->bMonitorBChanged))
-        $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorB_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
     if (isset($this->bDockingStationChanged))
-        $this->ConnectTargetToWorkstation('DockingStation', $this->Get('dockingstation_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
     if (isset($this->bKeyboardChanged))
-        $this->ConnectTargetToWorkstation('Keyboard', $this->Get('keyboard_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
     if (isset($this->bMouseChanged))
-        $this->ConnectTargetToWorkstation('Mouse', $this->Get('mouse_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
     if (isset($this->bHeadsetChanged))
-        $this->ConnectTargetToWorkstation('Headset', $this->Get('headset_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
     if (isset($this->bMobilePhoneChanged))
-        $this->ConnectTargetToWorkstation('MobilePhone', $this->Get('mobilephone_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
     if (isset($this->bTelephonyAChanged))
-        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyA_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
     if (isset($this->bTelephonyBChanged))
-        $this->ConnectTargetToWorkstation('TelephonyCI', $this->Get('telephonyB_id'), $bUpdateLocations);
+        $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
 
     // change locations on assigned objects when location of workstation is changed
     if (isset($this->bLocationChanged) && $bUpdateLocations)
     {
-        foreach ($aPeripherals as $aPeripheral) {
-            if ($this->Get($aPeripheral[1]) != 0)
-                $this->ConnectTargetToWorkstation($aPeripheral[0], $this->Get($aPeripheral[1]), $bUpdateLocations);
+        foreach ($aPeripherals as $sPeripheral) {
+            if ($this->Get($sPeripheral) != 0)
+                $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
         }
     }
 
@@ -510,9 +539,9 @@
     if (isset($this->bUserChanged) && $bUpdateContacts)
     {
         $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
-        foreach ($aPeripherals as $aPeripheral) {
-            if ($this->Get($aPeripheral[1]) != 0)
-                $this->ConnectTargetToContact($this->Get($aPeripheral[1]), $this->Get('user_id'));
+        foreach ($aPeripherals as $sPeripheral) {
+            if ($this->Get($sPeripheral) != 0)
+                $this->ConnectTargetToContact($this->Get($sPeripheral), $this->Get('user_id'));
         }
     }
     parent::AfterUpdate();
@@ -530,25 +559,25 @@
     if (array_key_exists('user_id', $aChanges))
         $this->DisconnectTargetFromContact($this->GetKey(), $this->Get('user_id'));
     if (array_key_exists('pc_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('PC', $this->Get('pc_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('pc_id'));
     if (array_key_exists('monitorA_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('Monitor', $this->Get('monitorA_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('monitorA_id'));
     if (array_key_exists('monitorB_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('Monitor', $this->Get('monitorB_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('monitorB_id'));
     if (array_key_exists('dockingstation_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('DockingStation', $this->Get('dockingstation_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('dockingstation_id'));
     if (array_key_exists('keyboard_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('Keyboard', $this->Get('keyboard_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('keyboard_id'));
     if (array_key_exists('mouse_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('Mouse', $this->Get('mouse_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('mouse_id'));
     if (array_key_exists('headset_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('Headset', $this->Get('headset_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('headset_id'));
     if (array_key_exists('mobilephone_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('MobilePhone', $this->Get('mobilephone_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('mobilephone_id'));
     if (array_key_exists('telephonyA_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('TelephonyCI', $this->Get('telephonyA_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('telephonyA_id'));
     if (array_key_exists('telephonyB_id', $aChanges))
-        $this->DisconnectTargetFromWorkstation('TelephonyCI', $this->Get('telephonyB_id'));
+        $this->DisconnectTargetFromWorkstation($this->Get('telephonyB_id'));
     parent::OnDelete();
 }]]>
                     </code>
