@@ -375,6 +375,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         $this->bUserChanged = true;
         $oOriginalUserId = $this->GetOriginal('user_id');
 
+        $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
         foreach ($aPeripherals as $sPeripheral) {
             if ($this->GetOriginal($sPeripheral) != 0)
                 $this->DisconnectTargetFromContact($this->GetOriginal($sPeripheral), $oOriginalUserId);
