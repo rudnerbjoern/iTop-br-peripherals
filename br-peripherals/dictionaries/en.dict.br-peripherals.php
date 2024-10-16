@@ -23,9 +23,14 @@ Dict::Add('EN US', 'English', 'English', array(
     'Class:Workstation/Attribute:mobilephone_id' => 'Mobile phone',
     'Class:Workstation/Attribute:telephonyA_id' => 'Telephony A',
     'Class:Workstation/Attribute:telephonyB_id' => 'Telephony B',
+    'Class:Workstation/Attribute:printerA_id' => 'Printer A',
+    'Class:Workstation/Attribute:printerB_id' => 'Printer B',
+    'Class:Workstation/Attribute:scanner_id' => 'Scanner',
+    'Class:Workstation/Attribute:barcodescanner_id' => 'Barcode scanner',
 
     'Workstation:desktop' => 'Desktop',
     'Workstation:telephony' => 'Telephony',
+    'Workstation:printerscanner' => 'Printer & Scanner',
 
     'Class:DockingStation' => 'Docking station',
     'Class:DockingStation+' => 'A docking station',

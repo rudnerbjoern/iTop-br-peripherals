@@ -218,6 +218,66 @@
                     <extkey_attcode>telephonyB_id</extkey_attcode>
                     <target_attcode>name</target_attcode>
                 </field>
+                <field id="printerA_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Printer AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>printerA_id</sql>
+                    <target_class>Printer</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="printerA_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>printerA_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="printerB_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Printer AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>printerB_id</sql>
+                    <target_class>Printer</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="printerB_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>printerB_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="scanner_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT Scanner AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>scanner_id</sql>
+                    <target_class>Scanner</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="scanner_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>scanner_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="barcodescanner_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT BarcodeScanner AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>barcodescanner_id</sql>
+                    <target_class>BarcodeScanner</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>true</allow_target_creation>
+                </field>
+                <field id="barcodescanner_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>barcodescanner_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
             </fields>
             <methods>
                 <method id="GetUpdateLocations" _delta="define">
@@ -253,7 +313,9 @@
 {
 return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                           'keyboard_id','mouse_id','headset_id',
-                          'mobilephone_id','telephonyA_id','telephonyB_id');
+                          'mobilephone_id','telephonyA_id','telephonyB_id',
+                          'printerA_id','printerB_id',
+                          'scanner_id','barcodescanner_id');
 }]]>
                     </code>
                 </method>
@@ -441,6 +503,30 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation($this->GetOriginal('telephonyB_id'));
     }
+    if (array_key_exists('printerA_id', $aChanges)) {
+        // record in the local memory object that the PrinterA was changed
+        $this->bPrinterAChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('printerA_id'));
+    }
+    if (array_key_exists('printerB_id', $aChanges)) {
+        // record in the local memory object that the PrinterB was changed
+        $this->bPrinterBChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('printerB_id'));
+    }
+    if (array_key_exists('scanner_id', $aChanges)) {
+        // record in the local memory object that the Scanner was changed
+        $this->bScannerChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('scanner_id'));
+    }
+    if (array_key_exists('barcodescanner_id', $aChanges)) {
+        // record in the local memory object that the BarcodeScanner was changed
+        $this->bBarcodeScannerChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('barcodescanner_id'));
+    }
     // change locations on assigned objects when location of workstation is changed
     if (array_key_exists('location_id', $aChanges)) {
         // record in the local memory object that the Location was changed
@@ -482,6 +568,14 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
     if (isset($this->bTelephonyBChanged))
         $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
+    if (isset($this->bPrinterAChanged))
+        $this->ConnectTargetToWorkstation($this->Get('printerA_id'), $bUpdateLocations);
+    if (isset($this->bPrinterBChanged))
+        $this->ConnectTargetToWorkstation($this->Get('printerB_id'), $bUpdateLocations);
+    if (isset($this->bScannerChanged))
+        $this->ConnectTargetToWorkstation($this->Get('scanner_id'), $bUpdateLocations);
+    if (isset($this->bBarcodeScannerChanged))
+        $this->ConnectTargetToWorkstation($this->Get('barcodescanner_id'), $bUpdateLocations);
 
     // change locations on assigned objects when location of workstation is changed
     if (isset($this->bLocationChanged) && $bUpdateLocations)
@@ -606,6 +700,23 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                                         </item>
                                     </items>
                                 </item>
+                                <item id="fieldset:Workstation:printerscanner">
+                                    <rank>30</rank>
+                                    <items>
+                                        <item id="printerA_id">
+                                            <rank>10</rank>
+                                        </item>
+                                        <item id="printerB_id">
+                                            <rank>20</rank>
+                                        </item>
+                                        <item id="scanner_id">
+                                            <rank>30</rank>
+                                        </item>
+                                        <item id="barcodescanner_id">
+                                            <rank>40</rank>
+                                        </item>
+                                    </items>
+                                </item>
                             </items>
                         </item>
                         <item id="col:col2">
@@ -689,6 +800,76 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
             </presentation>
         </class>
         <class id="PC" _delta="must_exist">
+            <methods>
+                <method id="GetAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="col:col1">
+                            <items>
+                                <item id="fieldset:Server:baseinfo">
+                                    <items>
+                                        <item id="workstation_id" _delta="define">
+                                            <rank>60</rank>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>45</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>35</rank>
+                        </item>
+                    </items>
+                </list>
+                <summary>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </summary>
+            </presentation>
+        </class>
+        <class id="Printer" _delta="must_exist">
             <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
@@ -2180,7 +2361,36 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                     </attributes>
                 </reconciliation>
             </properties>
-            <methods />
+            <methods>
+                <method id="GetAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2204,6 +2414,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -2272,11 +2485,14 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -2293,6 +2509,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                         <item id="business_criticity">
                             <rank>40</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>45</rank>
                         </item>
                         <item id="location_id">
                             <rank>50</rank>
@@ -2330,6 +2549,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                         <item id="business_criticity">
                             <rank>30</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>35</rank>
                         </item>
                         <item id="location_id">
                             <rank>40</rank>
@@ -2376,7 +2598,36 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                     </attributes>
                 </reconciliation>
             </properties>
-            <methods />
+            <methods>
+                <method id="GetAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
+						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+					    }]]>
+                    </code>
+                </method>
+                <method id="GetInitialStateAttributeFlags">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
+					    {
+						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+						    if (($sAttCode == 'workstation_id'))
+							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
+						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+					    }]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2400,6 +2651,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                                         </item>
                                         <item id="location_id">
                                             <rank>50</rank>
+                                        </item>
+                                        <item id="workstation_id">
+                                            <rank>60</rank>
                                         </item>
                                     </items>
                                 </item>
@@ -2468,11 +2722,14 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="friendlyname">
                             <rank>10</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="workstation_id">
                             <rank>20</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="location_id">
                             <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
                         </item>
                     </items>
                 </default_search>
@@ -2489,6 +2746,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                         <item id="business_criticity">
                             <rank>40</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>45</rank>
                         </item>
                         <item id="location_id">
                             <rank>50</rank>
@@ -2526,6 +2786,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                         <item id="business_criticity">
                             <rank>30</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>35</rank>
                         </item>
                         <item id="location_id">
                             <rank>40</rank>
