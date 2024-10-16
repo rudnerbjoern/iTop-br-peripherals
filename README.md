@@ -20,9 +20,18 @@ Be sure to enable the extension during setup.
 
 After installation, it is possible to change some settings in the iTop configuration.
 
+### update_contact
+
+TODO: Not yet implemented
+
+Specify if the user of a Workstation should be added to the Contacts of the assigned peripheral devices.
+
+* `true`
+* `false` (default)
+
 ### update_location
 
-Specify if the location of peripheral devices added to a Workstation should be set to the same location as the workstation.
+Specify if the location of peripheral devices assigned to a Workstation should be set to the same location as the workstation.
 
 * `true`
 * `false` (default)

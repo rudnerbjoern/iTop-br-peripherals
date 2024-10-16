@@ -3,7 +3,7 @@
 /**
  * @copyright   Copyright (C) 2024 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-09-12
+ * @version     2024-10-16
  *
  * iTop module definition file
  */
@@ -41,6 +41,7 @@ SetupWebPage::AddModule(
         // Default settings
         //
         'settings' => array(
+            'update_contact' => 'false', // update Contact of linked peripherals to the User of the workstation
             'update_location' => 'false', // update location of linked peripherals to the location of the workstation
         ),
     )
