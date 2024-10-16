@@ -569,23 +569,7 @@
             </presentation>
         </class>
         <class id="PC" _delta="must_exist">
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey" _delta="define">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>true</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField" _delta="define">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
-            <methods>
+                 <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -654,10 +638,7 @@
                 </summary>
             </presentation>
         </class>
-
-
-
-        <class id="TelephonyCI" _delta="must_exist">
+        <class id="PhysicalDevice" _delta="must_exist">
             <fields>
                 <field id="workstation_id" xsi:type="AttributeExternalKey" _delta="define">
                     <dependencies>
@@ -674,6 +655,17 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="workstation" _delta="define">
+                            <attribute>workstation_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
+        </class>
+        <class id="TelephonyCI" _delta="must_exist">
             <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
@@ -772,22 +764,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>false</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
+            <fields />
             <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
@@ -1059,23 +1036,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>false</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
-            <methods>
+             <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1105,16 +1066,7 @@
                     </code>
                 </method>
             </methods>
-            <relations>
-                <relation id="impacts">
-                    <neighbours>
-                        <neighbour id="workstation">
-                            <attribute>workstation_id</attribute>
-                        </neighbour>
-                    </neighbours>
-                </relation>
-            </relations>
-            <presentation>
+               <presentation>
                 <details>
                     <items>
                         <item id="col:col1">
@@ -1340,23 +1292,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>false</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
-            <methods>
+             <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1386,15 +1322,6 @@
                     </code>
                 </method>
             </methods>
-            <relations>
-                <relation id="impacts">
-                    <neighbours>
-                        <neighbour id="workstation">
-                            <attribute>workstation_id</attribute>
-                        </neighbour>
-                    </neighbours>
-                </relation>
-            </relations>
             <presentation>
                 <details>
                     <items>
@@ -1621,23 +1548,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>false</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
-            <methods>
+                     <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1667,16 +1578,7 @@
                     </code>
                 </method>
             </methods>
-            <relations>
-                <relation id="impacts">
-                    <neighbours>
-                        <neighbour id="workstation">
-                            <attribute>workstation_id</attribute>
-                        </neighbour>
-                    </neighbours>
-                </relation>
-            </relations>
-            <presentation>
+             <presentation>
                 <details>
                     <items>
                         <item id="col:col1">
@@ -1902,23 +1804,7 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields>
-                <field id="workstation_id" xsi:type="AttributeExternalKey">
-                    <dependencies>
-                        <attribute id="org_id" />
-                    </dependencies>
-                    <sql>workstation_id</sql>
-                    <target_class>Workstation</target_class>
-                    <is_null_allowed>true</is_null_allowed>
-                    <on_target_delete>DEL_MANUAL</on_target_delete>
-                    <allow_target_creation>false</allow_target_creation>
-                </field>
-                <field id="workstation_name" xsi:type="AttributeExternalField">
-                    <extkey_attcode>workstation_id</extkey_attcode>
-                    <target_attcode>name</target_attcode>
-                </field>
-            </fields>
-            <methods>
+                    <methods>
                 <method id="GetAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -1948,16 +1834,7 @@
                     </code>
                 </method>
             </methods>
-            <relations>
-                <relation id="impacts">
-                    <neighbours>
-                        <neighbour id="workstation">
-                            <attribute>workstation_id</attribute>
-                        </neighbour>
-                    </neighbours>
-                </relation>
-            </relations>
-            <presentation>
+             <presentation>
                 <details>
                     <items>
                         <item id="col:col1">
@@ -2576,7 +2453,6 @@
                     </attributes>
                 </reconciliation>
             </properties>
-            <fields />
             <methods>
                 <method id="GetAttributeFlags">
                     <static>false</static>
