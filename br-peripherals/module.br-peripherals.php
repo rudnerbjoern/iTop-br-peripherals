@@ -28,7 +28,9 @@ SetupWebPage::AddModule(
 
         // Components
         //
-        'datamodel' => array(),
+        'datamodel' => array(
+            'main.br-peripherals.php',
+        ),
         'webservice' => array(),
         'data.struct' => array(),
         'data.sample' => array(),
