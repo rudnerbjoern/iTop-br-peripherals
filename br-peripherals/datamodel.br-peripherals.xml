@@ -447,6 +447,15 @@
                     </code>
                 </method>
             </methods>
+            <relations>
+                <relation id="impacts">
+                    <neighbours>
+                        <neighbour id="user" _delta="define">
+                            <attribute>user_id</attribute>
+                        </neighbour>
+                    </neighbours>
+                </relation>
+            </relations>
             <presentation>
                 <details>
                     <items>
