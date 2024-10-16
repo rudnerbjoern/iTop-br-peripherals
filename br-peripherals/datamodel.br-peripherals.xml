@@ -256,6 +256,24 @@
 }]]>
                     </code>
                 </method>
+                <method id="ConnectTargetToContact">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                        <![CDATA[public function ConnectTargetToContact($targetId, $contactId)
+{
+    if (($contactId != 0 ) && ($targetId != 0)) {
+        $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
+        $oSet = new DBObjectSet($oSearch, array(), array('contact' => $contactId, 'functionalci' => $targetId));
+        if ($oSet->Count()==0) {
+            $oLnk = MetaModel::NewObject("lnkContactToFunctionalCI", array('contact_id' => $contactId, 'functionalci_id' => $targetId));
+            $oLnk->DBInsert();
+        }
+    }
+}]]>
+                    </code>
+                </method>
                 <method id="AfterInsert" _delta="define">
                     <static>false</static>
                     <access>public</access>
@@ -265,9 +283,14 @@
 {
     $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_location', 'false');
     $bUpdateLocations = filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contact', 'false');
+    $bUpdateContacts = filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
 
-    if ($this->Get('pc_id') != 0)
+    if ($this->Get('pc_id') != 0) {
         $this->ConnectTargetToWorkstation('PC', $this->Get('pc_id'), $bUpdateLocations);
+        if ($bUpdateContacts && ($this->Get('user_id') != 0))
+            $this->ConnectTargetToContact($this->Get('pc_id'), $this->Get('user_id'));
+    }
     if ($this->Get('monitorA_id') != 0)
         $this->ConnectTargetToWorkstation('Monitor', $this->Get('monitorA_id'), $bUpdateLocations);
     if ($this->Get('monitorB_id') != 0)
