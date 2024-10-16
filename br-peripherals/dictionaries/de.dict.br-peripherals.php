@@ -12,15 +12,18 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
     'Class:Workstation' => 'Arbeitsplatz',
     'Class:Workstation+' => 'Ein Arbeitsplatz',
+    'Class:Workstation/Attribute:user_id' => 'Benutzer',
     'Class:Workstation/Attribute:pc_id' => 'PC',
     'Class:Workstation/Attribute:monitorA_id' => 'Bildschirm A',
     'Class:Workstation/Attribute:monitorB_id' => 'Bildschirm B',
     'Class:Workstation/Attribute:dockingstation_id' => 'Docking Station',
     'Class:Workstation/Attribute:keyboard_id' => 'Tastatur',
-    'Class:Workstation/Attribute:mouse_id' => 'Mouse',
+    'Class:Workstation/Attribute:mouse_id' => 'Maus',
     'Class:Workstation/Attribute:headset_id' => 'Headset',
+    'Class:Workstation/Attribute:telephonyA_id' => 'Telefonie A',
+    'Class:Workstation/Attribute:telephonyB_id' => 'Telefonie B',
 
-    'Workstation:telephony' => 'Telephony',
+    'Workstation:telephony' => 'Telefonie',
 
     'Class:DockingStation' => 'Docking Station',
     'Class:DockingStation+' => 'Eine Docking Station',

@@ -475,7 +475,7 @@
                                         </item>
                                     </items>
                                 </item>
-                                <item id="Workstation:telephony">
+                                <item id="fieldset:Workstation:telephony">
                                     <rank>30</rank>
                                     <items>
                                         <item id="telephonyA_id">
