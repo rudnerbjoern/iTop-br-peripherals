@@ -777,23 +777,20 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                 </search>
                 <list>
                     <items>
-                        <item id="finalclass">
+                        <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="status">
                             <rank>20</rank>
                         </item>
-                        <item id="status">
+                        <item id="location_id">
                             <rank>30</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="user_id">
                             <rank>40</rank>
                         </item>
-                        <item id="location_id">
-                            <rank>50</rank>
-                        </item>
                         <item id="pc_id">
-                            <rank>60</rank>
+                            <rank>50</rank>
                         </item>
                     </items>
                 </list>
@@ -1292,13 +1289,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="location_id">
                             <rank>20</rank>
                         </item>
                         <item id="workstation_id">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="brand_id">
                             <rank>40</rank>
                         </item>
                         <item id="model_id">
@@ -1548,13 +1545,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="location_id">
                             <rank>20</rank>
                         </item>
                         <item id="workstation_id">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="brand_id">
                             <rank>40</rank>
                         </item>
                         <item id="model_id">
@@ -1804,13 +1801,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="location_id">
                             <rank>20</rank>
                         </item>
                         <item id="workstation_id">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="brand_id">
                             <rank>40</rank>
                         </item>
                         <item id="model_id">
@@ -2060,13 +2057,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="location_id">
                             <rank>20</rank>
                         </item>
                         <item id="workstation_id">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="brand_id">
                             <rank>40</rank>
                         </item>
                         <item id="model_id">
@@ -2316,13 +2313,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="org_id">
                             <rank>10</rank>
                         </item>
-                        <item id="business_criticity">
+                        <item id="location_id">
                             <rank>20</rank>
                         </item>
                         <item id="workstation_id">
                             <rank>30</rank>
                         </item>
-                        <item id="location_id">
+                        <item id="brand_id">
                             <rank>40</rank>
                         </item>
                         <item id="model_id">
@@ -2567,6 +2564,25 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="BarcodeScanner" _delta="define">
@@ -2804,6 +2820,25 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </list>
+                <summary>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="brand_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="model_id">
+                            <rank>50</rank>
+                        </item>
+                    </items>
+                </summary>
             </presentation>
         </class>
         <class id="ConferenceSystem" _delta="define">
@@ -2958,6 +2993,22 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </details>
+                <default_search>
+                    <items>
+                        <item id="friendlyname">
+                            <rank>10</rank>
+                        </item>
+                        <item id="workstation_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="location_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
+                        </item>
+                    </items>
+                </default_search>
                 <search>
                     <items>
                         <item id="name">
@@ -3171,6 +3222,14 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </details>
+                <default_search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+
+                    </items>
+                </default_search>
                 <search>
                     <items>
                         <item id="workstation_id" _delta="define">
@@ -3319,6 +3378,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </details>
+                <default_search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </default_search>
                 <search>
                     <items>
                         <item id="workstation_id" _delta="define">
