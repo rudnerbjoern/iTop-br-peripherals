@@ -586,8 +586,8 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         }
     }
 
-    // change contacts on assigned objects when user of workstation is changed
-    if (isset($this->bUserChanged) && $bUpdateContacts)
+    // add contacts on assigned objects after every update
+    if ($bUpdateContacts && ($this->Get('user_id') != 0))
     {
         $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
         foreach ($aPeripherals as $sPeripheral) {
