@@ -7,6 +7,18 @@ Copyright (c) 2024 Björn Rudner
 
 Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanner, conference system
 
+### End user devices
+
+![End user devices](Screenshots/EndUserDevices.png)
+
+### Workstation
+
+![Workstation](Screenshots/Workstation.png)
+
+### Relations
+
+![Workstation Depends on ...](Screenshots/WorkstationDependsOn.png)
+
 ## Dependencies
 
 * iTop End-User Devices (itop-endusers-devices) needs to be enabled during setup
