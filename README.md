@@ -5,7 +5,9 @@ Copyright (c) 2024 Björn Rudner
 
 ## What?
 
-Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanner, conference system
+Adds the classes [monitor](#monitor), [docking station](#dockingstation), [keyboard](#keyboard), [mouse](#mouse), [headset](#headset), [scanner](#scanner), [barcode scanner](#barcodescanner), [conference system](#conferencesystem) to iTop Configuration Management.
+
+Adds additional fields to the classes [PC](#pc), [Mobile Phone](#mobilephone), [IP Phone](#ipphone) and [Printer](#printer).
 
 ### End user devices
 
@@ -21,7 +23,7 @@ Adds monitor, docking station, keyboard, mouse, headset, scanner, barcode scanne
 
 ## Dependencies
 
-* iTop End-User Devices (itop-endusers-devices) needs to be enabled during setup
+* iTop End-User Devices (`itop-endusers-devices`) needs to be enabled during setup
 
 ## Installation
 
@@ -31,6 +33,18 @@ Be sure to enable the extension during setup.
 ## Configuration
 
 After installation, it is possible to change some settings in the iTop configuration.
+
+```php
+/**
+ * Modules specific settings
+ */
+$MyModuleSettings = array(
+   'br-peripherals' => array (
+      'update_contacts_from_workstation' => 'false',
+      'update_locations_from_workstation' => 'false',
+   ),
+);
+```
 
 ### update_contacts_from_workstation
 
@@ -52,29 +66,45 @@ Specify if the location of peripheral devices assigned to a Workstation should b
 
 ![Workstation Icon](br-peripherals/images/workstation.png)
 
-| Name                 | Type                                                | Mandatory? |
-| -------------------- | --------------------------------------------------- | ---------- |
-| Name                 | Alphanumeric string                                 | Yes        |
-| Organization         | Foreign key to a(n) Organization                    | Yes        |
-| Status               | Foreign key to a(n) Organization                    | No         |
-| Business criticality | Possible values: Low, Medium, High                  | No         |
-| Location             | Foreign key to a Location                           | No         |
-| User                 | Foreign key to a Person/Contact                     | No         |
-| PC                   | Foreign key to a [PC](#pc)                          | Yes        |
-| Docking Station      | Foreign key to a [Docking Station](#dockingstation) | No         |
-| Monitor A            | Foreign key to a [Monitor](#monitor)                | No         |
-| Monitor B            | Foreign key to a [Monitor](#monitor)                | No         |
-| Keyboard             | Foreign key to a [Keyboard](#keyboard)              | No         |
-| Mouse                | Foreign key to a [Mouse](#mouse)                    | No         |
-| Headset              | Foreign key to a [Headset](#headset)                | No         |
-| Mobile Phone         | Foreign key to a [Mobile Phone](#mobilephone)       | No         |
-| Telephone A          | Foreign key to a Telephony CI                       | No         |
-| Telephone B          | Foreign key to a Telephony CI                       | No         |
-| Printer A            | Foreign key to a [Printer](#printer)                | No         |
-| Printer B            | Foreign key to a [Printer](#printer)                | No         |
-| Scanner              | Foreign key to a [Scanner](#scanner)                | No         |
-| Barcode Scanner      | Foreign key to a [Barcode Scanner](#barcodescanner) | No         |
-| Description          | Multiline character string                          | No         |
+The class `Workstation` is a child class of `PhysicalDevice`.
+
+#### Properties of Workstation
+
+| Name                 | Type                                                                   | Mandatory? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- |
+| Name                 | Alphanumeric string                                                    | Yes        |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |
+| Location             | Foreign key to a Location                                              | No         |
+| User                 | Foreign key to a Person/Contact                                        | No         |
+| PC                   | Foreign key to a [PC](#pc)                                             | Yes        |
+| Docking Station      | Foreign key to a [Docking Station](#dockingstation)                    | No         |
+| Monitor A            | Foreign key to a [Monitor](#monitor)                                   | No         |
+| Monitor B            | Foreign key to a [Monitor](#monitor)                                   | No         |
+| Keyboard             | Foreign key to a [Keyboard](#keyboard)                                 | No         |
+| Mouse                | Foreign key to a [Mouse](#mouse)                                       | No         |
+| Headset              | Foreign key to a [Headset](#headset)                                   | No         |
+| Mobile Phone         | Foreign key to a [Mobile Phone](#mobilephone)                          | No         |
+| Telephone A          | Foreign key to a Telephony CI                                          | No         |
+| Telephone B          | Foreign key to a Telephony CI                                          | No         |
+| Printer A            | Foreign key to a [Printer](#printer)                                   | No         |
+| Printer B            | Foreign key to a [Printer](#printer)                                   | No         |
+| Scanner              | Foreign key to a [Scanner](#scanner)                                   | No         |
+| Barcode Scanner      | Foreign key to a [Barcode Scanner](#barcodescanner)                    | No         |
+| Cost center          | (if installed) Foreign key to a Cost Center                            | No         |
+| Description          | Multiline character string                                             | No         |
+
+#### Tabs of Workstation
+
+| Tab                 | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| Contacts            | All the contacts for the Docking station            |
+| Documents           | All the documents for the Docking station           |
+| Physical interfaces | All the Physical interfaces for the Docking station |
+| Network devices     | All the Network devices for the Docking station     |
+| Provider contracts  | All the Provider contracts for the Docking station  |
+| Services            | All the services for the Docking station            |
 
 #### Automation
 
@@ -94,43 +124,368 @@ If the User is removed or changed it will also get removed or changed on the lin
 
 ### PC
 
+This extension enhances the class `PC` from the iTop extension `itop-endusers-devices`.
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+
 ### DockingStation
 
-![Docking Station Icon](br-peripherals/images/usb-hub.png)
+![Docking station](Screenshots/DockingStation.png)
+
+The class `DockingStation` is a child class of `ConnectableCI`.
+
+#### Properties of DockingStation
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| MAC Address          | MAC Address                                                            | No         |           |
+| IP Address           | Foreign key to an IP Address                                           | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of DockingStation
+
+| Tab                 | Description                                         |
+| ------------------- | --------------------------------------------------- |
+| Contacts            | All the contacts for the Docking station            |
+| Documents           | All the documents for the Docking station           |
+| Physical interfaces | All the Physical interfaces for the Docking station |
+| Network devices     | All the Network devices for the Docking station     |
+| Provider contracts  | All the Provider contracts for the Docking station  |
+| Services            | All the services for the Docking station            |
 
 ### Monitor
 
 ![Monitor Icon](br-peripherals/images/monitor.png)
 
+![Monitor](Screenshots/Monitor.png)
+
+The class `Monitor` is a child class of `Peripheral`.
+
+#### Properties of Monitor
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of Monitor
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
+
 ### Keyboard
 
 ![Keyboard Icon](br-peripherals/images/keyboard.png)
+
+The class `Keyboard` is a child class of `Peripheral`.
+
+#### Properties of Keyboard
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of Keyboard
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
 
 ### Mouse
 
 ![Mouse Icon](br-peripherals/images/mouse.png)
 
+The class `Mouse` is a child class of `Peripheral`.
+
+#### Properties of Mouse
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of Mouse
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
+
 ### Headset
 
 ![Headset Icon](br-peripherals/images/headset.png)
 
+The class `Headset` is a child class of `Peripheral`.
+
+#### Properties of Headset
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of Headset
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
+
 ### Printer
+
+This extension enhances the class `Printer` from the iTop extension `itop-endusers-devices`.
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low, Medium, High                                     | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
 
 ### Scanner
 
-![Scanner Icon](br-peripherals/images/scanner.png)
+![Scanner](Screenshots/Scanner.png)
+
+The class `Scanner` is a child class of `Peripheral`.
+
+#### Properties of Scanner
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| MAC Address          | MAC Address                                                            | No         |           |
+| IP Address           | Foreign key to an IP Address                                           | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of Scanner
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
 
 ### BarcodeScanner
 
-![Barcode Scanner Icon](br-peripherals/images/barcode-scanner.png)
+![BarcodeScanner](Screenshots/BarcodeScanner.png)
+
+The class `BarcodeScanner` is a child class of `Peripheral`.
+
+#### Properties of BarcodeScanner
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of BarcodeScanner
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
 
 ### MobilePhone
 
+This extension enhances the class `MobilePhone` from the iTop extension `itop-endusers-devices`.
+
+#### Properties of MobilePhone
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Phone number         | Phone number                                                           | No         |           |
+| IMEI                 | Alphanumeric string                                                    | No         |           |
+| Hardware PIN         | Alphanumeric string                                                    | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of MobilePhone
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
+
 ### IPPhone
+
+This extension enhances the class `IPPhone` from the iTop extension `itop-endusers-devices`.
+
+#### Properties of IPPhone
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Phone number         | Phone number                                                           | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of IPPhone
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
 
 ### ConferenceSystem
 
 ![Conference System Icon](br-peripherals/images/conference-system.png)
+
+The class `ConferenceSystem` is a child class of `TelephonyCI`.
+
+#### Properties of ConferenceSystem
+
+| Name                 | Type                                                                   | Mandatory? | Readonly? |
+| -------------------- | ---------------------------------------------------------------------- | ---------- | --------- |
+| Name                 | Alphanumeric string                                                    | Yes        |           |
+| Organization         | Foreign key to a(n) Organization                                       | Yes        |           |
+| Status               | Possible values: Production (default), Stock, Implementation, Obsolete | Yes        |           |
+| Business criticality | Possible values: Low (default), Medium, High                           | No         |           |
+| Location             | Foreign key to a Location                                              | No         |           |
+| Workstation          | Foreign key to a [Workstation](#workstation)                           | No         | Yes       |
+| Brand                | Foreign key to a Brand                                                 | No         |           |
+| Model                | Foreign key to a Model                                                 | No         |           |
+| Phone number         | Phone number                                                           | No         |           |
+| Serial number        | Alphanumeric string                                                    | No         |           |
+| Asset tag            | Alphanumeric string                                                    | No         |           |
+| Move to production   | Date (year-month-day)                                                  | No         |           |
+| Purchase date        | Date (year-month-day)                                                  | No         |           |
+| End of warranty      | Date (year-month-day)                                                  | No         |           |
+
+#### Tabs of ConferenceSystem
+
+| Tab                | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| Contacts           | All the contacts for the Docking station           |
+| Documents          | All the documents for the Docking station          |
+| Provider contracts | All the Provider contracts for the Docking station |
+| Services           | All the services for the Docking station           |
 
 ## iTop Compatibility
 
