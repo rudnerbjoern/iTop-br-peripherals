@@ -55,6 +55,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Keyboard/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Mouse/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:Headset/Attribute:workstation_id' => 'Arbeitsplatz',
+    'Class:Peripheral/Attribute:workstation_id' => 'Arbeitsplatz',
     'Class:TelephonyCI/Attribute:workstation_id' => 'Arbeitsplatz',
 
     // Class:Model

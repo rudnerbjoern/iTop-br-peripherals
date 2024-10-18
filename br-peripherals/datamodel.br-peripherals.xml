@@ -3227,7 +3227,6 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <item id="workstation_id" _delta="define">
                             <rank>25</rank>
                         </item>
-
                     </items>
                 </default_search>
                 <search>
