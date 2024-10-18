@@ -320,10 +320,10 @@
                         <![CDATA[public static function GetPeripherals()
 {
 return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
-                          'keyboard_id','mouse_id','headset_id',
-                          'mobilephone_id','telephonyA_id','telephonyB_id',
-                          'printerA_id','printerB_id',
-                          'scanner_id','barcodescanner_id');
+             'keyboard_id','mouse_id','headset_id',
+             'mobilephone_id','telephonyA_id','telephonyB_id',
+             'printerA_id','printerB_id',
+             'scanner_id','barcodescanner_id');
 }]]>
                     </code>
                 </method>
@@ -409,7 +409,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <![CDATA[public function UpdateCostCenterOnTarget($targetId, $costcenterId)
 {
     if ($targetId != 0) {
-        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id') && MetaModel::IsValidAttCode('Workstation', 'costcenter_id') {
+        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id')) {
             $oTargetObject = MetaModel::GetObject('FunctionalCI', $targetId, false);
             if (is_object($oTargetObject)) {
                 $oTargetObject->Set('costcenter_id', $costcenterId);
@@ -570,6 +570,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         // record in the local memory object that the CostCenter was changed
         $this->bCostCenterChanged = true;
     }
+
     parent::OnUpdate();
 }]]>
                     </code>
@@ -583,6 +584,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
 {
     $bUpdateLocations = self::GetUpdateLocations();
     $bUpdateContacts = self::GetUpdateContacts();
+    $bUpdateCostCenters = self::GetUpdateCostCenters();
     $aPeripherals = self::GetPeripherals();
 
     // The Workstation is updated in DB and assigned Peripherals changed
@@ -637,9 +639,12 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
     // change costcenter on assigned objects when costcenter of workstation is changed
     if (isset($this->bCostCenterChanged) && $bUpdateCostCenters) {
         // only run update when CostCenter-Extension is installed
-        if (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
+        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
             if (($this->Get('costcenter_id') != 0))
-                $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
+                foreach ($aPeripherals as $sPeripheral) {
+                    if ($this->Get($sPeripheral) != 0)
+                        $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
+                }
     }
 
     parent::AfterUpdate();
