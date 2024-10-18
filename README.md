@@ -42,20 +42,30 @@ $MyModuleSettings = array(
    'br-peripherals' => array (
       'update_contacts_from_workstation' => 'false',
       'update_locations_from_workstation' => 'false',
+      'update_costcenters_from_workstation' => 'false',
    ),
 );
 ```
 
 ### update_contacts_from_workstation
 
-Specify if the user of a Workstation should be added to the Contacts of the assigned peripheral devices.
+Decide whether the user of a workstation should be added to the contacts of the assigned peripheral devices.
 
 * `true`
 * `false` (default)
 
 ### update_locations_from_workstation
 
-Specify if the location of peripheral devices assigned to a Workstation should be set to the same location as the workstation.
+Decide whether the location of peripheral devices assigned to a workstation should match the location of the workstation.
+
+* `true`
+* `false` (default)
+
+### update_costcenters_from_workstation
+
+Decide whether the cost center of peripheral devices assigned to a workstation should match the workstation's cost center.
+
+Additionally, ensure that the iTop extension [iTop-br-costcenter](https://github.com/rudnerbjoern/iTop-br-costcenter) is installed for this functionality.
 
 * `true`
 * `false` (default)
