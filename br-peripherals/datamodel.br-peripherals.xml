@@ -413,7 +413,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         <![CDATA[public function UpdateCostCenterOnTarget($targetId, $costcenterId)
 {
     if ($targetId != 0) {
-        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id') && MetaModel::IsValidAttCode('Workstation', 'costcenter_id') {
+        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id') && MetaModel::IsValidAttCode('Workstation', 'costcenter_id')) {
             $oTargetObject = MetaModel::GetObject('FunctionalCI', $targetId, false);
             if (is_object($oTargetObject)) {
                 $oTargetObject->Set('costcenter_id', $costcenterId);
