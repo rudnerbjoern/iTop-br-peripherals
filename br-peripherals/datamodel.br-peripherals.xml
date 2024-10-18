@@ -588,6 +588,7 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
 {
     $bUpdateLocations = self::GetUpdateLocations();
     $bUpdateContacts = self::GetUpdateContacts();
+    $bUpdateCostCenters = self::GetUpdateCostCenters();
     $aPeripherals = self::GetPeripherals();
 
     // The Workstation is updated in DB and assigned Peripherals changed
