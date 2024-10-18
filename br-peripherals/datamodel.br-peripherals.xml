@@ -79,6 +79,21 @@
                     <extkey_attcode>pc_id</extkey_attcode>
                     <target_attcode>name</target_attcode>
                 </field>
+                <field id="pcB_id" xsi:type="AttributeExternalKey">
+                    <filter><![CDATA[SELECT PC AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
+                    <dependencies>
+                        <attribute id="org_id" />
+                    </dependencies>
+                    <sql>pcB_id</sql>
+                    <target_class>PC</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                    <allow_target_creation>false</allow_target_creation>
+                </field>
+                <field id="pcB_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>pcB_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
                 <field id="monitorA_id" xsi:type="AttributeExternalKey">
                     <filter><![CDATA[SELECT Monitor AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
@@ -319,7 +334,7 @@
                     <code>
                         <![CDATA[public static function GetPeripherals()
 {
-return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
+return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
              'keyboard_id','mouse_id','headset_id',
              'mobilephone_id','telephonyA_id','telephonyB_id',
              'printerA_id','printerB_id',
@@ -482,6 +497,12 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
         // disconnect the old Workstation
         $this->DisconnectTargetFromWorkstation($this->GetOriginal('pc_id'));
     }
+    if (array_key_exists('pcB_id', $aChanges)) {
+        // record in the local memory object that the secondary PC was changed
+        $this->bPCBChanged = true;
+        // disconnect the old Workstation
+        $this->DisconnectTargetFromWorkstation($this->GetOriginal('pcB_id'));
+    }
     if (array_key_exists('monitorA_id', $aChanges)) {
         // record in the local memory object that the MonitorA was changed
         $this->bMonitorAChanged = true;
@@ -590,6 +611,8 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
         $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
+    if (isset($this->bPCBChanged))
+        $this->ConnectTargetToWorkstation($this->Get('pcB_id'), $bUpdateLocations);
     if (isset($this->bMonitorAChanged))
         $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
     if (isset($this->bMonitorBChanged))
@@ -717,6 +740,9 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                                     <items>
                                         <item id="pc_id">
                                             <rank>10</rank>
+                                        </item>
+                                        <item id="pcB_id">
+                                            <rank>15</rank>
                                         </item>
                                         <item id="monitorA_id">
                                             <rank>20</rank>

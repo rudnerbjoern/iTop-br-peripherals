@@ -89,6 +89,7 @@ The class `Workstation` is a child class of `PhysicalDevice`.
 | Location             | Foreign key to a Location                                              | No         |
 | User                 | Foreign key to a Person/Contact                                        | No         |
 | PC                   | Foreign key to a [PC](#pc)                                             | Yes        |
+| Secondary PC         | Foreign key to a [PC](#pc)                                             | No         |
 | Docking Station      | Foreign key to a [Docking Station](#dockingstation)                    | No         |
 | Monitor A            | Foreign key to a [Monitor](#monitor)                                   | No         |
 | Monitor B            | Foreign key to a [Monitor](#monitor)                                   | No         |
