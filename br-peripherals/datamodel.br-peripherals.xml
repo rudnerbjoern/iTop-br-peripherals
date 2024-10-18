@@ -69,7 +69,7 @@
                 * no or one Printer
                 -->
                 <field id="pc_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT PC AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT PC AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -84,7 +84,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="monitorA_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Monitor AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Monitor AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -99,7 +99,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="monitorB_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Monitor AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Monitor AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -114,7 +114,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="dockingstation_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT DockingStation AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT DockingStation AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -129,7 +129,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="keyboard_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Keyboard AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Keyboard AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -144,7 +144,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="mouse_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Mouse AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Mouse AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -159,7 +159,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="headset_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Headset AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Headset AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -174,7 +174,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="mobilephone_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT MobilePhone AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT MobilePhone AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -189,7 +189,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="telephonyA_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT TelephonyCI AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT TelephonyCI AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -204,7 +204,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="telephonyB_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT TelephonyCI AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT TelephonyCI AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -219,7 +219,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="printerA_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Printer AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Printer AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -234,7 +234,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="printerB_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Printer AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Printer AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -249,7 +249,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="scanner_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT Scanner AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT Scanner AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
@@ -264,7 +264,7 @@
                     <target_attcode>name</target_attcode>
                 </field>
                 <field id="barcodescanner_id" xsi:type="AttributeExternalKey">
-                    <filter><![CDATA[SELECT BarcodeScanner AS obj WHERE obj.org_id = :this->org_id AND obj.workstation_id = 0]]></filter>
+                    <filter><![CDATA[SELECT BarcodeScanner AS obj JOIN Organization AS child ON obj.org_id = child.id JOIN Organization AS root ON child.parent_id BELOW root.id WHERE root.id=:this->org_id AND obj.workstation_id = 0]]></filter>
                     <dependencies>
                         <attribute id="org_id" />
                     </dependencies>
