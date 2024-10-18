@@ -14,6 +14,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Workstation+' => 'Ein Arbeitsplatz',
     'Class:Workstation/Attribute:user_id' => 'Benutzer',
     'Class:Workstation/Attribute:pc_id' => 'PC',
+    'Class:Workstation/Attribute:pcB_id' => 'Zweiter PC',
     'Class:Workstation/Attribute:monitorA_id' => 'Bildschirm A',
     'Class:Workstation/Attribute:monitorB_id' => 'Bildschirm B',
     'Class:Workstation/Attribute:dockingstation_id' => 'Docking Station',
