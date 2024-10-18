@@ -3035,6 +3035,13 @@ return array('pc_id','monitorA_id','monitorB_id','dockingstation_id',
                         </item>
                     </items>
                 </details>
+                <default_search>
+                    <items>
+                        <item id="workstation_id" _delta="define">
+                            <rank>25</rank>
+                        </item>
+                    </items>
+                </default_search>
                 <search>
                     <items>
                         <item id="workstation_id" _delta="define">
