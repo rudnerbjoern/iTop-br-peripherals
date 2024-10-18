@@ -3,14 +3,14 @@
 /**
  * @copyright   Copyright (C) 2024 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-10-16
+ * @version     2024-10-18
  *
  * iTop module definition file
  */
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-peripherals/2.7.9',
+    'br-peripherals/2.7.10',
     array(
         // Identification
         //
