@@ -296,4 +296,20 @@
             </presentation>
         </class>
     </classes>
+    <menus>
+        <menu id="EndUserSpace" xsi:type="DashboardMenuNode" _delta="must_exist">
+            <definition>
+                <cells>
+                    <cell id="peripherals-900" _delta="must_exist">
+                        <dashlets>
+                            <dashlet id="peripherals-912" xsi:type="DashletBadge" _delta="define">
+                                <rank>12</rank>
+                                <class>CostCenter</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                </cells>
+            </definition>
+        </menu>
+    </menus>
 </itop_design>
