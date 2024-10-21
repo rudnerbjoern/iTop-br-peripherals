@@ -3523,6 +3523,7 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
         </class>
     </classes>
     <menus>
+        <!-- add Classes to Configuration Management -->
         <menu id="ConfigManagementOverview" xsi:type="DashboardMenuNode" _delta="must_exist">
             <definition>
                 <cells>
@@ -3564,6 +3565,132 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                                 <rank>70</rank>
                                 <class>BarcodeScanner</class>
                             </dashlet>
+                        </dashlets>
+                    </cell>
+                </cells>
+            </definition>
+        </menu>
+        <!-- add additional Menu for End-User devices -->
+        <menu id="EndUserSpace" xsi:type="DashboardMenuNode" _delta="define">
+            <rank>1.100</rank>
+            <parent>ConfigManagement</parent>
+            <definition>
+                <layout>DashboardLayoutOneCol</layout>
+                <title />
+                <cells>
+                    <cell id="peripherals-100">
+                        <rank>1</rank>
+                        <dashlets>
+                            <dashlet id="peripherals-101" xsi:type="DashletHeaderStatic">
+                                <rank>1</rank>
+                                <title>Menu:EndUserSpace:Workstation</title>
+                                <icon>br-peripherals/images/workstation.png</icon>
+                            </dashlet>
+                            <dashlet id="peripherals-111" xsi:type="DashletBadge">
+                                <rank>11</rank>
+                                <class>Workstation</class>
+                            </dashlet>
+                            <dashlet id="peripherals-112" xsi:type="DashletBadge">
+                                <rank>12</rank>
+                                <class>PC</class>
+                            </dashlet>
+                            <dashlet id="peripherals-113" xsi:type="DashletBadge">
+                                <rank>13</rank>
+                                <class>DockingStation</class>
+                            </dashlet>
+                            <dashlet id="peripherals-114" xsi:type="DashletBadge">
+                                <rank>14</rank>
+                                <class>Monitor</class>
+                            </dashlet>
+                            <dashlet id="peripherals-115" xsi:type="DashletBadge">
+                                <rank>15</rank>
+                                <class>Keyboard</class>
+                            </dashlet>
+                            <dashlet id="peripherals-116" xsi:type="DashletBadge">
+                                <rank>16</rank>
+                                <class>Mouse</class>
+                            </dashlet>
+                            <dashlet id="peripherals-117" xsi:type="DashletBadge">
+                                <rank>17</rank>
+                                <class>Headset</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                    <cell id="peripherals-200">
+                        <rank>2</rank>
+                        <dashlets>
+                            <dashlet id="peripherals-201" xsi:type="DashletHeaderStatic">
+                                <rank>1</rank>
+                                <title>Menu:EndUserSpace:Phone</title>
+                                <icon>itop-endusers-devices/images/ipphone.png</icon>
+                            </dashlet>
+                            <dashlet id="peripherals-211" xsi:type="DashletBadge">
+                                <rank>11</rank>
+                                <class>Phone</class>
+                            </dashlet>
+                            <dashlet id="peripherals-212" xsi:type="DashletBadge">
+                                <rank>12</rank>
+                                <class>IPPhone</class>
+                            </dashlet>
+                            <dashlet id="peripherals-213" xsi:type="DashletBadge">
+                                <rank>14</rank>
+                                <class>ConferenceSystem</class>
+                            </dashlet>
+                            <dashlet id="peripherals-214" xsi:type="DashletBadge">
+                                <rank>14</rank>
+                                <class>MobilePhone</class>
+                            </dashlet>
+                            <dashlet id="peripherals-215" xsi:type="DashletBadge">
+                                <rank>15</rank>
+                                <class>Tablet</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                    <cell id="peripherals-300">
+                        <rank>3</rank>
+                        <dashlets>
+                            <dashlet id="peripherals-301" xsi:type="DashletHeaderStatic">
+                                <rank>1</rank>
+                                <title>Menu:EndUserSpace:Printer</title>
+                                <icon>itop-endusers-devices/images/printer.png</icon>
+                            </dashlet>
+                            <dashlet id="peripherals-311" xsi:type="DashletBadge">
+                                <rank>11</rank>
+                                <class>Printer</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                    <cell id="peripherals-400">
+                        <rank>4</rank>
+                        <dashlets>
+                            <dashlet id="peripherals-401" xsi:type="DashletHeaderStatic">
+                                <rank>1</rank>
+                                <title>Menu:EndUserSpace:Scanner</title>
+                                <icon>br-peripherals/images/scanner.png</icon>
+                            </dashlet>
+                            <dashlet id="peripherals-411" xsi:type="DashletBadge">
+                                <rank>11</rank>
+                                <class>Scanner</class>
+                            </dashlet>
+                            <dashlet id="peripherals-412" xsi:type="DashletBadge">
+                                <rank>12</rank>
+                                <class>BarcodeScanner</class>
+                            </dashlet>
+                        </dashlets>
+                    </cell>
+                    <cell id="peripherals-900">
+                        <rank>9</rank>
+                        <dashlets>
+                            <dashlet id="peripherals-901" xsi:type="DashletHeaderStatic">
+                                <rank>1</rank>
+                                <title>Menu:ConfigManagement:Misc</title>
+                                <icon>itop-config-mgmt/images/middleware.png</icon>
+                            </dashlet>
+                            <dashlet id="peripherals-911" xsi:type="DashletBadge">
+                                <rank>11</rank>
+                                <class>Peripheral</class>
+                            </dashlet>
+                            <!-- CostCenter -->
                         </dashlets>
                     </cell>
                 </cells>

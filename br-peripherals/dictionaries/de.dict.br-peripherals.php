@@ -76,4 +76,11 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
     'Class:Model/Attribute:type/Value:BarcodeScanner+' => 'Barcode Scanner',
     'Class:Model/Attribute:type/Value:ConferenceSystem' => 'Konferenzsystem',
     'Class:Model/Attribute:type/Value:ConferenceSystem+' => 'Konferenzsystem',
+
+    // Menu
+    'Menu:EndUserSpace' => 'Endbenutzer Raum',
+    'Menu:EndUserSpace:Workstation' => 'Arbeitsplätze & PCs',
+    'Menu:EndUserSpace:Phone' => 'Telefonie',
+    'Menu:EndUserSpace:Printer' => 'Drucker',
+    'Menu:EndUserSpace:Scanner' => 'Scanner',
 ));
