@@ -40,9 +40,12 @@ After installation, it is possible to change some settings in the iTop configura
  */
 $MyModuleSettings = array(
    'br-peripherals' => array (
-      'update_contacts_from_workstation' => 'false',
-      'update_locations_from_workstation' => 'false',
-      'update_costcenters_from_workstation' => 'false',
+      // update Contact of linked peripherals to the User of the workstation
+      'update_contacts_from_workstation' => 'true',
+      // update location of linked peripherals to the location of the workstation
+      'update_locations_from_workstation' => 'true',
+      // only available in conjunction with br-costcenter; update CostCenter of linked peripherals to the CostCenter of the workstation
+      'update_costcenters_from_workstation' => 'true',
    ),
 );
 ```
@@ -504,7 +507,7 @@ The branch [2.7.10](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/ito
 
 The branch [main](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/main) will only be compatible to iTop 3.1 and above.
 
-The extension was tested on iTop 2.7.10, 3.1.1 and 3.2.0-2.
+The extension was tested on iTop 2.7.10, 3.1.1 and 3.2.1.
 
 ## Attribution
 
