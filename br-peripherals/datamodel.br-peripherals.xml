@@ -302,8 +302,10 @@
                     <code>
                         <![CDATA[public static function GetUpdateLocations()
 {
-    $sUpdateLocations = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_locations_from_workstation', 'false');
-    return (bool) filter_var($sUpdateLocations, FILTER_VALIDATE_BOOLEAN);
+    return filter_var(
+        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_locations_from_workstation', 'true'),
+        FILTER_VALIDATE_BOOLEAN
+    );
 }]]>
                     </code>
                 </method>
@@ -314,8 +316,10 @@
                     <code>
                         <![CDATA[public static function GetUpdateContacts()
 {
-    $sUpdateContacts = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contacts_from_workstation', 'false');
-    return (bool) filter_var($sUpdateContacts, FILTER_VALIDATE_BOOLEAN);
+    return filter_var(
+        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contacts_from_workstation', 'true'),
+        FILTER_VALIDATE_BOOLEAN
+    );
 }]]>
                     </code>
                 </method>
@@ -326,8 +330,10 @@
                     <code>
                         <![CDATA[public static function GetUpdateCostCenters()
 {
-    $sUpdateCostCenters = MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_costcenters_from_workstation', 'false');
-    return (bool) filter_var($sUpdateCostCenters, FILTER_VALIDATE_BOOLEAN);
+    return filter_var(
+        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_costcenters_from_workstation', 'true'),
+        FILTER_VALIDATE_BOOLEAN
+    );
 }]]>
                     </code>
                 </method>
@@ -338,11 +344,16 @@
                     <code>
                         <![CDATA[public static function GetPeripherals()
 {
-return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
-             'keyboard_id','mouse_id','headset_id',
-             'mobilephone_id','telephonyA_id','telephonyB_id',
-             'printerA_id','printerB_id',
-             'scanner_id','barcodescanner_id');
+    return [
+        'pc_id','pcB_id',
+        'monitorA_id','monitorB_id',
+        'dockingstation_id',
+        'keyboard_id','mouse_id','headset_id',
+        'mobilephone_id',
+        'telephonyA_id','telephonyB_id',
+        'printerA_id','printerB_id',
+        'scanner_id','barcodescanner_id',
+    ];
 }]]>
                     </code>
                 </method>
@@ -353,15 +364,16 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function ConnectTargetToWorkstation($targetId, $updateLocation)
 {
-    if ($targetId != 0) {
-        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
-        if (is_object($oTargetObject)) {
-            $oTargetObject->Set('workstation_id', $this->GetKey());
-            if ($updateLocation)
-                $oTargetObject->Set('location_id', $this->Get('location_id'));
-            $oTargetObject->DBUpdate();
-        }
+    $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
+    if (!$oTargetObject) {
+        return;
     }
+
+    $oTargetObject->Set('workstation_id', $this->GetKey());
+    if ($updateLocation) {
+        $oTargetObject->Set('location_id', $this->Get('location_id'));
+    }
+    $oTargetObject->DBUpdate();
 }]]>
                     </code>
                 </method>
@@ -372,13 +384,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function DisconnectTargetFromWorkstation($targetId)
 {
-    if ($targetId != 0) {
-        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
-        if (is_object($oTargetObject)) {
-            $oTargetObject->Set('workstation_id', '');
-            $oTargetObject->DBUpdate();
-        }
+    $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
+    if (!$oTargetObject) {
+        return;
     }
+
+    $oTargetObject->Set('workstation_id', '');
+    $oTargetObject->DBUpdate();
 }]]>
                     </code>
                 </method>
@@ -389,14 +401,24 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function ConnectTargetToContact($targetId, $contactId)
 {
-    if (($contactId != 0 ) && ($targetId != 0)) {
-        $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
-        $oSet = new DBObjectSet($oSearch, array(), array('contact' => $contactId, 'functionalci' => $targetId));
-        if ($oSet->Count()==0) {
-            $oLnk = MetaModel::NewObject("lnkContactToFunctionalCI", array('contact_id' => $contactId, 'functionalci_id' => $targetId));
-            $oLnk->DBInsert();
-        }
+    if (empty($targetId) || empty($contactId)) {
+        return;
     }
+
+    $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
+
+    $oSet = new DBObjectSet($oSearch, [], [
+        'contact' => $contactId,
+        'functionalci' => $targetId
+    ]);
+    if ($oSet->Count() === 0) {
+        $oLnk = MetaModel::NewObject('lnkContactToFunctionalCI', [
+            'contact_id' => $contactId,
+            'functionalci_id' => $targetId
+        ]);
+        $oLnk->DBInsert();
+    }
+
 }]]>
                     </code>
                 </method>
@@ -409,7 +431,7 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
 {
     if (($contactId != 0 ) && ($targetId != 0)) {
         $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
-        $oSet = new DBObjectSet($oSearch, array(), array('contact' => $contactId, 'functionalci' => $targetId));
+        $oSet = new DBObjectSet($oSearch, [], ['contact' => $contactId, 'functionalci' => $targetId]);
         // Delete any found
         if ($oSet->Count()>0) {
             while($oLnk = $oSet->Fetch()) {
@@ -446,27 +468,32 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function AfterInsert()
 {
-    $bUpdateLocations = self::GetUpdateLocations();
-    $bUpdateContacts = self::GetUpdateContacts();
-    $bUpdateCostCenters = self::GetUpdateCostCenters();
-    $aPeripherals = self::GetPeripherals();
+    $bUpdateLocations    = self::GetUpdateLocations();
+    $bUpdateContacts     = self::GetUpdateContacts();
+    $bUpdateCostCenters  = self::GetUpdateCostCenters();
+    $aPeripherals        = self::GetPeripherals();
 
-    if (($this->Get('user_id') != 0))
-        $oUserId = $this->Get('user_id');
-    if (MetaModel::IsValidAttCode('Workstation', 'costcenter_id'))
-        if (($this->Get('costcenter_id') != 0))
-            $oCostCenterId = $this->Get('costcenter_id');
+    $oUserId        = ($this->Get('user_id') != 0)
+        ? $this->Get('user_id')
+        : null;
+    $oCostCenterId  = (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && $this->Get('costcenter_id') != 0)
+        ? $this->Get('costcenter_id')
+        : null;
 
-    if ($bUpdateContacts && isset($oUserId))
+    if ($bUpdateContacts && $oUserId !== null) {
         $this->ConnectTargetToContact($this->GetKey(), $oUserId);
+    }
 
     foreach ($aPeripherals as $sPeripheral) {
-        if ($this->Get($sPeripheral) != 0) {
-            $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
-            if ($bUpdateContacts && isset($oUserId))
-                $this->ConnectTargetToContact($this->Get($sPeripheral), $oUserId);
-            if ($bUpdateCostCenters && isset($oCostCenterId))
-                $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $oCostCenterId);
+        $iPeripheralId = $this->Get($sPeripheral);
+        if ($iPeripheralId != 0) {
+            $this->ConnectTargetToWorkstation($iPeripheralId, $bUpdateLocations);
+            if ($bUpdateContacts && $oUserId !== null) {
+                $this->ConnectTargetToContact($iPeripheralId, $oUserId);
+            }
+            if ($bUpdateCostCenters && $oCostCenterId !== null) {
+                $this->UpdateCostCenterOnTarget($iPeripheralId, $oCostCenterId);
+            }
         }
      }
 
@@ -481,117 +508,60 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function OnUpdate()
 {
+    $aChanges     = $this->ListChanges();
     $aPeripherals = self::GetPeripherals();
 
-    $aChanges = $this->ListChanges();
     if (array_key_exists('user_id', $aChanges)) {
         // record in the local memory object that the User was changed
         $this->bUserChanged = true;
         $oOriginalUserId = $this->GetOriginal('user_id');
 
         $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
+
         foreach ($aPeripherals as $sPeripheral) {
-            if ($this->GetOriginal($sPeripheral) != 0)
-                $this->DisconnectTargetFromContact($this->GetOriginal($sPeripheral), $oOriginalUserId);
+            $iOriginalPeripheralId = $this->GetOriginal($sPeripheral);
+            if (!empty($iOriginalPeripheralId)) {
+                $this->DisconnectTargetFromContact($iOriginalPeripheralId, $oOriginalUserId);
+            }
         }
     }
-    if (array_key_exists('pc_id', $aChanges)) {
-        // record in the local memory object that the PC was changed
-        $this->bPCChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('pc_id'));
+
+    // Generisches Mapping für Peripheral-Felder → Flag-Properties
+    $aPeripheralFlags = [
+        'pc_id'             => 'bPCChanged',
+        'pcB_id'            => 'bPCBChanged',
+        'monitorA_id'       => 'bMonitorAChanged',
+        'monitorB_id'       => 'bMonitorBChanged',
+        'dockingstation_id' => 'bDockingStationChanged',
+        'keyboard_id'       => 'bKeyboardChanged',
+        'mouse_id'          => 'bMouseChanged',
+        'headset_id'        => 'bHeadsetChanged',
+        'mobilephone_id'    => 'bMobilePhoneChanged',
+        'telephonyA_id'     => 'bTelephonyAChanged',
+        'telephonyB_id'     => 'bTelephonyBChanged',
+        'printerA_id'       => 'bPrinterAChanged',
+        'printerB_id'       => 'bPrinterBChanged',
+        'scanner_id'        => 'bScannerChanged',
+        'barcodescanner_id' => 'bBarcodeScannerChanged',
+    ];
+
+    foreach ($aPeripheralFlags as $sAttCode => $sFlagProperty) {
+        if (isset($aChanges[$sAttCode])) {
+            // record in local memory object that the Property was changed
+            $this->$sFlagProperty = true;
+            // disconnect the old Workstation
+            $this->DisconnectTargetFromWorkstation($this->GetOriginal($sAttCode));
+        }
     }
-    if (array_key_exists('pcB_id', $aChanges)) {
-        // record in the local memory object that the secondary PC was changed
-        $this->bPCBChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('pcB_id'));
-    }
-    if (array_key_exists('monitorA_id', $aChanges)) {
-        // record in the local memory object that the MonitorA was changed
-        $this->bMonitorAChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('monitorA_id'));
-    }
-    if (array_key_exists('monitorB_id', $aChanges)) {
-        // record in the local memory object that the MonitorB was changed
-        $this->bMonitorBChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('monitorB_id'));
-    }
-    if (array_key_exists('dockingstation_id', $aChanges)) {
-        // record in the local memory object that the DockingStation was changed
-        $this->bDockingStationChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('dockingstation_id'));
-    }
-    if (array_key_exists('keyboard_id', $aChanges)) {
-        // record in the local memory object that the Keyboard was changed
-        $this->bKeyboardChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('keyboard_id'));
-    }
-    if (array_key_exists('mouse_id', $aChanges)) {
-        // record in the local memory object that the Mouse was changed
-        $this->bMouseChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('mouse_id'));
-    }
-    if (array_key_exists('headset_id', $aChanges)) {
-        // record in the local memory object that the Headset was changed
-        $this->bHeadsetChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('headset_id'));
-    }
-    if (array_key_exists('mobilephone_id', $aChanges)) {
-        // record in the local memory object that the MobilePhone was changed
-        $this->bMobilePhoneChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('mobilephone_id'));
-    }
-    if (array_key_exists('telephonyA_id', $aChanges)) {
-        // record in the local memory object that the TelephonyA was changed
-        $this->bTelephonyAChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('telephonyA_id'));
-    }
-    if (array_key_exists('telephonyB_id', $aChanges)) {
-        // record in the local memory object that the TelephonyB was changed
-        $this->bTelephonyBChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('telephonyB_id'));
-    }
-    if (array_key_exists('printerA_id', $aChanges)) {
-        // record in the local memory object that the PrinterA was changed
-        $this->bPrinterAChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('printerA_id'));
-    }
-    if (array_key_exists('printerB_id', $aChanges)) {
-        // record in the local memory object that the PrinterB was changed
-        $this->bPrinterBChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('printerB_id'));
-    }
-    if (array_key_exists('scanner_id', $aChanges)) {
-        // record in the local memory object that the Scanner was changed
-        $this->bScannerChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('scanner_id'));
-    }
-    if (array_key_exists('barcodescanner_id', $aChanges)) {
-        // record in the local memory object that the BarcodeScanner was changed
-        $this->bBarcodeScannerChanged = true;
-        // disconnect the old Workstation
-        $this->DisconnectTargetFromWorkstation($this->GetOriginal('barcodescanner_id'));
-    }
+
     // change locations on assigned objects when location of workstation is changed
-    if (array_key_exists('location_id', $aChanges)) {
+    if (isset($aChanges['location_id'])) {
         // record in the local memory object that the Location was changed
         $this->bLocationChanged = true;
     }
+
     // change costcenter on assigned objects when costcenter of workstation is changed
-    if (array_key_exists('costcenter_id', $aChanges)) {
+    if (isset($aChanges['costcenter_id'])) {
         // record in the local memory object that the CostCenter was changed
         $this->bCostCenterChanged = true;
     }
@@ -607,10 +577,10 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function AfterUpdate()
 {
-    $bUpdateLocations = self::GetUpdateLocations();
-    $bUpdateContacts = self::GetUpdateContacts();
+    $bUpdateLocations   = self::GetUpdateLocations();
+    $bUpdateContacts    = self::GetUpdateContacts();
     $bUpdateCostCenters = self::GetUpdateCostCenters();
-    $aPeripherals = self::GetPeripherals();
+    $aPeripherals       = self::GetPeripherals();
 
     // The Workstation is updated in DB and assigned Peripherals changed
     if (isset($this->bPCChanged))
@@ -685,15 +655,16 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <code>
                         <![CDATA[public function OnDelete()
 {
-    $aPeripherals = self::GetPeripherals();
-
     $aChanges = $this->ListChanges();
-    if (array_key_exists('user_id', $aChanges))
-        $this->DisconnectTargetFromContact($this->GetKey(), $this->Get('user_id'));
 
-    foreach ($aPeripherals as $sPeripheral) {
-        if (array_key_exists($sPeripheral, $aChanges))
+    if (!empty($aChanges['user_id'])) {
+        $this->DisconnectTargetFromContact($this->GetKey(), $this->Get('user_id'));
+    }
+
+    foreach (self::GetPeripherals() as $sPeripheral) {
+        if (!empty($aChanges[$sPeripheral])) {
             $this->DisconnectTargetFromWorkstation($this->Get(sPeripheral));
+        }
     }
 
     parent::OnDelete();
@@ -885,13 +856,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -899,13 +870,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -955,13 +926,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -969,13 +940,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -1052,13 +1023,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -1066,13 +1037,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -1151,13 +1122,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -1165,13 +1136,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -1422,13 +1393,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -1436,13 +1407,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -1678,13 +1649,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -1692,13 +1663,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -1934,13 +1905,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -1948,13 +1919,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -2190,13 +2161,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -2204,13 +2175,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -2446,13 +2417,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags">
@@ -2460,13 +2431,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -2702,13 +2673,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags">
@@ -2716,13 +2687,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -2959,13 +2930,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags">
@@ -2973,13 +2944,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -3178,13 +3149,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -3192,13 +3163,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
@@ -3341,13 +3312,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState = '')
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState));
-						    return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-					    }]]>
+                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
+        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+}]]>
                     </code>
                 </method>
                 <method id="GetInitialStateAttributeFlags" _delta="define">
@@ -3355,13 +3326,13 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                     <access>public</access>
                     <type>Overload-DBObject</type>
                     <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = array())
-					    {
-						    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-						    if (($sAttCode == 'workstation_id'))
-							    return(OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons));
-						    return parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-					    }]]>
+                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
+{
+    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
+    return ($sAttCode === 'workstation_id')
+        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
+        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
+}]]>
                     </code>
                 </method>
             </methods>
