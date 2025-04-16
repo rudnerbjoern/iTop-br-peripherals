@@ -1,6 +1,6 @@
 # iTop-br-peripherals
 
-Copyright (c) 2024 Björn Rudner
+Copyright (c) 2024-2025 Björn Rudner
 [![License](https://img.shields.io/github/license/rudnerbjoern/iTop-br-peripherals)](https://github.com/rudnerbjoern/iTop-br-peripherals/blob/main/LICENSE)
 
 ## What?
