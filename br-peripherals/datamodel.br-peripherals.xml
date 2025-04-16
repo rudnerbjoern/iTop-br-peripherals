@@ -3697,17 +3697,21 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
             </definition>
         </menu>
     </menus>
-    <group id="Configuration">
-        <classes>
-            <class id="Workstation" _delta="define" />
-            <class id="DockingStation" _delta="define" />
-            <class id="Monitor" _delta="define" />
-            <class id="Keyboard" _delta="define" />
-            <class id="Mouse" _delta="define" />
-            <class id="Headset" _delta="define" />
-            <class id="Scanner" _delta="define" />
-            <class id="BarcodeScanner" _delta="define" />
-            <class id="ConferenceSystem" _delta="define" />
-        </classes>
-    </group>
+    <user_rights>
+        <groups>
+            <group id="Configuration">
+                <classes>
+                    <class id="Workstation" _delta="define" />
+                    <class id="DockingStation" _delta="define" />
+                    <class id="Monitor" _delta="define" />
+                    <class id="Keyboard" _delta="define" />
+                    <class id="Mouse" _delta="define" />
+                    <class id="Headset" _delta="define" />
+                    <class id="Scanner" _delta="define" />
+                    <class id="BarcodeScanner" _delta="define" />
+                    <class id="ConferenceSystem" _delta="define" />
+                </classes>
+            </group>
+        </groups>
+    </user_rights>
 </itop_design>
