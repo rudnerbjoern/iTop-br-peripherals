@@ -41,9 +41,7 @@ SetupWebPage::AddModule(
         // Default settings
         //
         'settings' => array(
-            'update_contacts_from_workstation' => 'false', // update Contact of linked peripherals to the User of the workstation
-            'update_locations_from_workstation' => 'false', // update location of linked peripherals to the location of the workstation
-            'update_costcenters_from_workstation' => 'false', // update CostCenter of linked peripherals to the CostCenter of the workstation
+            // defined in datamodel.br-peripherals.xml
         ),
     )
 );

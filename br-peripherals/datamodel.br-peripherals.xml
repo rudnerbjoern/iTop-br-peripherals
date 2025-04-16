@@ -19,8 +19,8 @@
                         <attribute id="name" />
                     </attributes>
                     <complementary_attributes>
-                        <attribute id="organization_name"></attribute>
-                        <attribute id="location_name"></attribute>
+                        <attribute id="organization_name" />
+                        <attribute id="location_name" />
                     </complementary_attributes>
                 </naming>
                 <fields_semantic>
@@ -3274,7 +3274,7 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
                                     </items>
                                 </item>
                             </items>
-                        </item >
+                        </item>
                         <item id="col:col2" _delta="define">
                             <rank>20</rank>
                             <items>
@@ -3714,4 +3714,12 @@ return array('pc_id','pcB_id','monitorA_id','monitorB_id','dockingstation_id',
             </group>
         </groups>
     </user_rights>
+    <module_parameters>
+        <parameters id="br-peripherals" _delta="define">
+            <!-- update Contact of linked peripherals to the User of the workstation -->
+            <update_contacts_from_workstation type="bool">true</update_contacts_from_workstation>
+            <!-- update location of linked peripherals to the location of the workstation -->
+            <update_locations_from_workstation type="bool">true</update_locations_from_workstation>
+        </parameters>
+    </module_parameters>
 </itop_design>
