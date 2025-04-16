@@ -312,4 +312,10 @@
             </definition>
         </menu>
     </menus>
+    <module_parameters>
+        <parameters id="br-peripherals" _delta="must_exist">
+            <!-- update CostCenter of linked peripherals to the CostCenter of the workstation -->
+            <update_costcenters_from_workstation type="bool" _delta="define">true</update_costcenters_from_workstation>
+        </parameters>
+    </module_parameters>
 </itop_design>

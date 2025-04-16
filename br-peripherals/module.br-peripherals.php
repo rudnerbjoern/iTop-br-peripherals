@@ -1,16 +1,16 @@
 <?php
 
 /**
- * @copyright   Copyright (C) 2024 Björn Rudner
+ * @copyright   Copyright (C) 2024-2025 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2024-10-18
+ * @version     2025-04-16
  *
  * iTop module definition file
  */
 
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-peripherals/3.1.10',
+    'br-peripherals/3.1.11',
     array(
         // Identification
         //
@@ -41,9 +41,7 @@ SetupWebPage::AddModule(
         // Default settings
         //
         'settings' => array(
-            'update_contacts_from_workstation' => 'false', // update Contact of linked peripherals to the User of the workstation
-            'update_locations_from_workstation' => 'false', // update location of linked peripherals to the location of the workstation
-            'update_costcenters_from_workstation' => 'false', // update CostCenter of linked peripherals to the CostCenter of the workstation
+            // defined in datamodel.br-peripherals.xml
         ),
     )
 );
