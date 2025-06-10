@@ -8,6 +8,7 @@
  * iTop module definition file
  */
 
+/** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__,
     'br-peripherals-bridge-for-teemip-ip-mgmt/3.1.11',
