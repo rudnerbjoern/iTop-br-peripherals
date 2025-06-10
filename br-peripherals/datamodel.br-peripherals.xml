@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1">
+<?xml-model href="https://raw.githubusercontent.com/rudnerbjoern/iTop-schema/refs/heads/main/datamodel.v3.2.xsd"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2">
     <!--
     * @copyright   Copyright (C) 2024 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -29,7 +30,6 @@
                 <style>
                     <icon>images/workstation_256.png</icon>
                 </style>
-                <icon>images/workstation.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -1106,7 +1106,6 @@
                 <style>
                     <icon>images/usb-hub_256.png</icon>
                 </style>
-                <icon>images/usb-hub.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -1378,7 +1377,6 @@
                 <style>
                     <icon>images/monitor_256.png</icon>
                 </style>
-                <icon>images/monitor.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -1634,7 +1632,6 @@
                 <style>
                     <icon>images/keyboard_256.png</icon>
                 </style>
-                <icon>images/keyboard.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -1890,7 +1887,6 @@
                 <style>
                     <icon>images/mouse_256.png</icon>
                 </style>
-                <icon>images/mouse.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -2146,7 +2142,6 @@
                 <style>
                     <icon>images/headset_256.png</icon>
                 </style>
-                <icon>images/headset.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -2402,7 +2397,6 @@
                 <style>
                     <icon>images/scanner_256.png</icon>
                 </style>
-                <icon>images/scanner.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -2658,7 +2652,6 @@
                 <style>
                     <icon>images/barcode-scanner_256.png</icon>
                 </style>
-                <icon>images/barcode-scanner.png</icon>
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
@@ -2914,8 +2907,6 @@
                 <style>
                     <icon>images/conference-system_256.png</icon>
                 </style>
-                <icon>images/conference-system.png</icon>
-                <display_template />
                 <reconciliation>
                     <attributes>
                         <attribute id="name" />
