@@ -8,17 +8,18 @@
  * iTop module definition file
  */
 
+/** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
     'br-costcenter-bridge-for-br-peripherals/3.1.11',
     array(
         // Identification
-        'label' => 'Bridge - Costcenter + Periperals',
+        'label' => 'Bridge - Costcenter + Peripherals',
         'category' => 'business',
 
         // Setup
         'dependencies' => array(
-            'br-peripherals/3.1.11||br-costcenter/0.4.0',
+            'br-peripherals/3.1.11||br-costcenter/3.1.6',
             'br-peripherals/3.1.11',
         ),
         'mandatory' => false,
