@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1">
+<?xml-model href="https://raw.githubusercontent.com/rudnerbjoern/iTop-schema/refs/heads/main/3.2/itop_design.xsd"?>
+<itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2">
     <!--
     * @copyright   Copyright (C) 2024 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -243,7 +244,7 @@
             <presentation>
                 <details>
                     <items>
-                        <item id="costcenter_id" _delta="delete" />
+                        <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="col:col2" _delta="must_exist">
                             <items>
                                 <item id="fieldset:Server:otherinfo" _delta="must_exist">
@@ -259,7 +260,7 @@
                 </details>
                 <search>
                     <items>
-                        <item id="costcenter_id" _delta="delete" />
+                        <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="costcenter_id" _delta="define">
                             <rank>160</rank>
                         </item>
@@ -271,7 +272,7 @@
             <presentation>
                 <details>
                     <items>
-                        <item id="costcenter_id" _delta="delete" />
+                        <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="col:col2" _delta="must_exist">
                             <items>
                                 <item id="fieldset:Server:otherinfo" _delta="must_exist">
@@ -287,7 +288,7 @@
                 </details>
                 <search>
                     <items>
-                        <item id="costcenter_id" _delta="delete" />
+                        <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="costcenter_id" _delta="define">
                             <rank>140</rank>
                         </item>
