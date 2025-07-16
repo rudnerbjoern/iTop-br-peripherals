@@ -667,13 +667,22 @@
                     <code>
                         <![CDATA[public function OnWorkstationAboutToDelete()
 {
-    if (!empty($this->Get('user_id'))) {
-        $this->DisconnectTargetFromContact($this->GetKey(), $this->Get('user_id'));
+    $bUpdateContacts = self::GetUpdateContacts();
+
+    // remove contacts on assigned objects before deletion
+    $iUserId = $this->Get('user_id');
+    if ($bUpdateContacts && ($iUserId != 0))
+    {
+        $this->DisconnectTargetFromContact($this->GetKey(), $iUserId);
+        foreach ($aPeripherals as $sPeripheral) {
+            if (!empty($this->Get($sPeripheral)))
+                $this->DisconnectTargetFromContact($this->Get($sPeripheral), $iUserId);
+        }
     }
 
     foreach (self::GetPeripherals() as $sPeripheral) {
-        if (!empty($this->Get(sPeripheral))) {
-            $this->DisconnectTargetFromWorkstation($this->Get(sPeripheral));
+        if (!empty($this->Get($sPeripheral))) {
+            $this->DisconnectTargetFromWorkstation($this->Get($sPeripheral));
         }
     }
 }]]>
