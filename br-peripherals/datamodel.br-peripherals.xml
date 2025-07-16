@@ -598,7 +598,7 @@
 {
     $aEventData = $oEventData->GetEventData();
     if (!$aEventData['is_new']) {
-        $aChanges     = $oEventData->Get('changes');
+        $aChanges     = $this->ListChanges();
         $aPeripherals = self::GetPeripherals();
 
         if (array_key_exists('user_id', $aChanges)) {
