@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/rudnerbjoern/iTop-schema/refs/heads/main/3.2/itop_design.xsd">
+<itop_design version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/3.2/itop_design.xsd">
     <!--
     * @copyright   Copyright (C) 2024-2025 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -293,6 +293,23 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
+            <event_listeners>
+                <event_listener id="OnWorkstationBeforeWrite">
+                    <event>EVENT_DB_BEFORE_WRITE</event>
+                    <callback>OnWorkstationBeforeWrite</callback>
+                    <rank>10</rank>
+                </event_listener>
+                <event_listener id="OnWorkstationAfterWrite">
+                    <event>EVENT_DB_AFTER_WRITE</event>
+                    <callback>OnWorkstationAfterWrite</callback>
+                    <rank>10</rank>
+                </event_listener>
+                <event_listener id="OnWorkstationAboutToDelete">
+                    <event>EVENT_DB_ABOUT_TO_DELETE</event>
+                    <callback>OnWorkstationAboutToDelete</callback>
+                    <rank>10</rank>
+                </event_listener>
+            </event_listeners>
             <methods>
                 <method id="GetUpdateLocations" _delta="define">
                     <static>true</static>
@@ -460,213 +477,214 @@
 }]]>
                     </code>
                 </method>
-                <method id="AfterInsert" _delta="define">
+                <method id="OnWorkstationAfterWrite" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
+                    <type>EventListener</type>
                     <code>
-                        <![CDATA[public function AfterInsert()
+                        <![CDATA[public function OnWorkstationAfterWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
 {
-    $bUpdateLocations    = self::GetUpdateLocations();
-    $bUpdateContacts     = self::GetUpdateContacts();
-    $bUpdateCostCenters  = self::GetUpdateCostCenters();
-    $aPeripherals        = self::GetPeripherals();
+    $aEventData = $oEventData->GetEventData();
+    if ($aEventData['is_new']) {
+        // We are in the AfterInsert situation
 
-    $oUserId        = ($this->Get('user_id') != 0)
-        ? $this->Get('user_id')
-        : null;
-    $oCostCenterId  = (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && $this->Get('costcenter_id') != 0)
-        ? $this->Get('costcenter_id')
-        : null;
+        $bUpdateLocations    = self::GetUpdateLocations();
+        $bUpdateContacts     = self::GetUpdateContacts();
+        $bUpdateCostCenters  = self::GetUpdateCostCenters();
+        $aPeripherals        = self::GetPeripherals();
 
-    if ($bUpdateContacts && $oUserId !== null) {
-        $this->ConnectTargetToContact($this->GetKey(), $oUserId);
-    }
+        $oUserId        = ($this->Get('user_id') != 0)
+            ? $this->Get('user_id')
+            : null;
+        $oCostCenterId  = (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && $this->Get('costcenter_id') != 0)
+            ? $this->Get('costcenter_id')
+            : null;
 
-    foreach ($aPeripherals as $sPeripheral) {
-        $iPeripheralId = $this->Get($sPeripheral);
-        if ($iPeripheralId != 0) {
-            $this->ConnectTargetToWorkstation($iPeripheralId, $bUpdateLocations);
-            if ($bUpdateContacts && $oUserId !== null) {
-                $this->ConnectTargetToContact($iPeripheralId, $oUserId);
-            }
-            if ($bUpdateCostCenters && $oCostCenterId !== null) {
-                $this->UpdateCostCenterOnTarget($iPeripheralId, $oCostCenterId);
-            }
+        if ($bUpdateContacts && $oUserId !== null) {
+            $this->ConnectTargetToContact($this->GetKey(), $oUserId);
         }
-     }
-
-    parent::AfterInsert();
-}]]>
-                    </code>
-                </method>
-                <method id="OnUpdate" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function OnUpdate()
-{
-    $aChanges     = $this->ListChanges();
-    $aPeripherals = self::GetPeripherals();
-
-    if (array_key_exists('user_id', $aChanges)) {
-        // record in the local memory object that the User was changed
-        $this->bUserChanged = true;
-        $oOriginalUserId = $this->GetOriginal('user_id');
-
-        $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
 
         foreach ($aPeripherals as $sPeripheral) {
-            $iOriginalPeripheralId = $this->GetOriginal($sPeripheral);
-            if (!empty($iOriginalPeripheralId)) {
-                $this->DisconnectTargetFromContact($iOriginalPeripheralId, $oOriginalUserId);
-            }
-        }
-    }
-
-    // Generisches Mapping für Peripheral-Felder → Flag-Properties
-    $aPeripheralFlags = [
-        'pc_id'             => 'bPCChanged',
-        'pcB_id'            => 'bPCBChanged',
-        'monitorA_id'       => 'bMonitorAChanged',
-        'monitorB_id'       => 'bMonitorBChanged',
-        'dockingstation_id' => 'bDockingStationChanged',
-        'keyboard_id'       => 'bKeyboardChanged',
-        'mouse_id'          => 'bMouseChanged',
-        'headset_id'        => 'bHeadsetChanged',
-        'mobilephone_id'    => 'bMobilePhoneChanged',
-        'telephonyA_id'     => 'bTelephonyAChanged',
-        'telephonyB_id'     => 'bTelephonyBChanged',
-        'printerA_id'       => 'bPrinterAChanged',
-        'printerB_id'       => 'bPrinterBChanged',
-        'scanner_id'        => 'bScannerChanged',
-        'barcodescanner_id' => 'bBarcodeScannerChanged',
-    ];
-
-    foreach ($aPeripheralFlags as $sAttCode => $sFlagProperty) {
-        if (isset($aChanges[$sAttCode])) {
-            // record in local memory object that the Property was changed
-            $this->$sFlagProperty = true;
-            // disconnect the old Workstation
-            $this->DisconnectTargetFromWorkstation($this->GetOriginal($sAttCode));
-        }
-    }
-
-    // change locations on assigned objects when location of workstation is changed
-    if (isset($aChanges['location_id'])) {
-        // record in the local memory object that the Location was changed
-        $this->bLocationChanged = true;
-    }
-
-    // change costcenter on assigned objects when costcenter of workstation is changed
-    if (isset($aChanges['costcenter_id'])) {
-        // record in the local memory object that the CostCenter was changed
-        $this->bCostCenterChanged = true;
-    }
-
-    parent::OnUpdate();
-}]]>
-                    </code>
-                </method>
-                <method id="AfterUpdate" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function AfterUpdate()
-{
-    $bUpdateLocations   = self::GetUpdateLocations();
-    $bUpdateContacts    = self::GetUpdateContacts();
-    $bUpdateCostCenters = self::GetUpdateCostCenters();
-    $aPeripherals       = self::GetPeripherals();
-
-    // The Workstation is updated in DB and assigned Peripherals changed
-    if (isset($this->bPCChanged))
-        $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
-    if (isset($this->bPCBChanged))
-        $this->ConnectTargetToWorkstation($this->Get('pcB_id'), $bUpdateLocations);
-    if (isset($this->bMonitorAChanged))
-        $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
-    if (isset($this->bMonitorBChanged))
-        $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
-    if (isset($this->bDockingStationChanged))
-        $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
-    if (isset($this->bKeyboardChanged))
-        $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
-    if (isset($this->bMouseChanged))
-        $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
-    if (isset($this->bHeadsetChanged))
-        $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
-    if (isset($this->bMobilePhoneChanged))
-        $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
-    if (isset($this->bTelephonyAChanged))
-        $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
-    if (isset($this->bTelephonyBChanged))
-        $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
-    if (isset($this->bPrinterAChanged))
-        $this->ConnectTargetToWorkstation($this->Get('printerA_id'), $bUpdateLocations);
-    if (isset($this->bPrinterBChanged))
-        $this->ConnectTargetToWorkstation($this->Get('printerB_id'), $bUpdateLocations);
-    if (isset($this->bScannerChanged))
-        $this->ConnectTargetToWorkstation($this->Get('scanner_id'), $bUpdateLocations);
-    if (isset($this->bBarcodeScannerChanged))
-        $this->ConnectTargetToWorkstation($this->Get('barcodescanner_id'), $bUpdateLocations);
-
-    // change locations on assigned objects when location of workstation is changed
-    if (isset($this->bLocationChanged) && $bUpdateLocations)
-    {
-        foreach ($aPeripherals as $sPeripheral) {
-            if ($this->Get($sPeripheral) != 0)
-                $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
-        }
-    }
-
-    // add contacts on assigned objects after every update
-    if ($bUpdateContacts && ($this->Get('user_id') != 0))
-    {
-        $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
-        foreach ($aPeripherals as $sPeripheral) {
-            if ($this->Get($sPeripheral) != 0)
-                $this->ConnectTargetToContact($this->Get($sPeripheral), $this->Get('user_id'));
-        }
-    }
-
-    // change costcenter on assigned objects when costcenter of workstation is changed
-    if (isset($this->bCostCenterChanged) && $bUpdateCostCenters) {
-        // only run update when CostCenter-Extension is installed
-        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
-            if (($this->Get('costcenter_id') != 0))
-                foreach ($aPeripherals as $sPeripheral) {
-                    if ($this->Get($sPeripheral) != 0)
-                        $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
+            $iPeripheralId = $this->Get($sPeripheral);
+            if ($iPeripheralId != 0) {
+                $this->ConnectTargetToWorkstation($iPeripheralId, $bUpdateLocations);
+                if ($bUpdateContacts && $oUserId !== null) {
+                    $this->ConnectTargetToContact($iPeripheralId, $oUserId);
                 }
-    }
+                if ($bUpdateCostCenters && $oCostCenterId !== null) {
+                    $this->UpdateCostCenterOnTarget($iPeripheralId, $oCostCenterId);
+                }
+            }
+        }
+    } else {
+        // We are in the AfterUpdate situation
 
-    parent::AfterUpdate();
+        $bUpdateLocations   = self::GetUpdateLocations();
+        $bUpdateContacts    = self::GetUpdateContacts();
+        $bUpdateCostCenters = self::GetUpdateCostCenters();
+        $aPeripherals       = self::GetPeripherals();
+
+        // The Workstation is updated in DB and assigned Peripherals changed
+        if (isset($this->bPCChanged))
+            $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
+        if (isset($this->bPCBChanged))
+            $this->ConnectTargetToWorkstation($this->Get('pcB_id'), $bUpdateLocations);
+        if (isset($this->bMonitorAChanged))
+            $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
+        if (isset($this->bMonitorBChanged))
+            $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
+        if (isset($this->bDockingStationChanged))
+            $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
+        if (isset($this->bKeyboardChanged))
+            $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
+        if (isset($this->bMouseChanged))
+            $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
+        if (isset($this->bHeadsetChanged))
+            $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
+        if (isset($this->bMobilePhoneChanged))
+            $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
+        if (isset($this->bTelephonyAChanged))
+            $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
+        if (isset($this->bTelephonyBChanged))
+            $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
+        if (isset($this->bPrinterAChanged))
+            $this->ConnectTargetToWorkstation($this->Get('printerA_id'), $bUpdateLocations);
+        if (isset($this->bPrinterBChanged))
+            $this->ConnectTargetToWorkstation($this->Get('printerB_id'), $bUpdateLocations);
+        if (isset($this->bScannerChanged))
+            $this->ConnectTargetToWorkstation($this->Get('scanner_id'), $bUpdateLocations);
+        if (isset($this->bBarcodeScannerChanged))
+            $this->ConnectTargetToWorkstation($this->Get('barcodescanner_id'), $bUpdateLocations);
+
+        // change locations on assigned objects when location of workstation is changed
+        if (isset($this->bLocationChanged) && $bUpdateLocations)
+        {
+            foreach ($aPeripherals as $sPeripheral) {
+                if ($this->Get($sPeripheral) != 0)
+                    $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
+            }
+        }
+
+        // add contacts on assigned objects after every update
+        if ($bUpdateContacts && ($this->Get('user_id') != 0))
+        {
+            $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
+            foreach ($aPeripherals as $sPeripheral) {
+                if ($this->Get($sPeripheral) != 0)
+                    $this->ConnectTargetToContact($this->Get($sPeripheral), $this->Get('user_id'));
+            }
+        }
+
+        // change costcenter on assigned objects when costcenter of workstation is changed
+        if (isset($this->bCostCenterChanged) && $bUpdateCostCenters) {
+            // only run update when CostCenter-Extension is installed
+            if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
+                if (($this->Get('costcenter_id') != 0))
+                    foreach ($aPeripherals as $sPeripheral) {
+                        if ($this->Get($sPeripheral) != 0)
+                            $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
+                    }
+        }
+    }
 }]]>
                     </code>
                 </method>
-                <method id="OnDelete" _delta="define">
+                <method id="OnWorkstationBeforeWrite" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
+                    <type>EventListener</type>
                     <code>
-                        <![CDATA[public function OnDelete()
+                        <![CDATA[public function OnWorkstationBeforeWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
 {
-    $aChanges = $this->ListChanges();
+    $aEventData = $oEventData->GetEventData();
+    if (!$aEventData['is_new']) {
+        $aChanges     = $this->ListChanges();
+        $aPeripherals = self::GetPeripherals();
 
-    if (!empty($aChanges['user_id'])) {
-        $this->DisconnectTargetFromContact($this->GetKey(), $this->Get('user_id'));
+        if (array_key_exists('user_id', $aChanges)) {
+            // record in the local memory object that the User was changed
+            $this->bUserChanged = true;
+            $oOriginalUserId = $this->GetOriginal('user_id');
+
+            $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
+
+            foreach ($aPeripherals as $sPeripheral) {
+                $iOriginalPeripheralId = $this->GetOriginal($sPeripheral);
+                if (!empty($iOriginalPeripheralId)) {
+                    $this->DisconnectTargetFromContact($iOriginalPeripheralId, $oOriginalUserId);
+                }
+            }
+        }
+
+        // Generisches Mapping für Peripheral-Felder → Flag-Properties
+        $aPeripheralFlags = [
+            'pc_id'             => 'bPCChanged',
+            'pcB_id'            => 'bPCBChanged',
+            'monitorA_id'       => 'bMonitorAChanged',
+            'monitorB_id'       => 'bMonitorBChanged',
+            'dockingstation_id' => 'bDockingStationChanged',
+            'keyboard_id'       => 'bKeyboardChanged',
+            'mouse_id'          => 'bMouseChanged',
+            'headset_id'        => 'bHeadsetChanged',
+            'mobilephone_id'    => 'bMobilePhoneChanged',
+            'telephonyA_id'     => 'bTelephonyAChanged',
+            'telephonyB_id'     => 'bTelephonyBChanged',
+            'printerA_id'       => 'bPrinterAChanged',
+            'printerB_id'       => 'bPrinterBChanged',
+            'scanner_id'        => 'bScannerChanged',
+            'barcodescanner_id' => 'bBarcodeScannerChanged',
+        ];
+
+        foreach ($aPeripheralFlags as $sAttCode => $sFlagProperty) {
+            if (isset($aChanges[$sAttCode])) {
+                // record in local memory object that the Property was changed
+                $this->$sFlagProperty = true;
+                // disconnect the old Workstation
+                $this->DisconnectTargetFromWorkstation($this->GetOriginal($sAttCode));
+            }
+        }
+
+        // change locations on assigned objects when location of workstation is changed
+        if (isset($aChanges['location_id'])) {
+            // record in the local memory object that the Location was changed
+            $this->bLocationChanged = true;
+        }
+
+        // change costcenter on assigned objects when costcenter of workstation is changed
+        if (isset($aChanges['costcenter_id'])) {
+            // record in the local memory object that the CostCenter was changed
+            $this->bCostCenterChanged = true;
+        }
+
+    }
+}]]>
+                    </code>
+                </method>
+                <method id="OnWorkstationAboutToDelete" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>EventListener</type>
+                    <code>
+                        <![CDATA[public function OnWorkstationAboutToDelete()
+{
+    $bUpdateContacts = self::GetUpdateContacts();
+
+    // remove contacts on assigned objects before deletion
+    $iUserId = $this->Get('user_id');
+    if ($bUpdateContacts && ($iUserId != 0))
+    {
+        $this->DisconnectTargetFromContact($this->GetKey(), $iUserId);
+        foreach ($aPeripherals as $sPeripheral) {
+            if (!empty($this->Get($sPeripheral)))
+                $this->DisconnectTargetFromContact($this->Get($sPeripheral), $iUserId);
+        }
     }
 
     foreach (self::GetPeripherals() as $sPeripheral) {
-        if (!empty($aChanges[$sPeripheral])) {
-            $this->DisconnectTargetFromWorkstation($this->Get(sPeripheral));
+        if (!empty($this->Get($sPeripheral))) {
+            $this->DisconnectTargetFromWorkstation($this->Get($sPeripheral));
         }
     }
-
-    parent::OnDelete();
 }]]>
                     </code>
                 </method>
