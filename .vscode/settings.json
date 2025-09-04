@@ -5,6 +5,7 @@
         "baseinfo",
         "bizmodel",
         "cmdb",
+        "Combodo",
         "conferencesystem",
         "costcenter",
         "costcenters",
@@ -36,5 +37,8 @@
         "surang",
         "teemip",
         "xnimrodx"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.formatOnPaste": true
 }

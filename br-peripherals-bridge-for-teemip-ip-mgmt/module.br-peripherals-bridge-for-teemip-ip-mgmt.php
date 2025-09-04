@@ -3,7 +3,7 @@
 /**
  * @copyright   Copyright (C) 2024-2025 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
- * @version     2025-06-12
+ * @version     2025-09-04
  *
  * iTop module definition file
  */
@@ -11,7 +11,7 @@
 /** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__,
-    'br-peripherals-bridge-for-teemip-ip-mgmt/3.2.0',
+    'br-peripherals-bridge-for-teemip-ip-mgmt/3.2.1',
     array(
         // Identification
         //
@@ -21,9 +21,9 @@ SetupWebPage::AddModule(
         // Setup
         //
         'dependencies' => array(
-            'br-peripherals/3.2.0||teemip-ip-mgmt/3.0.0',
-            'br-peripherals/3.2.0||teemip-config-mgmt-adaptor/3.0.0',
-            'br-peripherals/3.2.0',
+            'br-peripherals/3.2.1||teemip-ip-mgmt/3.0.0',
+            'br-peripherals/3.2.1||teemip-config-mgmt-adaptor/3.0.0',
+            'br-peripherals/3.2.1',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard

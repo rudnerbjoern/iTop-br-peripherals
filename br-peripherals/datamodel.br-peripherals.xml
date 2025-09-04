@@ -294,405 +294,404 @@
                 </field>
             </fields>
             <event_listeners>
-                <event_listener id="OnWorkstationBeforeWrite">
+                <event_listener id="EvtBeforeWorkstationWrite">
                     <event>EVENT_DB_BEFORE_WRITE</event>
-                    <callback>OnWorkstationBeforeWrite</callback>
+                    <callback>EvtBeforeWorkstationWrite</callback>
                     <rank>10</rank>
                 </event_listener>
-                <event_listener id="OnWorkstationAfterWrite">
+                <event_listener id="EvtAfterWorkstationWrite">
                     <event>EVENT_DB_AFTER_WRITE</event>
-                    <callback>OnWorkstationAfterWrite</callback>
+                    <callback>EvtAfterWorkstationWrite</callback>
                     <rank>10</rank>
                 </event_listener>
-                <event_listener id="OnWorkstationAboutToDelete">
+                <event_listener id="EvtAboutToDeleteWorkstation">
                     <event>EVENT_DB_ABOUT_TO_DELETE</event>
-                    <callback>OnWorkstationAboutToDelete</callback>
+                    <callback>EvtAboutToDeleteWorkstation</callback>
                     <rank>10</rank>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="GetUpdateLocations" _delta="define">
+                <method id="GetUpdateLocations">
                     <static>true</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public static function GetUpdateLocations()
-{
-    return filter_var(
-        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_locations_from_workstation', 'true'),
-        FILTER_VALIDATE_BOOLEAN
-    );
-}]]>
-                    </code>
+                    <code><![CDATA[
+    public static function GetUpdateLocations()
+    {
+        return filter_var(
+            MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_locations_from_workstation', 'true'),
+            FILTER_VALIDATE_BOOLEAN
+        );
+    }
+  ]]></code>
                 </method>
-                <method id="GetUpdateContacts" _delta="define">
+                <method id="GetUpdateContacts">
                     <static>true</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public static function GetUpdateContacts()
-{
-    return filter_var(
-        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contacts_from_workstation', 'true'),
-        FILTER_VALIDATE_BOOLEAN
-    );
-}]]>
-                    </code>
+                    <code><![CDATA[
+    public static function GetUpdateContacts()
+    {
+        return filter_var(
+            MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_contacts_from_workstation', 'true'),
+            FILTER_VALIDATE_BOOLEAN
+        );
+    }
+  ]]></code>
                 </method>
-                <method id="GetUpdateCostCenters" _delta="define">
+                <method id="GetUpdateCostCenters">
                     <static>true</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public static function GetUpdateCostCenters()
-{
-    return filter_var(
-        MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_costcenters_from_workstation', 'true'),
-        FILTER_VALIDATE_BOOLEAN
-    );
-}]]>
-                    </code>
+                    <code><![CDATA[
+    public static function GetUpdateCostCenters()
+    {
+        return filter_var(
+            MetaModel::GetConfig()->GetModuleSetting('br-peripherals', 'update_costcenters_from_workstation', 'true'),
+            FILTER_VALIDATE_BOOLEAN
+        );
+    }
+  ]]></code>
                 </method>
-                <method id="GetPeripherals" _delta="define">
+                <method id="GetPeripherals">
                     <static>true</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public static function GetPeripherals()
-{
-    return [
-        'pc_id','pcB_id',
-        'monitorA_id','monitorB_id',
-        'dockingstation_id',
-        'keyboard_id','mouse_id','headset_id',
-        'mobilephone_id',
-        'telephonyA_id','telephonyB_id',
-        'printerA_id','printerB_id',
-        'scanner_id','barcodescanner_id',
-    ];
-}]]>
-                    </code>
+                    <code><![CDATA[
+    public static function GetPeripherals()
+    {
+        return [
+            'pc_id','pcB_id',
+            'monitorA_id','monitorB_id',
+            'dockingstation_id',
+            'keyboard_id','mouse_id','headset_id',
+            'mobilephone_id',
+            'telephonyA_id','telephonyB_id',
+            'printerA_id','printerB_id',
+            'scanner_id','barcodescanner_id',
+        ];
+    }
+  ]]></code>
                 </method>
-                <method id="ConnectTargetToWorkstation" _delta="define">
+                <method id="ConnectTargetToWorkstation">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function ConnectTargetToWorkstation($targetId, $updateLocation)
-{
-    $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
-    if (!$oTargetObject) {
-        return;
-    }
+                    <code><![CDATA[
+    public function ConnectTargetToWorkstation($targetId, $updateLocation)
+    {
+        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
+        if (!$oTargetObject) {
+            return;
+        }
 
-    $oTargetObject->Set('workstation_id', $this->GetKey());
-    if ($updateLocation) {
-        $oTargetObject->Set('location_id', $this->Get('location_id'));
+        $oTargetObject->Set('workstation_id', $this->GetKey());
+        if ($updateLocation) {
+            $oTargetObject->Set('location_id', $this->Get('location_id'));
+        }
+        $oTargetObject->DBUpdate();
     }
-    $oTargetObject->DBUpdate();
-}]]>
-                    </code>
+  ]]></code>
                 </method>
-                <method id="DisconnectTargetFromWorkstation" _delta="define">
+                <method id="DisconnectTargetFromWorkstation">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function DisconnectTargetFromWorkstation($targetId)
-{
-    $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
-    if (!$oTargetObject) {
-        return;
-    }
+                    <code><![CDATA[
+    public function DisconnectTargetFromWorkstation($targetId)
+    {
+        $oTargetObject = MetaModel::GetObject('PhysicalDevice', $targetId, false);
+        if (!$oTargetObject) {
+            return;
+        }
 
-    $oTargetObject->Set('workstation_id', '');
-    $oTargetObject->DBUpdate();
-}]]>
-                    </code>
+        $oTargetObject->Set('workstation_id', '');
+        $oTargetObject->DBUpdate();
+    }
+  ]]></code>
                 </method>
                 <method id="ConnectTargetToContact">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function ConnectTargetToContact($targetId, $contactId)
-{
-    if (empty($targetId) || empty($contactId)) {
-        return;
-    }
+                    <code><![CDATA[
+    public function ConnectTargetToContact($targetId, $contactId)
+    {
+        if (empty($targetId) || empty($contactId)) {
+            return;
+        }
 
-    $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
+        $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
 
-    $oSet = new DBObjectSet($oSearch, [], [
-        'contact' => $contactId,
-        'functionalci' => $targetId
-    ]);
-    if ($oSet->Count() === 0) {
-        $oLnk = MetaModel::NewObject('lnkContactToFunctionalCI', [
-            'contact_id' => $contactId,
-            'functionalci_id' => $targetId
+        $oSet = new DBObjectSet($oSearch, [], [
+            'contact' => $contactId,
+            'functionalci' => $targetId
         ]);
-        $oLnk->DBInsert();
+        if ($oSet->Count() === 0) {
+            $oLnk = MetaModel::NewObject('lnkContactToFunctionalCI', [
+                'contact_id' => $contactId,
+                'functionalci_id' => $targetId
+            ]);
+            $oLnk->DBInsert();
+        }
     }
-
-}]]>
-                    </code>
+  ]]></code>
                 </method>
                 <method id="DisconnectTargetFromContact">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function DisconnectTargetFromContact($targetId, $contactId)
-{
-    if (($contactId != 0 ) && ($targetId != 0)) {
-        $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
-        $oSet = new DBObjectSet($oSearch, [], ['contact' => $contactId, 'functionalci' => $targetId]);
-        // Delete any found
-        if ($oSet->Count()>0) {
-            while($oLnk = $oSet->Fetch()) {
-                $oLnk->DBDelete();
+                    <code><![CDATA[
+    public function DisconnectTargetFromContact($targetId, $contactId)
+    {
+        if (($contactId != 0 ) && ($targetId != 0)) {
+            $oSearch = DBSearch::FromOQL('SELECT lnkContactToFunctionalCI WHERE contact_id = :contact AND functionalci_id = :functionalci');
+            $oSet = new DBObjectSet($oSearch, [], ['contact' => $contactId, 'functionalci' => $targetId]);
+            // Delete any found
+            if ($oSet->Count()>0) {
+                while($oLnk = $oSet->Fetch()) {
+                    $oLnk->DBDelete();
+                }
             }
         }
     }
-}]]>
-                    </code>
+  ]]></code>
                 </method>
-                <method id="UpdateCostCenterOnTarget" _delta="define">
+                <method id="UpdateCostCenterOnTarget">
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                        <![CDATA[public function UpdateCostCenterOnTarget($targetId, $costcenterId)
-{
-    if ($targetId != 0) {
-        if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id')) {
-            $oTargetObject = MetaModel::GetObject('FunctionalCI', $targetId, false);
-            if (is_object($oTargetObject)) {
-                $oTargetObject->Set('costcenter_id', $costcenterId);
-                $oTargetObject->DBUpdate();
-            }
-        }
-    }
-}]]>
-                    </code>
-                </method>
-                <method id="OnWorkstationAfterWrite" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>EventListener</type>
-                    <code>
-                        <![CDATA[public function OnWorkstationAfterWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
-{
-    $aEventData = $oEventData->GetEventData();
-    if ($aEventData['is_new']) {
-        // We are in the AfterInsert situation
-
-        $bUpdateLocations    = self::GetUpdateLocations();
-        $bUpdateContacts     = self::GetUpdateContacts();
-        $bUpdateCostCenters  = self::GetUpdateCostCenters();
-        $aPeripherals        = self::GetPeripherals();
-
-        $oUserId        = ($this->Get('user_id') != 0)
-            ? $this->Get('user_id')
-            : null;
-        $oCostCenterId  = (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && $this->Get('costcenter_id') != 0)
-            ? $this->Get('costcenter_id')
-            : null;
-
-        if ($bUpdateContacts && $oUserId !== null) {
-            $this->ConnectTargetToContact($this->GetKey(), $oUserId);
-        }
-
-        foreach ($aPeripherals as $sPeripheral) {
-            $iPeripheralId = $this->Get($sPeripheral);
-            if ($iPeripheralId != 0) {
-                $this->ConnectTargetToWorkstation($iPeripheralId, $bUpdateLocations);
-                if ($bUpdateContacts && $oUserId !== null) {
-                    $this->ConnectTargetToContact($iPeripheralId, $oUserId);
-                }
-                if ($bUpdateCostCenters && $oCostCenterId !== null) {
-                    $this->UpdateCostCenterOnTarget($iPeripheralId, $oCostCenterId);
-                }
-            }
-        }
-    } else {
-        // We are in the AfterUpdate situation
-
-        $bUpdateLocations   = self::GetUpdateLocations();
-        $bUpdateContacts    = self::GetUpdateContacts();
-        $bUpdateCostCenters = self::GetUpdateCostCenters();
-        $aPeripherals       = self::GetPeripherals();
-
-        // The Workstation is updated in DB and assigned Peripherals changed
-        if (isset($this->bPCChanged))
-            $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
-        if (isset($this->bPCBChanged))
-            $this->ConnectTargetToWorkstation($this->Get('pcB_id'), $bUpdateLocations);
-        if (isset($this->bMonitorAChanged))
-            $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
-        if (isset($this->bMonitorBChanged))
-            $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
-        if (isset($this->bDockingStationChanged))
-            $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
-        if (isset($this->bKeyboardChanged))
-            $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
-        if (isset($this->bMouseChanged))
-            $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
-        if (isset($this->bHeadsetChanged))
-            $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
-        if (isset($this->bMobilePhoneChanged))
-            $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
-        if (isset($this->bTelephonyAChanged))
-            $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
-        if (isset($this->bTelephonyBChanged))
-            $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
-        if (isset($this->bPrinterAChanged))
-            $this->ConnectTargetToWorkstation($this->Get('printerA_id'), $bUpdateLocations);
-        if (isset($this->bPrinterBChanged))
-            $this->ConnectTargetToWorkstation($this->Get('printerB_id'), $bUpdateLocations);
-        if (isset($this->bScannerChanged))
-            $this->ConnectTargetToWorkstation($this->Get('scanner_id'), $bUpdateLocations);
-        if (isset($this->bBarcodeScannerChanged))
-            $this->ConnectTargetToWorkstation($this->Get('barcodescanner_id'), $bUpdateLocations);
-
-        // change locations on assigned objects when location of workstation is changed
-        if (isset($this->bLocationChanged) && $bUpdateLocations)
-        {
-            foreach ($aPeripherals as $sPeripheral) {
-                if ($this->Get($sPeripheral) != 0)
-                    $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
-            }
-        }
-
-        // add contacts on assigned objects after every update
-        if ($bUpdateContacts && ($this->Get('user_id') != 0))
-        {
-            $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
-            foreach ($aPeripherals as $sPeripheral) {
-                if ($this->Get($sPeripheral) != 0)
-                    $this->ConnectTargetToContact($this->Get($sPeripheral), $this->Get('user_id'));
-            }
-        }
-
-        // change costcenter on assigned objects when costcenter of workstation is changed
-        if (isset($this->bCostCenterChanged) && $bUpdateCostCenters) {
-            // only run update when CostCenter-Extension is installed
-            if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
-                if (($this->Get('costcenter_id') != 0))
-                    foreach ($aPeripherals as $sPeripheral) {
-                        if ($this->Get($sPeripheral) != 0)
-                            $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
-                    }
-        }
-    }
-}]]>
-                    </code>
-                </method>
-                <method id="OnWorkstationBeforeWrite" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>EventListener</type>
-                    <code>
-                        <![CDATA[public function OnWorkstationBeforeWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
-{
-    $aEventData = $oEventData->GetEventData();
-    if (!$aEventData['is_new']) {
-        $aChanges     = $this->ListChanges();
-        $aPeripherals = self::GetPeripherals();
-
-        if (array_key_exists('user_id', $aChanges)) {
-            // record in the local memory object that the User was changed
-            $this->bUserChanged = true;
-            $oOriginalUserId = $this->GetOriginal('user_id');
-
-            $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
-
-            foreach ($aPeripherals as $sPeripheral) {
-                $iOriginalPeripheralId = $this->GetOriginal($sPeripheral);
-                if (!empty($iOriginalPeripheralId)) {
-                    $this->DisconnectTargetFromContact($iOriginalPeripheralId, $oOriginalUserId);
-                }
-            }
-        }
-
-        // Generisches Mapping für Peripheral-Felder → Flag-Properties
-        $aPeripheralFlags = [
-            'pc_id'             => 'bPCChanged',
-            'pcB_id'            => 'bPCBChanged',
-            'monitorA_id'       => 'bMonitorAChanged',
-            'monitorB_id'       => 'bMonitorBChanged',
-            'dockingstation_id' => 'bDockingStationChanged',
-            'keyboard_id'       => 'bKeyboardChanged',
-            'mouse_id'          => 'bMouseChanged',
-            'headset_id'        => 'bHeadsetChanged',
-            'mobilephone_id'    => 'bMobilePhoneChanged',
-            'telephonyA_id'     => 'bTelephonyAChanged',
-            'telephonyB_id'     => 'bTelephonyBChanged',
-            'printerA_id'       => 'bPrinterAChanged',
-            'printerB_id'       => 'bPrinterBChanged',
-            'scanner_id'        => 'bScannerChanged',
-            'barcodescanner_id' => 'bBarcodeScannerChanged',
-        ];
-
-        foreach ($aPeripheralFlags as $sAttCode => $sFlagProperty) {
-            if (isset($aChanges[$sAttCode])) {
-                // record in local memory object that the Property was changed
-                $this->$sFlagProperty = true;
-                // disconnect the old Workstation
-                $this->DisconnectTargetFromWorkstation($this->GetOriginal($sAttCode));
-            }
-        }
-
-        // change locations on assigned objects when location of workstation is changed
-        if (isset($aChanges['location_id'])) {
-            // record in the local memory object that the Location was changed
-            $this->bLocationChanged = true;
-        }
-
-        // change costcenter on assigned objects when costcenter of workstation is changed
-        if (isset($aChanges['costcenter_id'])) {
-            // record in the local memory object that the CostCenter was changed
-            $this->bCostCenterChanged = true;
-        }
-
-    }
-}]]>
-                    </code>
-                </method>
-                <method id="OnWorkstationAboutToDelete" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>EventListener</type>
-                    <code>
-                        <![CDATA[public function OnWorkstationAboutToDelete()
-{
-    $bUpdateContacts = self::GetUpdateContacts();
-
-    // remove contacts on assigned objects before deletion
-    $iUserId = $this->Get('user_id');
-    if ($bUpdateContacts && ($iUserId != 0))
+                    <code><![CDATA[
+    public function UpdateCostCenterOnTarget($targetId, $costcenterId)
     {
-        $this->DisconnectTargetFromContact($this->GetKey(), $iUserId);
-        foreach ($aPeripherals as $sPeripheral) {
-            if (!empty($this->Get($sPeripheral)))
-                $this->DisconnectTargetFromContact($this->Get($sPeripheral), $iUserId);
+        if ($targetId != 0) {
+            if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id')) {
+                $oTargetObject = MetaModel::GetObject('FunctionalCI', $targetId, false);
+                if (is_object($oTargetObject)) {
+                    $oTargetObject->Set('costcenter_id', $costcenterId);
+                    $oTargetObject->DBUpdate();
+                }
+            }
         }
     }
+  ]]></code>
+                </method>
+                <method id="EvtAfterWorkstationWrite">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtAfterWorkstationWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
+    {
+        $aEventData = $oEventData->GetEventData();
+        if ($aEventData['is_new']) {
+            // We are in the AfterInsert situation
 
-    foreach (self::GetPeripherals() as $sPeripheral) {
-        if (!empty($this->Get($sPeripheral))) {
-            $this->DisconnectTargetFromWorkstation($this->Get($sPeripheral));
+            $bUpdateLocations    = self::GetUpdateLocations();
+            $bUpdateContacts     = self::GetUpdateContacts();
+            $bUpdateCostCenters  = self::GetUpdateCostCenters();
+            $aPeripherals        = self::GetPeripherals();
+
+            $oUserId        = ($this->Get('user_id') != 0)
+                ? $this->Get('user_id')
+                : null;
+            $oCostCenterId  = (MetaModel::IsValidAttCode('Workstation', 'costcenter_id') && $this->Get('costcenter_id') != 0)
+                ? $this->Get('costcenter_id')
+                : null;
+
+            if ($bUpdateContacts && $oUserId !== null) {
+                $this->ConnectTargetToContact($this->GetKey(), $oUserId);
+            }
+
+            foreach ($aPeripherals as $sPeripheral) {
+                $iPeripheralId = $this->Get($sPeripheral);
+                if ($iPeripheralId != 0) {
+                    $this->ConnectTargetToWorkstation($iPeripheralId, $bUpdateLocations);
+                    if ($bUpdateContacts && $oUserId !== null) {
+                        $this->ConnectTargetToContact($iPeripheralId, $oUserId);
+                    }
+                    if ($bUpdateCostCenters && $oCostCenterId !== null) {
+                        $this->UpdateCostCenterOnTarget($iPeripheralId, $oCostCenterId);
+                    }
+                }
+            }
+        } else {
+            // We are in the AfterUpdate situation
+
+            $bUpdateLocations   = self::GetUpdateLocations();
+            $bUpdateContacts    = self::GetUpdateContacts();
+            $bUpdateCostCenters = self::GetUpdateCostCenters();
+            $aPeripherals       = self::GetPeripherals();
+
+            // The Workstation is updated in DB and assigned Peripherals changed
+            if (isset($this->bPCChanged))
+                $this->ConnectTargetToWorkstation($this->Get('pc_id'), $bUpdateLocations);
+            if (isset($this->bPCBChanged))
+                $this->ConnectTargetToWorkstation($this->Get('pcB_id'), $bUpdateLocations);
+            if (isset($this->bMonitorAChanged))
+                $this->ConnectTargetToWorkstation($this->Get('monitorA_id'), $bUpdateLocations);
+            if (isset($this->bMonitorBChanged))
+                $this->ConnectTargetToWorkstation($this->Get('monitorB_id'), $bUpdateLocations);
+            if (isset($this->bDockingStationChanged))
+                $this->ConnectTargetToWorkstation($this->Get('dockingstation_id'), $bUpdateLocations);
+            if (isset($this->bKeyboardChanged))
+                $this->ConnectTargetToWorkstation($this->Get('keyboard_id'), $bUpdateLocations);
+            if (isset($this->bMouseChanged))
+                $this->ConnectTargetToWorkstation($this->Get('mouse_id'), $bUpdateLocations);
+            if (isset($this->bHeadsetChanged))
+                $this->ConnectTargetToWorkstation($this->Get('headset_id'), $bUpdateLocations);
+            if (isset($this->bMobilePhoneChanged))
+                $this->ConnectTargetToWorkstation($this->Get('mobilephone_id'), $bUpdateLocations);
+            if (isset($this->bTelephonyAChanged))
+                $this->ConnectTargetToWorkstation($this->Get('telephonyA_id'), $bUpdateLocations);
+            if (isset($this->bTelephonyBChanged))
+                $this->ConnectTargetToWorkstation($this->Get('telephonyB_id'), $bUpdateLocations);
+            if (isset($this->bPrinterAChanged))
+                $this->ConnectTargetToWorkstation($this->Get('printerA_id'), $bUpdateLocations);
+            if (isset($this->bPrinterBChanged))
+                $this->ConnectTargetToWorkstation($this->Get('printerB_id'), $bUpdateLocations);
+            if (isset($this->bScannerChanged))
+                $this->ConnectTargetToWorkstation($this->Get('scanner_id'), $bUpdateLocations);
+            if (isset($this->bBarcodeScannerChanged))
+                $this->ConnectTargetToWorkstation($this->Get('barcodescanner_id'), $bUpdateLocations);
+
+            // change locations on assigned objects when location of workstation is changed
+            if (isset($this->bLocationChanged) && $bUpdateLocations)
+            {
+                foreach ($aPeripherals as $sPeripheral) {
+                    if ($this->Get($sPeripheral) != 0)
+                        $this->ConnectTargetToWorkstation($this->Get($sPeripheral), $bUpdateLocations);
+                }
+            }
+
+            // add contacts on assigned objects after every update
+            if ($bUpdateContacts && ($this->Get('user_id') != 0))
+            {
+                $this->ConnectTargetToContact($this->GetKey(), $this->Get('user_id'));
+                foreach ($aPeripherals as $sPeripheral) {
+                    if ($this->Get($sPeripheral) != 0)
+                        $this->ConnectTargetToContact($this->Get($sPeripheral), $this->Get('user_id'));
+                }
+            }
+
+            // change costcenter on assigned objects when costcenter of workstation is changed
+            if (isset($this->bCostCenterChanged) && $bUpdateCostCenters) {
+                // only run update when CostCenter-Extension is installed
+                if (MetaModel::IsValidAttCode('FunctionalCI', 'costcenter_id'))
+                    if (($this->Get('costcenter_id') != 0))
+                        foreach ($aPeripherals as $sPeripheral) {
+                            if ($this->Get($sPeripheral) != 0)
+                                $this->UpdateCostCenterOnTarget($this->Get($sPeripheral), $this->Get('costcenter_id'));
+                        }
+            }
         }
     }
-}]]>
-                    </code>
+  ]]></code>
+                </method>
+                <method id="EvtBeforeWorkstationWrite">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtBeforeWorkstationWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
+    {
+        $aEventData = $oEventData->GetEventData();
+        if (!$aEventData['is_new']) {
+            $aChanges     = $this->ListChanges();
+            $aPeripherals = self::GetPeripherals();
+
+            if (array_key_exists('user_id', $aChanges)) {
+                // record in the local memory object that the User was changed
+                $this->bUserChanged = true;
+                $oOriginalUserId = $this->GetOriginal('user_id');
+
+                $this->DisconnectTargetFromContact($this->GetKey(), $oOriginalUserId);
+
+                foreach ($aPeripherals as $sPeripheral) {
+                    $iOriginalPeripheralId = $this->GetOriginal($sPeripheral);
+                    if (!empty($iOriginalPeripheralId)) {
+                        $this->DisconnectTargetFromContact($iOriginalPeripheralId, $oOriginalUserId);
+                    }
+                }
+            }
+
+            // Generisches Mapping für Peripheral-Felder → Flag-Properties
+            $aPeripheralFlags = [
+                'pc_id'             => 'bPCChanged',
+                'pcB_id'            => 'bPCBChanged',
+                'monitorA_id'       => 'bMonitorAChanged',
+                'monitorB_id'       => 'bMonitorBChanged',
+                'dockingstation_id' => 'bDockingStationChanged',
+                'keyboard_id'       => 'bKeyboardChanged',
+                'mouse_id'          => 'bMouseChanged',
+                'headset_id'        => 'bHeadsetChanged',
+                'mobilephone_id'    => 'bMobilePhoneChanged',
+                'telephonyA_id'     => 'bTelephonyAChanged',
+                'telephonyB_id'     => 'bTelephonyBChanged',
+                'printerA_id'       => 'bPrinterAChanged',
+                'printerB_id'       => 'bPrinterBChanged',
+                'scanner_id'        => 'bScannerChanged',
+                'barcodescanner_id' => 'bBarcodeScannerChanged',
+            ];
+
+            foreach ($aPeripheralFlags as $sAttCode => $sFlagProperty) {
+                if (isset($aChanges[$sAttCode])) {
+                    // record in local memory object that the Property was changed
+                    $this->$sFlagProperty = true;
+                    // disconnect the old Workstation
+                    $this->DisconnectTargetFromWorkstation($this->GetOriginal($sAttCode));
+                }
+            }
+
+            // change locations on assigned objects when location of workstation is changed
+            if (isset($aChanges['location_id'])) {
+                // record in the local memory object that the Location was changed
+                $this->bLocationChanged = true;
+            }
+
+            // change costcenter on assigned objects when costcenter of workstation is changed
+            if (isset($aChanges['costcenter_id'])) {
+                // record in the local memory object that the CostCenter was changed
+                $this->bCostCenterChanged = true;
+            }
+
+        }
+    }
+  ]]></code>
+                </method>
+                <method id="EvtAboutToDeleteWorkstation">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtAboutToDeleteWorkstation()
+    {
+        $bUpdateContacts = self::GetUpdateContacts();
+
+        // remove contacts on assigned objects before deletion
+        $iUserId = $this->Get('user_id');
+        if ($bUpdateContacts && ($iUserId != 0))
+        {
+            $this->DisconnectTargetFromContact($this->GetKey(), $iUserId);
+            foreach ($aPeripherals as $sPeripheral) {
+                if (!empty($this->Get($sPeripheral)))
+                    $this->DisconnectTargetFromContact($this->Get($sPeripheral), $iUserId);
+            }
+        }
+
+        foreach (self::GetPeripherals() as $sPeripheral) {
+            if (!empty($this->Get($sPeripheral))) {
+                $this->DisconnectTargetFromWorkstation($this->Get($sPeripheral));
+            }
+        }
+    }
+  ]]></code>
                 </method>
             </methods>
             <relations>
                 <relation id="impacts">
                     <neighbours>
-                        <neighbour id="user" _delta="define">
+                        <neighbour id="user">
                             <attribute>user_id</attribute>
                         </neighbour>
                     </neighbours>
@@ -867,34 +866,40 @@
             </presentation>
         </class>
         <class id="PC" _delta="must_exist">
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -937,34 +942,40 @@
             </presentation>
         </class>
         <class id="Printer" _delta="must_exist">
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -1034,34 +1045,40 @@
             </relations>
         </class>
         <class id="TelephonyCI" _delta="must_exist">
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -1132,34 +1149,40 @@
                 </reconciliation>
             </properties>
             <fields />
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <relations>
@@ -1402,34 +1425,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -1657,34 +1686,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -1912,34 +1947,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -2167,34 +2208,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -2422,34 +2469,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -2677,34 +2730,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -2932,34 +2991,40 @@
                     </attributes>
                 </reconciliation>
             </properties>
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags">
+                <method id="EvtSetWorkstationIdAttributeFlags">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -2986,7 +3051,7 @@
                                         <item id="location_id">
                                             <rank>50</rank>
                                         </item>
-                                        <item id="workstation_id" _delta="define">
+                                        <item id="workstation_id">
                                             <rank>60</rank>
                                         </item>
                                     </items>
@@ -3151,34 +3216,40 @@
             </presentation>
         </class>
         <class id="MobilePhone" _delta="must_exist">
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -3314,34 +3385,40 @@
             </presentation>
         </class>
         <class id="IPPhone" _delta="must_exist">
+            <event_listeners>
+                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                </event_listener>
+                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                    <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
+                    <rank>15</rank>
+                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                </event_listener>
+            </event_listeners>
             <methods>
-                <method id="GetAttributeFlags" _delta="define">
+                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetAttributeFlags($sAttCode, &$aReasons = [], $sTargetState = '')
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_READONLY | parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState)
-        : parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+    }
+  ]]></code>
                 </method>
-                <method id="GetInitialStateAttributeFlags" _delta="define">
+                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
                     <static>false</static>
                     <access>public</access>
-                    <type>Overload-DBObject</type>
-                    <code>
-                        <![CDATA[public function GetInitialStateAttributeFlags($sAttCode, &$aReasons = [])
-{
-    // HACK: Make workstation_id field readonly to prevent update loops from Workstation
-    return ($sAttCode === 'workstation_id')
-        ? OPT_ATT_HIDDEN | parent::GetInitialStateAttributeFlags($sAttCode, $aReasons)
-        : parent::GetInitialStateAttributeFlags($sAttCode, $aReasons);
-}]]>
-                    </code>
+                    <type>EventListener</type>
+                    <code><![CDATA[
+    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    {
+        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+    }
+  ]]></code>
                 </method>
             </methods>
             <presentation>
@@ -3468,7 +3545,7 @@
                 </summary>
             </presentation>
         </class>
-        <class id="Model">
+        <class id="Model" _delta="must_exist">
             <fields>
                 <field id="type" xsi:type="AttributeEnum">
                     <values>
@@ -3678,7 +3755,7 @@
     </menus>
     <user_rights>
         <groups>
-            <group id="Configuration">
+            <group id="Configuration" _delta="must_exist">
                 <classes>
                     <class id="Workstation" _delta="define" />
                     <class id="DockingStation" _delta="define" />
