@@ -507,7 +507,7 @@ The branch [2.7.10](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/ito
 
 The branch [main](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/main) will only be compatible to iTop 3.2 and above.
 
-The extension was tested on iTop 2.7.10 and 3.2.1.
+The extension was tested on iTop 2.7.10 and 3.2.2.
 
 ## Attribution
 
