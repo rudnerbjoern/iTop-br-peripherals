@@ -294,19 +294,19 @@
                 </field>
             </fields>
             <event_listeners>
-                <event_listener id="EvtBeforeWorkstationWrite">
+                <event_listener id="OnWorkstationBeforeWrite">
                     <event>EVENT_DB_BEFORE_WRITE</event>
-                    <callback>EvtBeforeWorkstationWrite</callback>
+                    <callback>OnWorkstationBeforeWrite</callback>
                     <rank>10</rank>
                 </event_listener>
-                <event_listener id="EvtAfterWorkstationWrite">
+                <event_listener id="OnWorkstationAfterWrite">
                     <event>EVENT_DB_AFTER_WRITE</event>
-                    <callback>EvtAfterWorkstationWrite</callback>
+                    <callback>OnWorkstationAfterWrite</callback>
                     <rank>10</rank>
                 </event_listener>
-                <event_listener id="EvtAboutToDeleteWorkstation">
+                <event_listener id="OnWorkstationAboutToDelete">
                     <event>EVENT_DB_ABOUT_TO_DELETE</event>
-                    <callback>EvtAboutToDeleteWorkstation</callback>
+                    <callback>OnWorkstationAboutToDelete</callback>
                     <rank>10</rank>
                 </event_listener>
             </event_listeners>
@@ -476,12 +476,12 @@
     }
   ]]></code>
                 </method>
-                <method id="EvtAfterWorkstationWrite">
+                <method id="OnWorkstationAfterWrite">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtAfterWorkstationWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
+    public function OnWorkstationAfterWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $aEventData = $oEventData->GetEventData();
         if ($aEventData['is_new']) {
@@ -588,12 +588,12 @@
     }
   ]]></code>
                 </method>
-                <method id="EvtBeforeWorkstationWrite">
+                <method id="OnWorkstationBeforeWrite">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtBeforeWorkstationWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
+    public function OnWorkstationBeforeWrite(Combodo\iTop\Service\Events\EventData $oEventData): void
     {
         $aEventData = $oEventData->GetEventData();
         if (!$aEventData['is_new']) {
@@ -659,12 +659,12 @@
     }
   ]]></code>
                 </method>
-                <method id="EvtAboutToDeleteWorkstation">
+                <method id="OnWorkstationAboutToDelete">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtAboutToDeleteWorkstation()
+    public function OnWorkstationAboutToDelete()
     {
         $bUpdateContacts = self::GetUpdateContacts();
 
@@ -867,35 +867,35 @@
         </class>
         <class id="PC" _delta="must_exist">
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnPCSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnPCSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnPCSetAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnPCSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnPCSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnPCSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnPCSetAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnPCSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -943,35 +943,35 @@
         </class>
         <class id="Printer" _delta="must_exist">
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnPrinterSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnPrinterSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnPrinterSetAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnPrinterSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnPrinterSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnPrinterSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnPrinterSetAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnPrinterSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -1046,35 +1046,35 @@
         </class>
         <class id="TelephonyCI" _delta="must_exist">
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnTelephonyCISetInitialAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnTelephonyCISetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnTelephonyCISetAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnTelephonyCISetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnTelephonyCISetInitialAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnTelephonyCISetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnTelephonyCISetAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnTelephonyCISetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -1150,35 +1150,35 @@
             </properties>
             <fields />
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnDockingStationSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnDockingStationSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnDockingStationSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnDockingStationSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnDockingStationSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnDockingStationSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnDockingStationSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnDockingStationSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -1426,35 +1426,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnMonitorSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnMonitorSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnMonitorSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnMonitorSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnMonitorSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMonitorSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnMonitorSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMonitorSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -1687,35 +1687,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnKeyboardSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnKeyboardSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnKeyboardSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnKeyboardSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnKeyboardSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnKeyboardSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnKeyboardSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnKeyboardSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -1948,35 +1948,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnMouseSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnMouseSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnMouseSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnMouseSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnMouseSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMouseSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnMouseSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMouseSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -2209,35 +2209,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnHeadsetSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnHeadsetSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnHeadsetSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnHeadsetSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnHeadsetSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnHeadsetSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnHeadsetSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnHeadsetSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -2470,35 +2470,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnScannerSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnScannerSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnScannerSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnScannerSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnScannerSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnScannerSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnScannerSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnScannerSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -2731,35 +2731,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnBarcodeScannerSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnBarcodeScannerSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnBarcodeScannerSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnBarcodeScannerSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnBarcodeScannerSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnBarcodeScannerSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnBarcodeScannerSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnBarcodeScannerSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -2992,35 +2992,35 @@
                 </reconciliation>
             </properties>
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags">
+                <event_listener id="OnConferenceSystemSetInitialAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnConferenceSystemSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags">
+                <event_listener id="OnConferenceSystemSetAttributesFlagsWorkstationId">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnConferenceSystemSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags">
+                <method id="OnConferenceSystemSetInitialAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnConferenceSystemSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags">
+                <method id="OnConferenceSystemSetAttributesFlagsWorkstationId">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnConferenceSystemSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -3217,35 +3217,35 @@
         </class>
         <class id="MobilePhone" _delta="must_exist">
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnMobilePhoneSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnMobilePhoneSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnMobilePhoneSetAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnMobilePhoneSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnMobilePhoneSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMobilePhoneSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnMobilePhoneSetAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnMobilePhoneSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
@@ -3386,35 +3386,35 @@
         </class>
         <class id="IPPhone" _delta="must_exist">
             <event_listeners>
-                <event_listener id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnIPPhoneSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_INITIAL_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetInitialWorkstationIdAttributeFlags</callback>
+                    <callback>OnIPPhoneSetInitialAttributesFlagsWorkstationId</callback>
                 </event_listener>
-                <event_listener id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <event_listener id="OnIPPhoneSetAttributesFlagsWorkstationId" _delta="define">
                     <event>EVENT_DB_SET_ATTRIBUTES_FLAGS</event>
                     <rank>15</rank>
-                    <callback>EvtSetWorkstationIdAttributeFlags</callback>
+                    <callback>OnIPPhoneSetAttributesFlagsWorkstationId</callback>
                 </event_listener>
             </event_listeners>
             <methods>
-                <method id="EvtSetInitialWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnIPPhoneSetInitialAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetInitialWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnIPPhoneSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
-                <method id="EvtSetWorkstationIdAttributeFlags" _delta="define">
+                <method id="OnIPPhoneSetAttributesFlagsWorkstationId" _delta="define">
                     <static>false</static>
                     <access>public</access>
                     <type>EventListener</type>
                     <code><![CDATA[
-    public function EvtSetWorkstationIdAttributeFlags(Combodo\iTop\Service\Events\EventData $oEventData)
+    public function OnIPPhoneSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
         $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
