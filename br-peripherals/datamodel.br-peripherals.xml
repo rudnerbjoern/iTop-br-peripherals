@@ -513,7 +513,7 @@
                     <code><![CDATA[
     public function OnPCSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -524,7 +524,7 @@
                     <code><![CDATA[
     public function OnPCSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -589,7 +589,7 @@
                     <code><![CDATA[
     public function OnPrinterSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -600,7 +600,7 @@
                     <code><![CDATA[
     public function OnPrinterSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -692,7 +692,7 @@
                     <code><![CDATA[
     public function OnTelephonyCISetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -703,7 +703,7 @@
                     <code><![CDATA[
     public function OnTelephonyCISetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -796,7 +796,7 @@
                     <code><![CDATA[
     public function OnDockingStationSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -807,7 +807,7 @@
                     <code><![CDATA[
     public function OnDockingStationSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -1072,7 +1072,7 @@
                     <code><![CDATA[
     public function OnMonitorSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -1083,7 +1083,7 @@
                     <code><![CDATA[
     public function OnMonitorSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -1333,7 +1333,7 @@
                     <code><![CDATA[
     public function OnKeyboardSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -1344,7 +1344,7 @@
                     <code><![CDATA[
     public function OnKeyboardSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -1594,7 +1594,7 @@
                     <code><![CDATA[
     public function OnMouseSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -1605,7 +1605,7 @@
                     <code><![CDATA[
     public function OnMouseSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -1855,7 +1855,7 @@
                     <code><![CDATA[
     public function OnHeadsetSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -1866,7 +1866,7 @@
                     <code><![CDATA[
     public function OnHeadsetSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -2116,7 +2116,7 @@
                     <code><![CDATA[
     public function OnScannerSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -2127,7 +2127,7 @@
                     <code><![CDATA[
     public function OnScannerSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -2377,7 +2377,7 @@
                     <code><![CDATA[
     public function OnBarcodeScannerSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -2388,7 +2388,7 @@
                     <code><![CDATA[
     public function OnBarcodeScannerSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -2638,7 +2638,7 @@
                     <code><![CDATA[
     public function OnConferenceSystemSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -2649,7 +2649,7 @@
                     <code><![CDATA[
     public function OnConferenceSystemSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -2863,7 +2863,7 @@
                     <code><![CDATA[
     public function OnMobilePhoneSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -2874,7 +2874,7 @@
                     <code><![CDATA[
     public function OnMobilePhoneSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
@@ -3032,7 +3032,7 @@
                     <code><![CDATA[
     public function OnIPPhoneSetInitialAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
+        $this->AddInitialAttributeFlags('workstation_id', OPT_ATT_HIDDEN);
     }
   ]]></code>
                 </method>
@@ -3043,7 +3043,7 @@
                     <code><![CDATA[
     public function OnIPPhoneSetAttributesFlagsWorkstationId(Combodo\iTop\Service\Events\EventData $oEventData)
     {
-        $this->ForceAttributeFlags('workstation_id', OPT_ATT_READONLY);
+        $this->AddAttributeFlags('workstation_id', OPT_ATT_READONLY);
     }
   ]]></code>
                 </method>
