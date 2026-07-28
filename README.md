@@ -509,6 +509,10 @@ The branch [main](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/main)
 
 The extension was tested on iTop 2.7.10 and 3.2.2.
 
+## Translations
+
+Special thanks to [Konstantin Nikulin](https://github.com/apollo2k4) for providing the Russian translation.
+
 ## Attribution
 
 This Extension uses Icons from:
