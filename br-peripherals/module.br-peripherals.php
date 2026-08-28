@@ -35,6 +35,7 @@ SetupWebPage::AddModule(
         'webservice' => array(),
         'data.struct' => array(),
         'data.sample' => array(),
+        'dictionary' => array(),
 
         // Documentation
         //
