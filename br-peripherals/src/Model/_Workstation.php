@@ -446,8 +446,9 @@ class _Workstation extends PhysicalDevice
      * - Remove user contact links from workstation and peripherals (optional)
      * - Disconnect all peripherals from workstation_id
      */
-    public function OnWorkstationAboutToDelete()
+    public function OnWorkstationAboutToDelete(EventData $oEventData): void
     {
+        $aEventData = $oEventData->GetEventData();
         $bUpdateContacts = (bool) PeripheralsUtils::GetUpdateContacts();
         $aPeripherals    = PeripheralsUtils::GetPeripherals();
 
