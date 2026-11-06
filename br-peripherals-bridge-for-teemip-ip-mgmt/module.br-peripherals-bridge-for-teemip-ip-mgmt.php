@@ -10,7 +10,7 @@
 /** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__,
-    'br-peripherals-bridge-for-teemip-ip-mgmt/3.2.2',
+    'br-peripherals-bridge-for-teemip-ip-mgmt/3.2.3',
     array(
         // Identification
         //
@@ -20,9 +20,9 @@ SetupWebPage::AddModule(
         // Setup
         //
         'dependencies' => array(
-            'br-peripherals/3.2.2||teemip-ip-mgmt/3.0.0',
-            'br-peripherals/3.2.2||teemip-config-mgmt-adaptor/3.0.0',
-            'br-peripherals/3.2.2',
+            'br-peripherals/3.2.3||teemip-ip-mgmt/3.0.0',
+            'br-peripherals/3.2.3||teemip-config-mgmt-adaptor/3.0.0',
+            'br-peripherals/3.2.3',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard
