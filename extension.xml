@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension format="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/extension.xsd">
-    <extension_code>
-        <![CDATA[br-peripherals]]>
-    </extension_code>
+    <extension_code>br-peripherals</extension_code>
     <company>
         <![CDATA[]]>
     </company>
@@ -15,13 +13,18 @@
     <description>
         <![CDATA[Adds monitor, docking station, keyboard, mouse, headset]]>
     </description>
-    <version><![CDATA[3.2.3]]></version>
-    <release_date><![CDATA[2026-11-06]]></release_date>
+    <version><![CDATA[3.3.0]]></version>
+    <modules type="array">
+        <module><id>br-peripherals</id><version><![CDATA[3.3.0]]></version></module>
+        <module><id>br-costcenter-bridge-for-br-peripherals</id><version><![CDATA[3.3.0]]></version></module>
+        <module><id>br-peripherals-bridge-for-teemip-ip-mgmt</id><version><![CDATA[3.3.0]]></version></module>
+    </modules>
+    <release_date><![CDATA[2026-11-20]]></release_date>
     <version_description>
-        <![CDATA[]]>
+        <![CDATA[Updated the workstation and peripheral data models for iTop 3.3.0, including phone layouts and the optional cost center and TeemIP bridges.]]>
     </version_description>
     <itop_version_min>
-        <![CDATA[3.2.0]]>
+        <![CDATA[3.3.0]]>
     </itop_version_min>
     <status>stable</status>
     <mandatory>false</mandatory>

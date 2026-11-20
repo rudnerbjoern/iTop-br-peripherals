@@ -1,3 +1,9 @@
+## iTop compatibility
+
+The 3.3.x series requires iTop 3.3.0 or later. For iTop 3.2, use a 3.2.x
+release or the [iTop 3.2 maintenance branch](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/3.2).
+The optional cost center bridge requires br-costcenter 3.3.0 or later.
+
 ## 📦 Installation
 
 1. Download the `br-peripherals-vX.Y.Z.zip` asset attached to this release.

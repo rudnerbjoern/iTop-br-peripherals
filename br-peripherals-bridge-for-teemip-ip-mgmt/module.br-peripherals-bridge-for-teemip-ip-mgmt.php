@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright   Copyright (C) 2024-2025 Björn Rudner
+ * @copyright   Copyright (C) 2024-2026 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * iTop module definition file
@@ -10,7 +10,7 @@
 /** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__,
-    'br-peripherals-bridge-for-teemip-ip-mgmt/3.2.3',
+    'br-peripherals-bridge-for-teemip-ip-mgmt/3.3.0',
     array(
         // Identification
         //
@@ -20,13 +20,14 @@ SetupWebPage::AddModule(
         // Setup
         //
         'dependencies' => array(
-            'br-peripherals/3.2.3||teemip-ip-mgmt/3.0.0',
-            'br-peripherals/3.2.3||teemip-config-mgmt-adaptor/3.0.0',
-            'br-peripherals/3.2.3',
+            'teemip-ip-mgmt/3.3.1 || !(teemip-ip-mgmt/0.0.0)',
+            'teemip-config-mgmt-adaptor/3.3.0 || !(teemip-config-mgmt-adaptor/0.0.0)',
+            'teemip-endusers-devices-adaptor/3.2.3 || !(teemip-endusers-devices-adaptor/0.0.0)',
+            'br-peripherals/3.3.0',
         ),
         'mandatory' => false,
         'visible' => true, // To prevent auto-install but shall not be listed in the install wizard
-        'auto_select' => 'SetupInfo::ModuleIsSelected("itop-endusers-devices") && SetupInfo::ModuleIsSelected("teemip-ip-mgmt") && SetupInfo::ModuleIsSelected("teemip-config-mgmt-adaptor") && SetupInfo::ModuleIsSelected("br-peripherals")',
+        'auto_select' => 'SetupInfo::ModuleIsSelected("itop-endusers-devices") && SetupInfo::ModuleIsSelected("teemip-ip-mgmt") && SetupInfo::ModuleIsSelected("teemip-config-mgmt-adaptor") && SetupInfo::ModuleIsSelected("teemip-endusers-devices-adaptor") && SetupInfo::ModuleIsSelected("br-peripherals")',
 
         // Components
         //

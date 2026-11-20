@@ -10,7 +10,7 @@
 /** @disregard P1009 Undefined type SetupWebPage */
 SetupWebPage::AddModule(
     __FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-    'br-peripherals/3.2.3',
+    'br-peripherals/3.3.0',
     array(
         // Identification
         //
@@ -20,8 +20,8 @@ SetupWebPage::AddModule(
         // Setup
         //
         'dependencies' => array(
-            'itop-config-mgmt/3.2.0',
-            'itop-endusers-devices/3.1.0',
+            'itop-config-mgmt/3.3.0',
+            'itop-endusers-devices/3.3.0',
         ),
         'mandatory' => false,
         'visible' => true,

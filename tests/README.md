@@ -4,21 +4,21 @@ Run from the repository root with PHP 8.0 or later, SimpleXML, and DOM enabled.
 First download the two standalone schemas used by the project's XML files:
 
 ```sh
-mkdir -p .tmp/schemas/3.2
+mkdir -p .tmp/schemas/3.3
 curl --fail --location https://rudnerbjoern.github.io/iTop-schema/extension.xsd -o .tmp/schemas/extension.xsd
-curl --fail --location https://rudnerbjoern.github.io/iTop-schema/3.2/itop_design.xsd -o .tmp/schemas/3.2/itop_design.xsd
+curl --fail --location https://rudnerbjoern.github.io/iTop-schema/dist/3.3/itop_design.xsd -o .tmp/schemas/3.3/itop_design.xsd
 ```
 
 PowerShell alternative:
 
 ```powershell
-New-Item -ItemType Directory -Force .tmp/schemas/3.2 | Out-Null
+New-Item -ItemType Directory -Force .tmp/schemas/3.3 | Out-Null
 Invoke-WebRequest https://rudnerbjoern.github.io/iTop-schema/extension.xsd -OutFile .tmp/schemas/extension.xsd
-Invoke-WebRequest https://rudnerbjoern.github.io/iTop-schema/3.2/itop_design.xsd -OutFile .tmp/schemas/3.2/itop_design.xsd
+Invoke-WebRequest https://rudnerbjoern.github.io/iTop-schema/dist/3.3/itop_design.xsd -OutFile .tmp/schemas/3.3/itop_design.xsd
 ```
 
 Alternatively, set `ITOP_SCHEMA_DIR` to an existing iTop-schema checkout containing
-`extension.xsd` and `3.2/itop_design.xsd`. Then run:
+`extension.xsd` and `3.3/itop_design.xsd`. Then run:
 
 ```sh
 php tests/run.php
@@ -60,3 +60,28 @@ TeemIP bridge only, the validator adds that type as a string attribute to an
 in-memory copy of the schema when absent. This validates the XML structure,
 not MAC address semantics or compatibility with an installed TeemIP version.
 The cached schema and the project's data model remain unchanged.
+
+## Installed iTop integration test
+
+Use a fresh iTop 3.3 Provider/ITIL test container with End-User Devices and the
+extension selected in native Setup. Start with the Peripherals bundle alone,
+then repeat with the published Cost Centers 3.3.0 bundle and with TeemIP Core
+3.3.1 or later to exercise the optional bridges. Mount the Peripherals checkout
+at `/extension` and run the probe inside the container:
+
+```sh
+ITOP_TEST_MODE=1 php /extension/tests/integration.php
+ITOP_TEST_MODE=1 php /extension/tests/integration.php --costcenter
+ITOP_TEST_MODE=1 php /extension/tests/integration.php --teemip
+```
+
+Pass both flags when both bridges are expected. The probe reads the fixture
+administrator password from `ITOP_TEST_ADMIN_PASSWORD` or `ITOP_ADMIN_PASSWORD`.
+It requires the disposable test database `test-db/itop_test/itop_test` or the
+dedicated Peripherals fixture `db/itop_peripherals_fixture/itop`. These values
+identify the database host, schema, and user. Use a fresh test database for
+each installation. The probe authenticates as the fixture administrator,
+checks compiled layouts and bridge selection, then inserts synthetic objects
+to exercise assignment, contact and location propagation, monitor replacement,
+deletion, cost center updates, and MAC and IP address persistence. Its fixture
+changes are rolled back.
