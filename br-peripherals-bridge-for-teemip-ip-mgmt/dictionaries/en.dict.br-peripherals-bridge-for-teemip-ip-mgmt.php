@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright   Copyright (C) 2024-2025 Björn Rudner
+ * @copyright   Copyright (C) 2024-2026 Björn Rudner
  * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * Localized data

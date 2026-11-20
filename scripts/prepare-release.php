@@ -32,6 +32,22 @@ function prepareReleaseContents(string $manifest, array $modules, string $versio
     if ($providedModules !== $expectedModules) {
         throw new RuntimeException('Expected the main module and both bridge modules.');
     }
+    if (count($xml->modules) !== 1 || (string) $xml->modules['type'] !== 'array') {
+        throw new RuntimeException('Expected an iTop module array in the manifest.');
+    }
+    $manifestModules = [];
+    foreach ($xml->modules->module as $entry) {
+        $name = trim((string) $entry->id);
+        if (isset($manifestModules[$name]) || trim((string) $entry->version) !== $currentVersion) {
+            throw new RuntimeException('Duplicate or mismatched manifest module: ' . $name . '.');
+        }
+        $manifestModules[$name] = true;
+    }
+    $manifestModuleNames = array_keys($manifestModules);
+    sort($manifestModuleNames);
+    if ($manifestModuleNames !== $expectedModules) {
+        throw new RuntimeException('Manifest must list the main module and both bridges.');
+    }
     foreach ($modules as $name => $module) {
         $pattern = "~'" . preg_quote($name, '~') . "/([^']+)'~";
         if (preg_match_all($pattern, $module, $matches) !== 1 || $matches[1][0] !== $currentVersion) {
@@ -62,9 +78,26 @@ function prepareReleaseContents(string $manifest, array $modules, string $versio
             -1,
             $count
         );
-        if ($manifest === null || $count !== 1) {
-            throw new RuntimeException('Expected exactly one editable ' . $element . ' element.');
+        $expectedCount = $element === 'version' ? count($expectedModules) + 1 : 1;
+        if ($manifest === null || $count !== $expectedCount) {
+            throw new RuntimeException('Unexpected number of editable ' . $element . ' element.');
         }
+    }
+    if (count($xml->modules) !== 1 || (string) $xml->modules['type'] !== 'array') {
+        throw new RuntimeException('Expected an iTop module array in the manifest.');
+    }
+    $manifestModules = [];
+    foreach ($xml->modules->module as $entry) {
+        $name = trim((string) $entry->id);
+        if (isset($manifestModules[$name]) || trim((string) $entry->version) !== $currentVersion) {
+            throw new RuntimeException('Duplicate or mismatched manifest module: ' . $name . '.');
+        }
+        $manifestModules[$name] = true;
+    }
+    $manifestModuleNames = array_keys($manifestModules);
+    sort($manifestModuleNames);
+    if ($manifestModuleNames !== $expectedModules) {
+        throw new RuntimeException('Manifest must list the main module and both bridges.');
     }
     foreach ($modules as $name => $module) {
         $modules[$name] = preg_replace_callback(

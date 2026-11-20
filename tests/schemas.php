@@ -5,18 +5,63 @@ declare(strict_types=1);
 $schemaDirectory = getenv('ITOP_SCHEMA_DIR') ?: __DIR__ . '/../.tmp/schemas';
 $documents = [
     'extension manifest matches its XSD' => ['extension.xml', 'extension.xsd'],
-    'Peripherals data model matches the iTop 3.2 XSD' => [
-        'br-peripherals/datamodel.br-peripherals.xml', '3.2/itop_design.xsd',
+    'Peripherals data model matches the iTop 3.3 XSD' => [
+        'br-peripherals/datamodel.br-peripherals.xml', '3.3/itop_design.xsd',
     ],
-    'br-costcenter-bridge-for-br-peripherals data model matches the iTop 3.2 XSD' => [
-        'br-costcenter-bridge-for-br-peripherals/datamodel.br-costcenter-bridge-for-br-peripherals.xml', '3.2/itop_design.xsd',
+    'br-costcenter-bridge-for-br-peripherals data model matches the iTop 3.3 XSD' => [
+        'br-costcenter-bridge-for-br-peripherals/datamodel.br-costcenter-bridge-for-br-peripherals.xml', '3.3/itop_design.xsd',
     ],
-    'TeemIP bridge structure matches the iTop 3.2 XSD with custom type support' => [
-        'br-peripherals-bridge-for-teemip-ip-mgmt/datamodel.br-peripherals-bridge-for-teemip-ip-mgmt.xml', '3.2/itop_design.xsd',
+    'TeemIP bridge structure matches the iTop 3.3 XSD with custom type support' => [
+        'br-peripherals-bridge-for-teemip-ip-mgmt/datamodel.br-peripherals-bridge-for-teemip-ip-mgmt.xml', '3.3/itop_design.xsd',
     ],
 ];
 
-$tests = [];
+$tests = [
+    'manifest requires iTop 3.3 and declares the three modules as an array' => static function (): void {
+        $manifest = simplexml_load_file(__DIR__ . '/../extension.xml', SimpleXMLElement::class, LIBXML_NONET);
+        if ($manifest === false || trim((string) $manifest->itop_version_min) !== '3.3.0'
+            || (string) $manifest->modules['type'] !== 'array' || count($manifest->modules->module) !== 3) {
+            throw new RuntimeException('Expected iTop 3.3.0 as the minimum and a three-module array.');
+        }
+    },
+    'workstation and bridge fields extend the existing iTop 3.3 device fieldsets' => static function (): void {
+        $layouts = [
+            'br-peripherals' => [
+                ['PC', 1, 'ConfigMgmt:baseinfo', ['workstation_id']],
+                ['Printer', 1, 'ConfigMgmt:baseinfo', ['workstation_id']],
+                ['MobilePhone', 1, 'ConfigMgmt:baseinfo', ['workstation_id']],
+                ['IPPhone', 1, 'ConfigMgmt:baseinfo', ['workstation_id']],
+            ],
+            'br-costcenter-bridge-for-br-peripherals' => [
+                ['MobilePhone', 2, 'ConfigMgmt:otherinfo', ['costcenter_id']],
+                ['IPPhone', 2, 'ConfigMgmt:otherinfo', ['costcenter_id']],
+            ],
+            'br-peripherals-bridge-for-teemip-ip-mgmt' => [
+                ['MobilePhone', 1, 'Phone:moreinfo', ['macaddress', 'ipaddress_id']],
+                ['IPPhone', 1, 'Phone:moreinfo', ['macaddress', 'ipaddress_id']],
+            ],
+        ];
+        foreach ($layouts as $module => $classes) {
+            $model = simplexml_load_file(__DIR__ . "/../$module/datamodel.$module.xml", SimpleXMLElement::class, LIBXML_NONET);
+            if ($model === false || (string) $model['version'] !== '3.3') {
+                throw new RuntimeException("Expected an iTop 3.3 data model for $module.");
+            }
+            foreach ($classes as [$class, $column, $fieldset, $fields]) {
+                $items = "/itop_design/classes/class[@id='$class']/presentation/details/items";
+                $group = "$items/item[@id='col:col$column' and @_delta='must_exist']/items"
+                    . "/item[@id='fieldset:$fieldset' and @_delta='must_exist']/items";
+                foreach ($fields as $field) {
+                    if (count($model->xpath("$group/item[@id='$field' and @_delta='define']")) !== 1) {
+                        throw new RuntimeException("Missing $module placement of $class.$field.");
+                    }
+                }
+                if ($module === 'br-peripherals' && count($model->xpath("$items/item[@_delta='delete']")) !== 0) {
+                    throw new RuntimeException("$class must keep the upstream details layout.");
+                }
+            }
+        }
+    },
+];
 foreach ($documents as $name => [$documentPath, $schemaPath]) {
     $tests[$name] = static function () use ($schemaDirectory, $documentPath, $schemaPath): void {
         $schema = $schemaDirectory . '/' . $schemaPath;

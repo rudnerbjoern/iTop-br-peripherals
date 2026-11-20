@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/3.2/itop_design.xsd">
+<itop_design version="3.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://rudnerbjoern.github.io/iTop-schema/3.3/itop_design.xsd">
     <!--
-    * @copyright   Copyright (C) 2024-2025 Björn Rudner
+    * @copyright   Copyright (C) 2024-2026 Björn Rudner
     * @license     https://www.gnu.org/licenses/gpl-3.0.en.html
     -->
     <classes>
@@ -246,7 +246,7 @@
                         <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="col:col2" _delta="must_exist">
                             <items>
-                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                <item id="fieldset:ConfigMgmt:otherinfo" _delta="must_exist">
                                     <items>
                                         <item id="costcenter_id" _delta="define">
                                             <rank>5</rank>
@@ -274,7 +274,7 @@
                         <item id="costcenter_id" _delta="delete_if_exists" />
                         <item id="col:col2" _delta="must_exist">
                             <items>
-                                <item id="fieldset:Server:otherinfo" _delta="must_exist">
+                                <item id="fieldset:ConfigMgmt:otherinfo" _delta="must_exist">
                                     <items>
                                         <item id="costcenter_id" _delta="define">
                                             <rank>5</rank>

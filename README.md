@@ -1,6 +1,6 @@
 # iTop-br-peripherals
 
-Copyright (c) 2024-2025 Björn Rudner
+Copyright (c) 2024-2026 Björn Rudner
 [![License](https://img.shields.io/github/license/rudnerbjoern/iTop-br-peripherals)](https://github.com/rudnerbjoern/iTop-br-peripherals/blob/main/LICENSE)
 
 ## What?
@@ -21,14 +21,35 @@ Adds additional fields to the classes [PC](#pc), [Mobile Phone](#mobilephone), [
 
 ![Workstation Depends on ...](Screenshots/WorkstationDependsOn.png)
 
+## Compatibility
+
+| iTop version   | Which version to use                              |
+| -------------- | ------------------------------------------------- |
+| 3.3.0 or later | Version 3.3.0                                     |
+| 3.2.x          | The [itop/3.2 branch][itop-32] or a 3.2.x release |
+| 2.7 or 3.1     | The [itop/2.7 branch][itop-27]                    |
+
+[itop-32]: https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/3.2
+[itop-27]: https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/2.7
+
 ## Dependencies
 
-* iTop End-User Devices (`itop-endusers-devices`) needs to be enabled during setup
+- Enable **End-User Devices** during iTop Setup.
+- For cost center synchronization, install [br-costcenter][br-costcenter] 3.3.0 or later.
+- For MAC and IP address integration, install [TeemIP Core][teemip-core] 3.3.1
+  or later with its Configuration Management and End-User Devices adapters.
+
+iTop Setup selects the optional bridges when the corresponding modules are
+selected. Install supported versions of any companion packages present in the
+extensions directory.
+
+[br-costcenter]: https://github.com/rudnerbjoern/iTop-br-costcenter
+[teemip-core]: https://github.com/TeemIP/teemip-core-ip-mgmt
 
 ## Installation
 
-Place the extension in the `extensions` folder of your iTop instance and run iTop setup again.
-Be sure to enable the extension during setup.
+Place the bundle in the iTop extensions directory so that its descriptor is at
+`extensions/br-peripherals/extension.xml`. Run iTop Setup and select **Datamodel: Peripheral devices for PCs**.
 
 ## Configuration
 
@@ -54,15 +75,15 @@ $MyModuleSettings = array(
 
 Decide whether the user of a workstation should be added to the contacts of the assigned peripheral devices.
 
-* `true`
-* `false` (default)
+* `true` (default)
+* `false`
 
 ### update_locations_from_workstation
 
 Decide whether the location of peripheral devices assigned to a workstation should match the location of the workstation.
 
-* `true`
-* `false` (default)
+* `true` (default)
+* `false`
 
 ### update_costcenters_from_workstation
 
@@ -70,8 +91,8 @@ Decide whether the cost center of peripheral devices assigned to a workstation s
 
 Additionally, ensure that the iTop extension [iTop-br-costcenter](https://github.com/rudnerbjoern/iTop-br-costcenter) is installed for this functionality.
 
-* `true`
-* `false` (default)
+* `true` (default)
+* `false`
 
 ## Classes
 
@@ -500,14 +521,6 @@ The class `ConferenceSystem` is a child class of `TelephonyCI`.
 | Documents          | All the documents for the Docking station          |
 | Provider contracts | All the Provider contracts for the Docking station |
 | Services           | All the services for the Docking station           |
-
-## iTop Compatibility
-
-The branch [2.7.10](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/2.7) is compatible to iTop 2.7 and iTop 3.1.
-
-The branch [main](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/main) will only be compatible to iTop 3.2 and above.
-
-The extension was tested on iTop 2.7.10 and 3.2.2.
 
 ## Translations
 
