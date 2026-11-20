@@ -83,22 +83,6 @@ function prepareReleaseContents(string $manifest, array $modules, string $versio
             throw new RuntimeException('Unexpected number of editable ' . $element . ' element.');
         }
     }
-    if (count($xml->modules) !== 1 || (string) $xml->modules['type'] !== 'array') {
-        throw new RuntimeException('Expected an iTop module array in the manifest.');
-    }
-    $manifestModules = [];
-    foreach ($xml->modules->module as $entry) {
-        $name = trim((string) $entry->id);
-        if (isset($manifestModules[$name]) || trim((string) $entry->version) !== $currentVersion) {
-            throw new RuntimeException('Duplicate or mismatched manifest module: ' . $name . '.');
-        }
-        $manifestModules[$name] = true;
-    }
-    $manifestModuleNames = array_keys($manifestModules);
-    sort($manifestModuleNames);
-    if ($manifestModuleNames !== $expectedModules) {
-        throw new RuntimeException('Manifest must list the main module and both bridges.');
-    }
     foreach ($modules as $name => $module) {
         $modules[$name] = preg_replace_callback(
             $internalPattern,

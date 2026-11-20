@@ -2,7 +2,15 @@
 
 The 3.3.x series requires iTop 3.3.0 or later. For iTop 3.2, use a 3.2.x
 release or the [iTop 3.2 maintenance branch](https://github.com/rudnerbjoern/iTop-br-peripherals/tree/itop/3.2).
-The optional cost center bridge requires br-costcenter 3.3.0 or later.
+
+## Changes in 3.3.0
+
+- Workstation links now appear in the native iTop 3.3 layouts for PCs,
+  printers, mobile phones, and IP phones. The existing device fields and
+  workstation synchronization are preserved.
+- The optional cost center bridge requires **br-costcenter 3.3.0** or later.
+  The optional TeemIP bridge supports **TeemIP Core 3.3.1** with the
+  Configuration Management and End-User Devices adapters.
 
 ## 📦 Installation
 
